@@ -1,0 +1,149 @@
+@font-face {
+	font-family: 'Rubik';
+	src: url('/fonts/rubik-v8-latin-regular.woff') format('woff');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Raleway';
+	src: url('/fonts/raleway-regular.woff') format('woff');
+	font-display: swap;
+}
+
+:root {
+	--font-body: 'Rubik', system-ui, sans-serif;
+	--font-display: 'Raleway', 'Rubik', system-ui, sans-serif;
+	--ink: #0a2431;
+	--muted: #5c6e77;
+	--teal: #0d7d78;
+	--teal-dark: #075852;
+	--aqua: #52ded3;
+	--aqua-dark: #087a75;
+	--mist: #eef5f4;
+	--sand: #f5f1e9;
+	--line: #d9e4e3;
+	--header-height: 4.75rem;
+	--page-pad: clamp(1.25rem, 6vw, 7rem);
+	--radius-lg: clamp(1.25rem, 2.5vw, 2rem);
+	--shadow: 0 28px 80px rgba(9, 41, 52, 0.1);
+	font-family: var(--font-body);
+	color: var(--ink);
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: var(--header-height);
+	background: #071b2b;
+}
+
+body {
+	min-width: 320px;
+	margin: 0;
+	overflow-x: hidden;
+	background: #f8fbfa;
+}
+
+button,
+a,
+input,
+textarea {
+	-webkit-tap-highlight-color: transparent;
+}
+
+button {
+	cursor: pointer;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+.eyebrow {
+	margin: 0;
+	color: var(--aqua-dark);
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}
+
+.eyebrow.light {
+	color: var(--aqua);
+}
+
+.section-heading {
+	max-width: 18ch;
+	margin: 1rem 0 0;
+	font-family: var(--font-display);
+	font-size: clamp(2.25rem, 5vw, 5rem);
+	font-weight: 500;
+	line-height: 1;
+	letter-spacing: -0.045em;
+}
+
+.button-primary,
+.button-secondary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.8rem;
+	min-height: 3.2rem;
+	padding: 0.8rem 1.3rem;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	font-size: 0.73rem;
+	font-weight: 800;
+	letter-spacing: 0.11em;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition:
+		transform 180ms ease,
+		background 180ms ease,
+		border-color 180ms ease,
+		color 180ms ease;
+}
+
+.button-primary {
+	background: var(--aqua);
+	color: #04272c;
+}
+
+.button-primary:hover,
+.button-secondary:hover {
+	transform: translateY(-2px);
+}
+
+.button-primary:hover {
+	background: white;
+}
+
+.button-secondary {
+	border-color: rgba(255, 255, 255, 0.36);
+	color: white;
+}
+
+.button-secondary:hover {
+	border-color: white;
+	background: white;
+	color: var(--ink);
+}
+
+::selection {
+	background: var(--aqua);
+	color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
