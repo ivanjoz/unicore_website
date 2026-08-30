@@ -4,8 +4,8 @@
 
 	const links = [
 		{ href: `${base}/`, label: 'Inicio' },
+		{ href: `${base}/#proyectos`, label: 'Proyectos' },
 		{ href: `${base}/nosotros/`, label: 'Nosotros' },
-		{ href: `${base}/portafolio/`, label: 'Portafolio' },
 		{ href: `${base}/#contacto`, label: 'Contacto' }
 	];
 
@@ -13,6 +13,7 @@
 	let currentPath = $derived(page.url.pathname);
 
 	function isActive(href: string) {
+		if (href.includes('#')) return false;
 		return href === `${base}/` ? currentPath === `${base}/` : currentPath.startsWith(href);
 	}
 </script>
@@ -24,11 +25,7 @@
 		aria-label="Unicore, ir al inicio"
 		onclick={() => (menuOpen = false)}
 	>
-		<img src={`${base}/svg/unicore_logo5.svg`} alt="" />
-		<span>
-			<strong>UNICORE</strong>
-			<small>TECNOLOGÍA + GESTIÓN</small>
-		</span>
+		<img src={`${base}/svg/logo_unicore_horizontal_light.svg`} alt="Unicore Labs" />
 	</a>
 
 	<nav aria-label="Navegación principal">
@@ -82,28 +79,16 @@
 	}
 
 	.brand img {
-		width: 2.5rem;
-		height: 2.5rem;
+		width: auto;
+		height: 2.6rem;
 		object-fit: contain;
-		filter: drop-shadow(0 5px 14px rgba(0, 0, 0, 0.25));
+		filter: drop-shadow(0 5px 14px rgba(0, 0, 0, 0.3));
 	}
 
-	.brand span {
-		display: grid;
-		line-height: 1;
-	}
-
-	.brand strong {
-		font-family: var(--font-display);
-		font-size: 1.08rem;
-		letter-spacing: 0.16em;
-	}
-
-	.brand small {
-		margin-top: 0.35rem;
-		color: var(--aqua);
-		font-size: 0.54rem;
-		letter-spacing: 0.18em;
+	@media (max-width: 400px) {
+		.brand img {
+			height: 2.1rem;
+		}
 	}
 
 	nav {

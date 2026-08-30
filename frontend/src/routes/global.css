@@ -25,6 +25,7 @@
 	--header-height: 4.75rem;
 	--page-pad: clamp(1.25rem, 6vw, 7rem);
 	--radius-lg: clamp(1.25rem, 2.5vw, 2rem);
+	--curve-h: clamp(3rem, 7vw, 8rem);
 	--shadow: 0 28px 80px rgba(9, 41, 52, 0.1);
 	font-family: var(--font-body);
 	color: var(--ink);

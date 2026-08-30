@@ -1,16 +1,3 @@
-export type Service = {
-	title: string;
-	description: string;
-	icon: string;
-	tag: string;
-};
-
-export type Feature = {
-	title: string;
-	description: string;
-	icon: string;
-};
-
 export type Article = {
 	title: string;
 	summary: string;
@@ -18,75 +5,16 @@ export type Article = {
 	date: string;
 };
 
-export type Project = {
-	type: string;
-	image: string;
-	title: string;
+export type LabProject = {
+	name: string;
+	kind: string;
 	description: string;
-	url: string;
+	url?: string;
+	/** Ruta a un logo en /static. Si no existe, la tarjeta muestra el nombre. */
+	logo?: string;
+	status: 'Activo' | 'En desarrollo' | 'En diseño';
+	stack: string[];
 };
-
-export const services: Service[] = [
-	{
-		tag: '01 / PRESENCIA DIGITAL',
-		title: 'Web que trabaja por tu negocio',
-		description:
-			'Creamos sitios rápidos, adaptables y administrables, con dominio, correo corporativo, SSL y posicionamiento en buscadores.',
-		icon: '/svg/web2.svg'
-	},
-	{
-		tag: '02 / COMERCIO ELECTRÓNICO',
-		title: 'Tu tienda abierta las 24 horas',
-		description:
-			'Catálogo, carrito, stock, variantes y pagos en línea en una experiencia clara para tus clientes y sencilla para tu equipo.',
-		icon: '/svg/ecommerce2.svg'
-	},
-	{
-		tag: '03 / SOFTWARE',
-		title: 'Sistemas hechos para tus procesos',
-		description:
-			'Desarrollamos aplicaciones web a medida, portales y herramientas empresariales que conectan equipos, datos y decisiones.',
-		icon: '/svg/chip1.svg'
-	}
-];
-
-export const gerpFeatures: Feature[] = [
-	{
-		title: 'Productos y servicios',
-		description: 'Catálogo, fabricación, insumos y suministros.',
-		icon: '/svg/producto1.svg'
-	},
-	{
-		title: 'Almacenes',
-		description: 'Inventarios, traslados, consignaciones y guías.',
-		icon: '/svg/almacen1.svg'
-	},
-	{
-		title: 'Ventas',
-		description: 'Clientes, facturación electrónica y venta rápida.',
-		icon: '/svg/ventas1.svg'
-	},
-	{
-		title: 'Equipos',
-		description: 'Usuarios, roles, permisos y planillas.',
-		icon: '/svg/people2.svg'
-	},
-	{
-		title: 'Finanzas',
-		description: 'Cajas, cuentas por cobrar y cuentas por pagar.',
-		icon: '/svg/finanzas2.svg'
-	},
-	{
-		title: 'Contabilidad',
-		description: 'Libros, activos, resultados y balance general.',
-		icon: '/svg/finanzas3.svg'
-	},
-	{
-		title: 'Indicadores',
-		description: 'Métricas de gestión, liquidez y flujo de caja.',
-		icon: '/svg/idea.svg'
-	}
-];
 
 export const articles: Article[] = [
 	{
@@ -126,67 +54,94 @@ export const articles: Article[] = [
 	}
 ];
 
-export const projects: Project[] = [
+export const labProjects: LabProject[] = [
 	{
-		type: 'Página web y sistema',
-		image: '/webs/web_elpaisa.jpg',
-		title: 'Restaurante Turístico El Paisa',
+		name: 'Genix ERP',
+		kind: 'ERP + E-commerce',
 		description:
-			'Sitio web optimizado con sistema de gestión de reservas y pagos con tarjeta.',
-		url: 'https://elpaisa.pe/'
+			'Plataforma autoalojable y multiempresa para pequeños negocios: punto de venta, inventarios, caja, clientes y flujos de caja proyectados. Cada empresa puede exportar una copia completa de sus datos cuando quiera.',
+		url: 'https://github.com/ivanjoz/genix',
+		status: 'En desarrollo',
+		stack: ['Go', 'ScyllaDB', 'SvelteKit']
 	},
 	{
-		type: 'Página web y correos',
-		image: '/webs/amg.jpg',
-		title: 'AMG Constructora',
+		name: 'Colbin',
+		kind: 'Serialización',
 		description:
-			'Sitio web optimizado, panel de administración y correos corporativos.',
-		url: 'https://amgconstructora.un.pe/'
+			'Serializador binario columnar para arreglos de structs. Transpone los datos y los codifica columna por columna, reduciendo drásticamente el ancho de banda frente a formatos por fila como JSON o CBOR.',
+		url: 'https://github.com/ivanjoz/colbin',
+		status: 'Activo',
+		stack: ['Go', 'Rust']
 	},
 	{
-		type: 'Sistema web empresarial',
-		image: '/webs/jobfinder1.jpg',
-		title: 'Jobfinder',
+		name: 'Genix ORM',
+		kind: 'Acceso a datos',
 		description:
-			'Buscador e indexador de empleos con herramientas de gestión de usuarios.',
-		url: 'https://jobfinder.pe/'
+			'ORM con API de consultas verificada en tiempo de compilación para ScyllaDB / Cassandra y DynamoDB. Los patrones de acceso se declaran por adelantado y se sirven por partición, índice o vista.',
+		url: 'https://github.com/ivanjoz/genix-orm',
+		status: 'Activo',
+		stack: ['Go', 'ScyllaDB', 'DynamoDB']
 	},
 	{
-		type: 'Página web',
-		image: '/webs/esquimedsac.jpg',
-		title: 'Esquimed SAC',
-		description: 'Sitio web corporativo adaptable con panel de administración.',
-		url: 'https://esquimedsac.un.pe/'
-	},
-	{
-		type: 'Página web',
-		image: '/webs/matizpe.jpg',
-		title: 'Matiz Publicidad',
-		description: 'Sitio web corporativo adaptable con panel de administración.',
-		url: 'https://matiz.pe/'
-	},
-	{
-		type: 'Página web',
-		image: '/webs/recolocate1.jpg',
-		title: 'Recolocate Job & Career',
-		description: 'Sitio web de servicios profesionales con contenido administrable.',
-		url: 'http://recolocate.pe/'
-	},
-	{
-		type: 'Página web + redes',
-		image: '/webs/mundosalud.jpg',
-		title: 'Mundo Salud ONG',
+		name: 'Genix Agentic UI',
+		kind: 'Componentes de IA',
 		description:
-			'Sitio web con panel de administración y despliegue de presencia en redes.',
-		url: 'https://mundosalud.un.pe/'
+			'Componentes de interfaz agénticos: modelos pequeños y sin visión que acompañan al usuario a navegar el sistema y a ejecutar instrucciones, exprimiendo cada dólar de inferencia.',
+		url: 'https://github.com/ivanjoz/genix-ui',
+		status: 'En desarrollo',
+		stack: ['Svelte', 'LLM']
 	},
 	{
-		type: 'Página web y correos',
-		image: '/webs/unicore1.jpg',
-		title: 'Unicore Perú',
+		name: 'Simple Vault',
+		kind: 'Seguridad',
 		description:
-			'Sitio web administrable, optimización de rendimiento y correos corporativos.',
-		url: 'https://un.pe/'
+			'Gestor de contraseñas offline-first que cifra todo en el navegador con Argon2id y AES-256-GCM, y guarda la bóveda en el almacenamiento aislado de tu propio Google Drive. Sin servidor de aplicación.',
+		url: 'https://github.com/ivanjoz/simple-vault',
+		status: 'Activo',
+		stack: ['SvelteKit', 'PWA', 'Criptografía']
+	},
+	{
+		name: 'Factura-Go',
+		kind: 'Facturación electrónica',
+		description:
+			'Librería en Go para la emisión de comprobantes electrónicos: construcción del documento, firma digital, envío y consulta del estado ante la administración tributaria.',
+		url: 'https://github.com/ivanjoz/facturago',
+		status: 'En desarrollo',
+		stack: ['Go', 'XML/UBL']
+	},
+	{
+		name: 'Genix Search',
+		kind: 'Motor de búsqueda',
+		description:
+			'Backend de búsqueda compacto y rankeado, optimizado para nombres de productos y texto comercial en español. Índice por pares de letras, claves enteras directas y binarios estáticos sin dependencias.',
+		url: 'https://github.com/ivanjoz/genix-search',
+		status: 'Activo',
+		stack: ['Rust', 'RocksDB', 'TCP']
+	},
+	{
+		name: 'Classi-Cont',
+		kind: 'Modelo de IA',
+		description:
+			'Clasificación contable asistida por IA: categoría contable, cuenta PCGE sugerida y taxonomía de producto, acompañada de un motor determinista y versionado para las reglas tributarias.',
+		status: 'En diseño',
+		stack: ['ML', 'PCGE', 'Modelo ad-hoc']
+	},
+	{
+		name: 'Re-Limiter',
+		kind: 'Infraestructura',
+		description:
+			'Servicio en Rust que recibe mensajes autenticados de tamaño fijo sobre TCP y aplica límites de CPU y de créditos de inferencia por empresa, por usuario y por ventana de tiempo.',
+		url: 'https://github.com/ivanjoz/genix/tree/main/server_utils',
+		status: 'En desarrollo',
+		stack: ['Rust', 'TCP', 'ScyllaDB']
+	},
+	{
+		name: 'Genix Support AI',
+		kind: 'Agente autónomo',
+		description:
+			'Automatización de soporte para proyectos de código abierto: indexa el código, lee los tickets, reproduce el problema como un usuario real con BrowserOS, abre el PR con la corrección, espera el despliegue y responde el ticket.',
+		status: 'En diseño',
+		stack: ['Agentes', 'BrowserOS', 'CI/CD']
 	}
 ];
 

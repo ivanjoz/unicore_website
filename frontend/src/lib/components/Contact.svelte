@@ -21,15 +21,21 @@
 		<p class="eyebrow light">Hablemos</p>
 		<h2>¿Tienes un proyecto<br />en mente?</h2>
 		<p>
-			Cuéntanos qué proceso quieres mejorar o qué idea quieres lanzar. Te ayudaremos a
-			encontrar el punto de partida.
+			Si tienes una iniciativa de código abierto o quieres participar en el desarrollo de
+			alguna de las nuestras, escríbenos: podemos ayudarte y asesorarte.
 		</p>
 		<div class="contact-detail">
 			<span>ESCRÍBENOS</span>
 			<a href="mailto:contacto@un.pe">contacto@un.pe</a>
 		</div>
 		<div class="contact-detail">
-			<span>ESTAMOS EN</span>
+			<span>CÓDIGO</span>
+			<a href="https://github.com/ivanjoz" target="_blank" rel="noreferrer">
+				github.com/ivanjoz ↗
+			</a>
+		</div>
+		<div class="contact-detail">
+			<span>EQUIPO DESCENTRALIZADO</span>
 			<p>Trujillo, La Libertad · Perú</p>
 		</div>
 	</div>

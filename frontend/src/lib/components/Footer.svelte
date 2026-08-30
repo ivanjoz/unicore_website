@@ -6,22 +6,20 @@
 
 <footer>
 	<div class="footer-brand">
-		<img src={`${base}/svg/unicore_logo5.svg`} alt="" />
-		<div>
-			<strong>UNICORE</strong>
-			<span>Soluciones informáticas y empresariales</span>
-		</div>
+		<img src={`${base}/svg/logo_unicore_horizontal_light.svg`} alt="Unicore Labs" />
+		<span>Iniciativas de código abierto que democratizan el acceso a tecnología</span>
 	</div>
 
 	<div class="footer-links">
 		<a href={`${base}/`}>Inicio</a>
+		<a href={`${base}/#proyectos`}>Proyectos</a>
 		<a href={`${base}/nosotros/`}>Nosotros</a>
-		<a href={`${base}/portafolio/`}>Portafolio</a>
+		<a href="https://github.com/ivanjoz" target="_blank" rel="noreferrer">GitHub ↗</a>
 		<a href="mailto:contacto@un.pe">contacto@un.pe</a>
 	</div>
 
 	<div class="legal">
-		<span>© {year} Unicore Perú EIRL</span>
+		<span>© {year} Unicore Labs</span>
 		<span>Trujillo · La Libertad · Perú</span>
 	</div>
 </footer>
@@ -35,30 +33,21 @@
 	}
 
 	.footer-brand {
-		display: flex;
-		align-items: center;
+		display: grid;
 		gap: 1rem;
+		justify-items: start;
 	}
 
 	.footer-brand img {
-		width: 3.8rem;
-		height: 3.8rem;
-	}
-
-	.footer-brand div {
-		display: grid;
-		gap: 0.3rem;
-	}
-
-	.footer-brand strong {
-		font-family: var(--font-display);
-		font-size: 1.4rem;
-		letter-spacing: 0.16em;
+		width: auto;
+		height: 3.4rem;
 	}
 
 	.footer-brand span {
+		max-width: 34rem;
 		color: rgba(255, 255, 255, 0.58);
 		font-size: 0.84rem;
+		line-height: 1.6;
 	}
 
 	.footer-links {
