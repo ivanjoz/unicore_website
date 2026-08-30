@@ -16,7 +16,8 @@
 	 * `preserveAspectRatio="none"` lets the path stretch across any width, so the
 	 * height is controlled from CSS independently of how wide the screen is.
 	 *
-	 * Hosts must reserve `var(--curve-h)` of extra top padding.
+	 * Hosts must reserve `var(--curve-h)` of extra padding on the side the curve
+ * sits on.
 	 */
 	type Variant = 'wave' | 'dome' | 'valley';
 
@@ -30,8 +31,23 @@
 		 */
 		variant = 'wave',
 		/** Mirror horizontally. */
-		flip = false
-	}: { fill: string; variant?: Variant; flip?: boolean } = $props();
+		flip = false,
+		/**
+		 * top    — sits at the top of the host and is filled with the colour of the
+		 *          section above.
+		 * bottom — sits at the bottom of the host and is filled with the colour of
+		 *          the section *below*. Use this when the host paints a gradient:
+		 *          the strip then belongs to the host, so the gradient runs through
+		 *          it uninterrupted and no seam appears where a flat overlay in the
+		 *          next section would have met it.
+		 */
+		side = 'top'
+	}: {
+		fill: string;
+		variant?: Variant;
+		flip?: boolean;
+		side?: 'top' | 'bottom';
+	} = $props();
 
 	// Each path traces the boundary, then closes a few units above the viewBox so
 	// the fill bleeds over the seam. Keep that bleed small: it is painted in the
@@ -43,7 +59,13 @@
 	};
 </script>
 
-<div class="curve" class:flip style:--curve-fill={fill} aria-hidden="true">
+<div
+	class="curve"
+	class:flip
+	class:bottom={side === 'bottom'}
+	style:--curve-fill={fill}
+	aria-hidden="true"
+>
 	<svg viewBox="0 0 1440 100" preserveAspectRatio="none" focusable="false">
 		<path d={paths[variant]} />
 	</svg>
@@ -62,6 +84,17 @@
 
 	.flip {
 		scale: -1 1;
+	}
+
+	/* Mirrored vertically, so the fill lands below the curve instead of above it. */
+	.bottom {
+		top: auto;
+		bottom: 0;
+		scale: 1 -1;
+	}
+
+	.bottom.flip {
+		scale: -1 -1;
 	}
 
 	/*

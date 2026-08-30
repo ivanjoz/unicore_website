@@ -24,6 +24,51 @@
 		}
 	];
 
+	// Módulos de Genix. `icon: ''` deja el hueco marcado en la tarjeta para colocar
+	// un icono nuevo: basta con apuntarlo a un archivo dentro de /static/svg.
+	const genixFeatures = [
+		{
+			title: 'Productos e insumos',
+			description: 'Catálogo con presentaciones, lotes, series e insumos de producción.',
+			icon: '/svg/producto1.svg'
+		},
+		{
+			title: 'Almacenes y logística',
+			description: 'Stock por almacén, órdenes de compra, recepciones y proveedores.',
+			icon: '/svg/almacen1.svg'
+		},
+		{
+			title: 'Punto de venta',
+			description: 'Cobro en segundos, venta al crédito y descuento de stock automático.',
+			icon: '/svg/ventas1.svg'
+		},
+		{
+			title: 'Clientes y CRM',
+			description: 'Clientes y proveedores con RUC o DNI, historial y reporte por cliente.',
+			icon: '/svg/people2.svg'
+		},
+		{
+			title: 'Caja y finanzas',
+			description: 'Cajas y bancos, gastos, cuentas por cobrar y flujo de caja proyectado.',
+			icon: '/svg/finanzas2.svg'
+		},
+		{
+			title: 'Contabilidad',
+			description: 'Facturación, libros, activos, estados financieros y balance general.',
+			icon: '/svg/finanzas3.svg'
+		},
+		{
+			title: 'Indicadores y gráficos',
+			description: 'Dashboards que parten de lo general y bajan al detalle con un click.',
+			icon: '/svg/idea.svg'
+		},
+		{
+			title: 'Comercio electrónico',
+			description: 'Tienda en línea armada con IA sobre el mismo catálogo del ERP.',
+			icon: ''
+		}
+	];
+
 	const legacy = [
 		{ place: 'Bell Labs', note: 'El transistor, UNIX y la teoría de la información.' },
 		{ place: 'Xerox PARC', note: 'La interfaz gráfica, el ratón y la red local.' },
@@ -187,11 +232,12 @@
 
 		<div class="os-head">
 			<p class="eyebrow light">¿Por qué código abierto?</p>
-			<h2>Las empresas open source son disruptivas por naturaleza.</h2>
+			<h2>Las empresas <em>open source</em> son disruptivas por naturaleza.</h2>
 			<p>
-				Linux, Red Hat y Odoo demostraron que el código abierto crea disponibilidad de
-				mercado, impulsa la adopción, la visibilidad, la construcción de comunidad y la
-				ciberseguridad.
+				Liberar el
+				código amplía el mercado, acelera la adopción, multiplica la visibilidad,
+				construye comunidad y hace el software más seguro porque cualquiera puede
+				auditarlo. Linux, Red Hat, Valve, WordPress, GitLab y Odoo lo probaron. <strong>El open source resuelve lo siguiente:</strong>
 			</p>
 		</div>
 
@@ -240,12 +286,12 @@
 		<Reveal>
 			<div class="os-answer">
 				<p>
-					El open source resuelve lo anterior. <strong
-						>El proveedor deja de ser el cuello de botella</strong
+					Con open source, <strong
+						>el proveedor deja de ser el cuello de botella</strong
 					>, el soporte se descentraliza, el sistema es más flexible y la IA es más
 					autónoma al poder inspeccionar el código. Estos proyectos crecen de forma
-					orgánica con la colaboración de estudiantes, profesionales y empresas SaaS que
-					los incorporan como base de su oferta de servicios.
+					orgánica con la colaboración de profesionales, investigadores y empresas SaaS que
+					los incorporan como base de sus servicios.
 				</p>
 			</div>
 		</Reveal>
@@ -264,17 +310,49 @@
 		<div class="labs-body">
 			<Reveal delay={100}>
 				<div class="labs-copy">
-					<p>
-						Inspirados en Bell Labs y Xerox PARC. Espacios de innovación donde nacieron los
-						fundamentos tecnológicos que dieron forma a las décadas siguientes. Y en Google
-						Research que produjo «Attention is All You Need», el origen de la IA moderna.
-					</p>
-					<p>
-						Creemos en anteponer el desarrollo de producto por sobre cualquier otro eje empresarial. El producto es la empresa y la investigación da forma al producto. Las regalías comerciales sirven para financiar al producto y su investigación, el cual responde a un impacto esperado. El sufijo «labs» abraza estos conceptos.
-					</p>
-					<p>
-						Si eres una mente curiosa, con habilidades para la programación y quieres aportar al código abierto, escríbemos. Eres libre de hacer un fork de cualquier de nuestros proyectos y usarlos como base de nuevos desarrollos. Háznoslo saber en GitHub.
-					</p>
+					<div class="labs-point">
+						<span
+							class="labs-point-icon"
+							style={`--icon: url(${base}/svg/noun_innovation.svg)`}
+							aria-hidden="true"
+						></span>
+						<span class="labs-point-rule" aria-hidden="true"></span>
+						<p>
+							Inspirados en Bell Labs y Xerox PARC. Espacios de innovación donde nacieron
+							los fundamentos tecnológicos que dieron forma a las décadas siguientes. Y en
+							Google Research que produjo «Attention is All You Need», el origen de la IA
+							moderna.
+						</p>
+					</div>
+					<div class="labs-point">
+						<span
+							class="labs-point-icon"
+							style={`--icon: url(${base}/svg/noun_Research.svg)`}
+							aria-hidden="true"
+						></span>
+						<span class="labs-point-rule" aria-hidden="true"></span>
+						<p>
+							Creemos en anteponer el desarrollo de producto por sobre cualquier otro eje
+							empresarial. <strong>El producto es la empresa y la investigación da forma al
+							producto.</strong> Las regalías comerciales sirven para financiar al producto
+							y su investigación, el cual <strong>responde a un impacto esperado</strong>.
+							El sufijo «labs» abraza estos conceptos.
+						</p>
+					</div>
+					<div class="labs-point accent">
+						<span
+							class="labs-point-icon"
+							style={`--icon: url(${base}/svg/noun_mind.svg)`}
+							aria-hidden="true"
+						></span>
+						<span class="labs-point-rule" aria-hidden="true"></span>
+						<p>
+							Si eres una mente curiosa, con habilidades para la programación y quieres
+							aportar al código abierto, escríbenos. Eres libre de hacer un fork de
+							cualquiera de nuestros proyectos y usarlos como base de nuevos desarrollos.
+							Háznoslo saber en GitHub.
+						</p>
+					</div>
 				</div>
 			</Reveal>
 			<Reveal delay={160}>
@@ -292,6 +370,14 @@
 	<section class="ai">
 		<SectionCurve fill="var(--sand)" variant="valley" />
 
+		<figure class="ai-art">
+			<img
+				src={`${base}/svg/voice-assistant-dark.svg`}
+				alt="Persona conversando con un asistente de voz"
+				loading="lazy"
+			/>
+		</figure>
+
 		<div class="ai-copy">
 			<p class="eyebrow light">Inteligencia artificial</p>
 			<h2>IA al alcance de cualquier usuario.</h2>
@@ -307,23 +393,43 @@
 			</p>
 		</div>
 
-		<div class="ai-stats">
+		<SectionCurve fill="#ffffff" variant="wave" side="bottom" flip />
+	</section>
+
+	<section class="genix">
+
+		<div class="genix-intro">
 			<div>
-				<strong>&lt; 200B</strong>
-				<span>modelos sin visión operando como agentes de interfaz</span>
+				<p class="eyebrow">Producto insignia</p>
+				<img src={`${base}/svg/genix_logo.svg`} alt="Genix" />
 			</div>
 			<div>
-				<strong>&lt; 32B</strong>
-				<span>objetivo de fine-tuning para inferencia asequible</span>
+				<h2>Gestione cada proceso<br />de su empresa.</h2>
+				<p>
+					Genix reúne ventas, inventario, compras, finanzas y comercio electrónico para
+					pequeñas empresas que buscan control sin complejidad. Autoalojable, multiempresa
+					y con exportación completa de sus datos cuando quiera.
+				</p>
+				<a class="genix-link" href="https://github.com/ivanjoz/genix" target="_blank" rel="noreferrer">
+					Ver el repositorio <span>↗</span>
+				</a>
 			</div>
-			<div>
-				<strong>Ad-hoc</strong>
-				<span>modelos propios como Classi-Cont para tareas específicas</span>
-			</div>
-			<div>
-				<strong>Local</strong>
-				<span>verdadera IA en el dispositivo en los próximos años</span>
-			</div>
+		</div>
+
+		<div class="feature-grid">
+			{#each genixFeatures as feature, index}
+				<Reveal delay={(index % 4) * 70}>
+					<article>
+						{#if feature.icon}
+							<img src={`${base}${feature.icon}`} alt="" loading="lazy" />
+						{:else}
+							<span class="feature-icon-slot" aria-hidden="true">icono<br />pendiente</span>
+						{/if}
+						<h3>{feature.title}</h3>
+						<p>{feature.description}</p>
+					</article>
+				</Reveal>
+			{/each}
 		</div>
 	</section>
 
@@ -812,8 +918,16 @@
 		text-align: center;
 	}
 
+	.os-head h2 em {
+		background: linear-gradient(96deg, #52ded3 0%, #63aeff 52%, #a69aff 100%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		font-style: normal;
+	}
+
 	.os-head h2 {
-		max-width: 20ch;
+		max-width: 26ch;
 		margin: 1rem auto 1.4rem;
 		font-family: var(--font-display);
 		font-size: clamp(2.2rem, 4.8vw, 4.4rem);
@@ -827,6 +941,11 @@
 		margin: 0 auto;
 		color: rgba(255, 255, 255, 0.6);
 		line-height: 1.78;
+	}
+
+	.os-head > p:last-child strong {
+		color: rgba(255, 255, 255, 0.92);
+		font-weight: 600;
 	}
 
 	.doubts {
@@ -977,16 +1096,65 @@
 		margin-top: clamp(2.5rem, 6vw, 4.5rem);
 	}
 
+	.labs-copy {
+		display: grid;
+		gap: clamp(1.7rem, 3.4vw, 2.6rem);
+	}
+
+	.labs-point {
+		display: grid;
+		grid-template-columns: auto 2px minmax(0, 1fr);
+		gap: clamp(0.9rem, 2vw, 1.35rem);
+		align-items: center;
+	}
+
+	.labs-point-icon {
+		width: clamp(2.3rem, 3.6vw, 3.1rem);
+		aspect-ratio: 1;
+		background: var(--teal);
+		-webkit-mask: var(--icon) center / contain no-repeat;
+		mask: var(--icon) center / contain no-repeat;
+		opacity: 0.75;
+	}
+
+	.labs-point-rule {
+		align-self: stretch;
+		border-radius: 2px;
+		background: linear-gradient(
+			180deg,
+			rgba(13, 125, 120, 0.08),
+			var(--aqua) 22%,
+			var(--aqua) 78%,
+			rgba(13, 125, 120, 0.08)
+		);
+	}
+
+	.labs-point.accent .labs-point-icon {
+		opacity: 1;
+	}
+
+	.labs-point.accent p {
+		color: var(--ink);
+	}
+
 	.labs-copy p {
-		max-width: 42rem;
-		margin: 0 0 1.4rem;
+		margin: 0;
 		color: var(--muted);
 		font-size: clamp(0.98rem, 1.3vw, 1.1rem);
 		line-height: 1.85;
 	}
 
-	.labs-copy p:last-child {
-		margin-bottom: 0;
+	.labs-copy strong {
+		color: var(--ink);
+		font-weight: 600;
+		background-image: linear-gradient(
+			transparent 62%,
+			rgba(82, 222, 211, 0.42) 62%,
+			rgba(82, 222, 211, 0.42) 92%,
+			transparent 92%
+		);
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
 	}
 
 	.labs-art {
@@ -1027,18 +1195,135 @@
 	}
 
 	/* ------------------------------------------------------------------ ai */
+	/* --------------------------------------------------------------- genix */
+	.genix {
+		position: relative;
+		padding: clamp(3rem, 6vw, 5rem) var(--page-pad) clamp(3.5rem, 7vw, 6rem);
+		background: #ffffff;
+		color: var(--ink);
+	}
+
+	.genix-intro {
+		display: grid;
+		grid-template-columns: minmax(15rem, 0.65fr) minmax(0, 1.35fr);
+		gap: clamp(2.5rem, 7vw, 7rem);
+		align-items: center;
+	}
+
+	.genix-intro img {
+		width: min(17rem, 80%);
+		margin-top: 1.4rem;
+	}
+
+	.genix-intro h2 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(2.2rem, 4.6vw, 4.2rem);
+		font-weight: 500;
+		line-height: 1.02;
+		letter-spacing: -0.04em;
+	}
+
+	.genix-intro > div:last-child p {
+		max-width: 40rem;
+		margin: 1.5rem 0 0;
+		color: var(--muted);
+		line-height: 1.8;
+	}
+
+	.genix-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-top: 1.6rem;
+		color: var(--teal);
+		font-size: 0.82rem;
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.genix-link:hover {
+		color: var(--teal-dark);
+	}
+
+	.feature-grid {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 1px;
+		margin-top: clamp(3rem, 7vw, 5.5rem);
+		background: var(--line);
+	}
+
+	.feature-grid article {
+		display: flex;
+		min-height: 17rem;
+		flex-direction: column;
+		padding: 1.6rem;
+		background: #ffffff;
+	}
+
+	.feature-grid img {
+		width: 4.6rem;
+		height: 4.6rem;
+		margin: 0.4rem 0 1.9rem;
+		object-fit: contain;
+		/* los iconos están dibujados en blanco para fondo oscuro */
+		filter: invert(1) opacity(0.82);
+	}
+
+	.feature-icon-slot {
+		display: grid;
+		width: 4.6rem;
+		height: 4.6rem;
+		margin: 0.4rem 0 1.9rem;
+		border: 1px dashed var(--line);
+		border-radius: 0.5rem;
+		color: rgba(92, 110, 119, 0.55);
+		font-size: 0.6rem;
+		letter-spacing: 0.08em;
+		place-content: center;
+		text-align: center;
+		text-transform: uppercase;
+	}
+
+	.feature-grid h3 {
+		margin: auto 0 0.6rem;
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		font-weight: 500;
+	}
+
+	.feature-grid p {
+		margin: 0;
+		color: var(--muted);
+		font-size: 0.82rem;
+		line-height: 1.6;
+	}
+
 	.ai {
 		position: relative;
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(19rem, 0.85fr);
-		gap: clamp(2.5rem, 8vw, 7rem);
+		grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+		gap: clamp(2.5rem, 7vw, 6rem);
 		align-items: center;
 		padding: calc(var(--curve-h) + clamp(2.5rem, 5vw, 4.5rem)) var(--page-pad)
-			clamp(3rem, 6vw, 5.5rem);
+			calc(var(--curve-h) + clamp(2rem, 4vw, 3.5rem));
 		background:
 			radial-gradient(circle at 12% 85%, rgba(125, 98, 217, 0.22), transparent 30rem),
 			#101523;
 		color: white;
+	}
+
+	.ai-art {
+		max-width: 32rem;
+		margin: 0;
+	}
+
+	.ai-art img {
+		width: 100%;
+		height: auto;
 	}
 
 	.ai-copy h2 {
@@ -1056,32 +1341,6 @@
 		margin: 0 0 1.2rem;
 		color: rgba(255, 255, 255, 0.6);
 		line-height: 1.8;
-	}
-
-	.ai-stats {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1.4rem;
-	}
-
-	.ai-stats div {
-		display: grid;
-		gap: 0.55rem;
-		padding-top: 1.1rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.18);
-	}
-
-	.ai-stats strong {
-		color: var(--aqua);
-		font-family: var(--font-display);
-		font-size: clamp(1.5rem, 2.6vw, 2.2rem);
-		font-weight: 500;
-	}
-
-	.ai-stats span {
-		color: rgba(255, 255, 255, 0.62);
-		font-size: 0.8rem;
-		line-height: 1.5;
 	}
 
 	/* --------------------------------------------------------- responsive */
@@ -1137,8 +1396,13 @@
 
 		.intro,
 		.labs-body,
+		.genix-intro,
 		.ai {
 			grid-template-columns: 1fr;
+		}
+
+		.feature-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 
 		.legacy {
@@ -1154,7 +1418,7 @@
 	@media (max-width: 640px) {
 		.project-grid,
 		.doubts,
-		.ai-stats {
+		.feature-grid {
 			grid-template-columns: 1fr;
 		}
 
