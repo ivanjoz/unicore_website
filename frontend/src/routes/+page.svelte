@@ -83,12 +83,12 @@
 	<title>Unicore Labs | Código abierto de alto impacto</title>
 	<meta
 		name="description"
-		content="Iniciativas de código abierto que democratizan el acceso a tecnología de alto impacto. Sistemas y herramientas que incentivan la participación comunitaria y la exploración científica."
+		content="Iniciativas de código abierto que democratizan el acceso a tecnología de alto impacto. Sistemas y herramientas que incentivan la participación comunitaria y la innovación tecnológica."
 	/>
 	<meta property="og:title" content="Unicore Labs | Código abierto de alto impacto" />
 	<meta
 		property="og:description"
-		content="Desarrollamos sistemas y herramientas de código abierto que incentivan la participación comunitaria y la exploración científica."
+		content="Desarrollamos sistemas y herramientas de código abierto que incentivan la participación comunitaria y la innovación tecnológica."
 	/>
 	<link rel="preload" as="image" href={`${base}/images/space_earth.webp`} />
 </svelte:head>
@@ -103,7 +103,7 @@
 
 		<div class="hero-inner">
 			<div class="hero-copy">
-				<p class="hero-kicker"><span></span>CÓDIGO ABIERTO · CIENCIA · COMUNIDAD</p>
+				<p class="hero-kicker"><span></span>UNICORE LABS</p>
 				<h1>
 					Iniciativas de <em>código abierto</em> que<br />
 					democratizan el acceso<br />
@@ -111,7 +111,7 @@
 				</h1>
 				<p class="hero-lead">
 					Desarrollamos sistemas y herramientas que incentivan la participación
-					comunitaria y la exploración científica.
+					comunitaria y la innovación tecnológica.
 				</p>
 				<div class="hero-actions">
 					<a class="button-primary" href="#proyectos">Ver proyectos <span>↓</span></a>
@@ -139,18 +139,18 @@
 				<p class="eyebrow">¿Quiénes somos?</p>
 				<h2 class="section-heading">Un equipo profesional<br />descentralizado.</h2>
 				<p>
-					Desarrollamos tecnologías de código abierto y apostamos por iniciativas de
+					Somos personas apasionadas por el desarrollo de tecnologías de código abierto y apostamos por iniciativas de
 					interés general, con fines comerciales, científicos y/o sociales.
 				</p>
 				<p>
 					Desde sistemas de facturación, logística y finanzas para pequeñas empresas,
 					aplicaciones de comercio electrónico y automatización de soporte con IA, hasta
-					algoritmos de serialización para reducir el uso de ancho de banda público.
+					algoritmos de serialización para reducir el uso de ancho de banda.
 				</p>
 				<div class="intro-cta">
 					<p>
 						¿Tienes un proyecto de código abierto o quieres participar en el desarrollo de
-						alguno? Escríbenos: podemos ayudarte y asesorarte.
+						alguno?
 					</p>
 					<a href="#contacto">Conversemos <span>→</span></a>
 				</div>
@@ -168,17 +168,25 @@
 	</section>
 
 	<section class="portfolio" id="proyectos">
-		<SectionCurve fill="#f8fbfa" />
+		<SectionCurve fill="#ffffff" />
 
 		<div class="section-top">
-			<div>
-				<p class="eyebrow">Portafolio</p>
+			<figure class="section-top-art">
+				<img
+					src={`${base}/svg/team-work.svg`}
+					alt="Un equipo trabajando junto sobre una pizarra de tareas"
+					loading="lazy"
+				/>
+			</figure>
+
+			<div class="section-top-copy">
+				<p class="eyebrow">PROYECTOS</p>
 				<h2 class="section-heading">Lo que estamos construyendo.</h2>
+				<p>
+					Cada pieza resuelve un problema concreto y vive en su propio repositorio, con
+					licencia abierta y documentación pública.
+				</p>
 			</div>
-			<p>
-				Cada pieza resuelve un problema concreto y vive en su propio repositorio, con
-				licencia abierta y documentación pública.
-			</p>
 		</div>
 
 		<div class="project-grid">
@@ -207,19 +215,21 @@
 							<h3>{project.name}</h3>
 							<p class="project-text">{project.description}</p>
 
-							<ul class="project-stack">
-								{#each project.stack as item}
-									<li>{item}</li>
-								{/each}
-							</ul>
+							<div class="project-foot">
+								<ul class="project-stack">
+									{#each project.stack as item}
+										<li>{item}</li>
+									{/each}
+								</ul>
 
-							{#if project.url}
-								<a class="project-link" href={project.url} target="_blank" rel="noreferrer">
-									Ver repositorio <span>↗</span>
-								</a>
-							{:else}
-								<span class="project-link muted">Próximamente</span>
-							{/if}
+								{#if project.url}
+									<a class="project-link" href={project.url} target="_blank" rel="noreferrer">
+										Ver <span>↗</span>
+									</a>
+								{:else}
+									<span class="project-link muted">Próximamente</span>
+								{/if}
+							</div>
 						</div>
 					</article>
 				</Reveal>
@@ -266,11 +276,11 @@
 						y2="0"
 						gradientUnits="userSpaceOnUse"
 					>
-						<stop offset="0" stop-color="#52ded3" stop-opacity="0" />
-						<stop offset="0.12" stop-color="#52ded3" stop-opacity="0.55" />
-						<stop offset="0.5" stop-color="#dcfaff" stop-opacity="1" />
-						<stop offset="0.88" stop-color="#8d7ce6" stop-opacity="0.55" />
-						<stop offset="1" stop-color="#8d7ce6" stop-opacity="0" />
+						<stop offset="0" stop-color="#00d8b3" stop-opacity="0" />
+						<stop offset="0.12" stop-color="#00d8b3" stop-opacity="0.55" />
+						<stop offset="0.5" stop-color="#e6f6ff" stop-opacity="1" />
+						<stop offset="0.88" stop-color="#a69aff" stop-opacity="0.55" />
+						<stop offset="1" stop-color="#a69aff" stop-opacity="0" />
 					</linearGradient>
 				</defs>
 				<path
@@ -298,7 +308,7 @@
 	</section>
 
 	<section class="labs">
-		<SectionCurve fill="#071b2b" variant="dome" flip />
+		<SectionCurve fill="#0a0b1f" variant="dome" flip />
 
 		<Reveal>
 			<div class="labs-head">
@@ -313,7 +323,7 @@
 					<div class="labs-point">
 						<span
 							class="labs-point-icon"
-							style={`--icon: url(${base}/svg/noun_innovation.svg)`}
+							style={`--icon: url(${base}/svg/noun_Research.svg)`}
 							aria-hidden="true"
 						></span>
 						<span class="labs-point-rule" aria-hidden="true"></span>
@@ -327,7 +337,7 @@
 					<div class="labs-point">
 						<span
 							class="labs-point-icon"
-							style={`--icon: url(${base}/svg/noun_Research.svg)`}
+							style={`--icon: url(${base}/svg/noun_innovation.svg)`}
 							aria-hidden="true"
 						></span>
 						<span class="labs-point-rule" aria-hidden="true"></span>
@@ -446,7 +456,7 @@
 		justify-content: center;
 		overflow: hidden;
 		padding: calc(var(--header-height) + 4rem) var(--page-pad) 4.5rem;
-		background: #02070f var(--hero-jpg) center 32% / cover no-repeat;
+		background: #05061a var(--hero-jpg) center 32% / cover no-repeat;
 		color: white;
 	}
 
@@ -460,8 +470,8 @@
 		position: absolute;
 		inset: 0;
 		background:
-			linear-gradient(100deg, rgba(2, 8, 16, 0.9) 0%, rgba(2, 8, 16, 0.56) 46%, rgba(2, 8, 16, 0.24) 100%),
-			linear-gradient(0deg, rgba(2, 8, 16, 0.72), transparent 45%);
+			linear-gradient(100deg, rgba(5, 6, 26, 0.9) 0%, rgba(5, 6, 26, 0.56) 46%, rgba(5, 6, 26, 0.24) 100%),
+			linear-gradient(0deg, rgba(5, 6, 26, 0.72), transparent 45%);
 		content: '';
 	}
 
@@ -469,8 +479,8 @@
 		position: absolute;
 		inset: 0;
 		background-image:
-			linear-gradient(rgba(120, 200, 255, 0.05) 1px, transparent 1px),
-			linear-gradient(90deg, rgba(120, 200, 255, 0.05) 1px, transparent 1px);
+			linear-gradient(rgba(150, 170, 255, 0.06) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(150, 170, 255, 0.06) 1px, transparent 1px);
 		background-size: 7rem 7rem;
 		mask-image: radial-gradient(circle at 20% 40%, black, transparent 70%);
 	}
@@ -513,7 +523,7 @@
 
 	.hero h1 em {
 		position: relative;
-		background: linear-gradient(96deg, #52ded3 0%, #63aeff 52%, #a69aff 100%);
+		background: var(--brand-ramp);
 		-webkit-background-clip: text;
 		background-clip: text;
 		color: transparent;
@@ -523,7 +533,7 @@
 	.hero-lead {
 		max-width: 34rem;
 		margin: 1.8rem 0 0;
-		color: rgba(226, 240, 248, 0.72);
+		color: rgba(228, 230, 255, 0.72);
 		font-size: clamp(1rem, 1.35vw, 1.15rem);
 		line-height: 1.75;
 	}
@@ -565,9 +575,9 @@
 		border-radius: 50%;
 		background: radial-gradient(
 			circle,
-			rgba(1, 6, 12, 0.78) 0%,
-			rgba(1, 6, 12, 0.68) 30%,
-			rgba(2, 10, 20, 0.38) 52%,
+			rgba(4, 5, 22, 0.78) 0%,
+			rgba(4, 5, 22, 0.68) 30%,
+			rgba(8, 8, 34, 0.38) 52%,
 			transparent 74%
 		);
 		content: '';
@@ -578,7 +588,7 @@
 		position: absolute;
 		top: 44.2%;
 		left: 50%;
-		border: 1px solid rgba(160, 205, 255, 0.18);
+		border: 1px solid rgba(166, 154, 255, 0.24);
 		border-radius: 50%;
 		aspect-ratio: 1;
 		translate: -50% -50%;
@@ -592,7 +602,7 @@
 
 	.orbit-b {
 		width: 132%;
-		border-color: rgba(160, 205, 255, 0.1);
+		border-color: rgba(166, 154, 255, 0.12);
 	}
 
 	@keyframes float {
@@ -618,7 +628,7 @@
 		align-items: center;
 		gap: 1.1rem;
 		margin-top: clamp(2.5rem, 6vh, 4.5rem);
-		color: rgba(226, 240, 248, 0.45);
+		color: rgba(228, 230, 255, 0.45);
 		font-size: 0.6rem;
 		letter-spacing: 0.24em;
 	}
@@ -626,16 +636,18 @@
 	.hero-foot-line {
 		width: clamp(2rem, 12vw, 9rem);
 		height: 1px;
-		background: rgba(226, 240, 248, 0.22);
+		background: rgba(228, 230, 255, 0.22);
 	}
 
 	/* --------------------------------------------------------------- intro */
 	.intro {
 		display: grid;
+		background: #ffffff;
 		grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
 		gap: clamp(1.75rem, 3.2vw, 3.25rem);
 		align-items: center;
-		padding: clamp(5rem, 11vw, 10rem) var(--page-pad) clamp(3rem, 6vw, 5.5rem);
+		padding: clamp(5rem, 10vw, 7rem) var(--page-pad) clamp(3rem, 6vw, 5.5rem);
+		margin-bottom: -1rem;
 	}
 
 	/* Narrower column than the full-bleed headings, so it needs its own scale. */
@@ -672,7 +684,7 @@
 		margin-top: 2.25rem;
 		padding: clamp(1.4rem, 2.2vw, 1.8rem) clamp(1.4rem, 2.2vw, 1.9rem);
 		border: 1px solid var(--line);
-		border-left: 3px solid var(--teal);
+		border-left: 3px solid var(--accent);
 		border-radius: 0 1rem 1rem 0;
 		background: var(--mist);
 	}
@@ -682,7 +694,7 @@
 		margin: 0;
 		color: var(--ink);
 		font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-		line-height: 1.7;
+		line-height: 1.5;
 	}
 
 	.intro-cta a {
@@ -692,7 +704,7 @@
 		align-items: center;
 		padding: 0.9rem 1.4rem;
 		border-radius: 999px;
-		background: var(--teal);
+		background: var(--accent);
 		color: white;
 		font-size: 0.75rem;
 		font-weight: 800;
@@ -705,29 +717,49 @@
 	}
 
 	.intro-cta a:hover {
-		background: var(--teal-dark);
+		background: var(--accent-dark);
 		gap: 1.1rem;
 	}
 
 	/* ----------------------------------------------------------- portfolio */
 	.portfolio {
 		position: relative;
-		padding: calc(var(--curve-h) + clamp(2.5rem, 5vw, 4.5rem)) var(--page-pad)
-			clamp(3rem, 6vw, 5.5rem);
+		/* Por encima de la sección siguiente: si no, su fondo recorta la sombra
+		   que las tarjetas proyectan por debajo de la última fila. */
+		z-index: 10;
+		padding-top: calc(var(--curve-h) + 10px);
+		padding-right: var(--page-pad);
+		padding-bottom: 3rem;
+		padding-left: var(--page-pad);
 		background: var(--mist);
 	}
 
 	.section-top {
-		display: flex;
-		align-items: end;
-		justify-content: space-between;
-		gap: 3rem;
-		margin-bottom: clamp(3rem, 6vw, 5rem);
+		display: grid;
+		grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+		gap: clamp(2rem, 5vw, 4.5rem);
+		align-items: center;
+		margin-bottom: clamp(2rem, 4.5vw, 3.5rem);
 	}
 
-	.section-top > p {
-		max-width: 28rem;
+	.section-top-art {
+		max-width: 26rem;
 		margin: 0;
+	}
+
+	.section-top-art img {
+		width: 100%;
+		height: auto;
+	}
+
+	/* El titular ya no compite con la columna de texto: puede usar todo su ancho. */
+	.section-top-copy .section-heading {
+		max-width: none;
+	}
+
+	.section-top-copy p:not(.eyebrow) {
+		max-width: 32rem;
+		margin: 1.4rem 0 0;
 		color: var(--muted);
 		line-height: 1.7;
 	}
@@ -749,18 +781,18 @@
 		width: 100%;
 		flex-direction: column;
 		overflow: hidden;
-		border: 1px solid var(--line);
+		/* Borde transparente, no ausente: reservarlo evita que el hover mueva el layout. */
+		border: 1px solid transparent;
 		border-radius: var(--radius-lg);
 		background: white;
+		box-shadow: var(--shadow);
 		transition:
 			transform 250ms ease,
-			box-shadow 250ms ease,
-			border-color 250ms ease;
+			box-shadow 250ms ease;
 	}
 
 	.project-card:hover {
-		border-color: transparent;
-		box-shadow: var(--shadow);
+		box-shadow: 0 34px 90px rgba(28, 22, 74, 0.18);
 		transform: translateY(-0.4rem);
 	}
 
@@ -772,19 +804,19 @@
 		justify-items: center;
 		border-bottom: 1px solid var(--line);
 		background:
-			radial-gradient(circle at 30% 20%, rgba(82, 222, 211, 0.12), transparent 60%),
-			linear-gradient(160deg, #f4f9f8, #eaf2f1);
+			radial-gradient(circle at 30% 20%, rgba(0, 216, 179, 0.12), transparent 60%),
+			linear-gradient(160deg, #f8f7fe, #edeffb);
 	}
 
 	.project-logo img {
-		max-width: 62%;
-		max-height: 4.2rem;
+		max-width: 12rem;
+    max-height: 4.8rem;
 		object-fit: contain;
 	}
 
 	.project-logo span {
 		padding-inline: 1rem;
-		color: #8ba3a8;
+		color: #9a9cbe;
 		font-family: var(--font-display);
 		font-size: clamp(1.15rem, 1.8vw, 1.5rem);
 		font-weight: 500;
@@ -808,7 +840,7 @@
 
 	.project-kind {
 		margin: 0;
-		color: var(--teal);
+		color: var(--accent);
 		font-size: 0.6rem;
 		font-weight: 800;
 		letter-spacing: 0.14em;
@@ -823,7 +855,7 @@
 		padding: 0.3rem 0.6rem;
 		border: 1px solid var(--line);
 		border-radius: 999px;
-		background: #f7fbfa;
+		background: #fbfaff;
 		color: var(--muted);
 		font-size: 0.58rem;
 		font-weight: 700;
@@ -835,16 +867,16 @@
 		width: 0.4rem;
 		height: 0.4rem;
 		border-radius: 50%;
-		background: #b8c6c8;
+		background: #b9bcd8;
 		content: '';
 	}
 
 	.project-status.live::before {
-		background: #16b58a;
+		background: #0fbf9f;
 	}
 
 	.project-status.draft::before {
-		background: #c1a05f;
+		background: var(--brand-magenta);
 	}
 
 	.project-card h3 {
@@ -862,11 +894,22 @@
 		line-height: 1.65;
 	}
 
+	/* Los tags y el enlace comparten fila; `margin-top: auto` la fija al pie. */
+	.project-foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		margin-top: auto;
+		padding-top: 1.2rem;
+	}
+
 	.project-stack {
 		display: flex;
+		min-width: 0;
 		flex-wrap: wrap;
 		gap: 0.4rem;
-		margin: auto 0 1.2rem;
+		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
@@ -875,7 +918,7 @@
 		padding: 0.28rem 0.6rem;
 		border-radius: 0.45rem;
 		background: var(--mist);
-		color: #5f7378;
+		color: var(--muted);
 		font-size: 0.65rem;
 		letter-spacing: 0.04em;
 	}
@@ -883,10 +926,10 @@
 	.project-link {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.55rem;
-		padding-top: 1rem;
-		border-top: 1px solid var(--line);
-		color: var(--teal);
+		flex: none;
+		gap: 0.35rem;
+		color: var(--accent);
+		white-space: nowrap;
 		font-size: 0.7rem;
 		font-weight: 800;
 		letter-spacing: 0.1em;
@@ -896,11 +939,11 @@
 	}
 
 	.project-link:hover {
-		gap: 0.95rem;
+		gap: 0.7rem;
 	}
 
 	.project-link.muted {
-		color: #9fb0b3;
+		color: #9a9cbe;
 	}
 
 	/* --------------------------------------------------------- open source */
@@ -909,8 +952,8 @@
 		padding: calc(var(--curve-h) + clamp(2.5rem, 5vw, 4.5rem)) var(--page-pad)
 			clamp(3rem, 6vw, 5.5rem);
 		background:
-			radial-gradient(circle at 80% 15%, rgba(93, 122, 220, 0.22), transparent 32rem),
-			#071b2b;
+			radial-gradient(circle at 80% 15%, rgba(100, 105, 238, 0.26), transparent 32rem),
+			#0a0b1f;
 		color: white;
 	}
 
@@ -919,7 +962,7 @@
 	}
 
 	.os-head h2 em {
-		background: linear-gradient(96deg, #52ded3 0%, #63aeff 52%, #a69aff 100%);
+		background: var(--brand-ramp);
 		-webkit-background-clip: text;
 		background-clip: text;
 		color: transparent;
@@ -1002,7 +1045,7 @@
 	.doubt-icon img {
 		width: auto;
 		height: 5.6rem;
-		filter: drop-shadow(0 0.7rem 1.5rem rgba(82, 222, 211, 0.22));
+		filter: drop-shadow(0 0.7rem 1.5rem rgba(0, 216, 179, 0.24));
 		transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
@@ -1035,7 +1078,7 @@
 		height: 15rem;
 		background: radial-gradient(
 			ellipse at 50% 50%,
-			rgba(82, 222, 211, 0.13),
+			rgba(0, 216, 179, 0.14),
 			transparent 62%
 		);
 		content: '';
@@ -1048,7 +1091,7 @@
 		width: 100%;
 		height: clamp(2.75rem, 5.5vw, 5.5rem);
 		overflow: visible;
-		filter: drop-shadow(0 0 1rem rgba(82, 222, 211, 0.35));
+		filter: drop-shadow(0 0 1rem rgba(0, 216, 179, 0.38));
 		margin-top: -28px;
 		margin-bottom: -32px;
 	}
@@ -1074,8 +1117,10 @@
 	/* ---------------------------------------------------------------- labs */
 	.labs {
 		position: relative;
-		padding: calc(var(--curve-h) + clamp(2.5rem, 5vw, 4.5rem)) var(--page-pad)
-			clamp(3rem, 6vw, 5.5rem);
+		padding-top: 120px;
+		padding-right: var(--page-pad);
+		padding-bottom: 30px;
+		padding-left: var(--page-pad);
 		background: var(--sand);
 	}
 
@@ -1111,7 +1156,7 @@
 	.labs-point-icon {
 		width: clamp(2.3rem, 3.6vw, 3.1rem);
 		aspect-ratio: 1;
-		background: var(--teal);
+		background: var(--accent);
 		-webkit-mask: var(--icon) center / contain no-repeat;
 		mask: var(--icon) center / contain no-repeat;
 		opacity: 0.75;
@@ -1122,10 +1167,10 @@
 		border-radius: 2px;
 		background: linear-gradient(
 			180deg,
-			rgba(13, 125, 120, 0.08),
-			var(--aqua) 22%,
-			var(--aqua) 78%,
-			rgba(13, 125, 120, 0.08)
+			rgba(100, 105, 238, 0.08),
+			var(--brand-blue) 26%,
+			var(--brand-violet) 74%,
+			rgba(166, 154, 255, 0.08)
 		);
 	}
 
@@ -1149,8 +1194,8 @@
 		font-weight: 600;
 		background-image: linear-gradient(
 			transparent 62%,
-			rgba(82, 222, 211, 0.42) 62%,
-			rgba(82, 222, 211, 0.42) 92%,
+			rgba(0, 216, 179, 0.34) 62%,
+			rgba(0, 216, 179, 0.34) 92%,
 			transparent 92%
 		);
 		box-decoration-break: clone;
@@ -1178,7 +1223,7 @@
 		display: grid;
 		gap: 0.5rem;
 		padding: 1.4rem 0;
-		border-top: 1px solid #d8cfc0;
+		border-top: 1px solid var(--line);
 	}
 
 	.legacy strong {
@@ -1236,7 +1281,7 @@
 		align-items: center;
 		gap: 0.5rem;
 		margin-top: 1.6rem;
-		color: var(--teal);
+		color: var(--accent);
 		font-size: 0.82rem;
 		font-weight: 500;
 		letter-spacing: 0.08em;
@@ -1245,7 +1290,7 @@
 	}
 
 	.genix-link:hover {
-		color: var(--teal-dark);
+		color: var(--accent-dark);
 	}
 
 	.feature-grid {
@@ -1311,8 +1356,8 @@
 		padding: calc(var(--curve-h) + clamp(2.5rem, 5vw, 4.5rem)) var(--page-pad)
 			calc(var(--curve-h) + clamp(2rem, 4vw, 3.5rem));
 		background:
-			radial-gradient(circle at 12% 85%, rgba(125, 98, 217, 0.22), transparent 30rem),
-			#101523;
+			radial-gradient(circle at 12% 85%, rgba(125, 98, 217, 0.26), transparent 30rem),
+			#0f1030;
 		color: white;
 	}
 
@@ -1377,7 +1422,7 @@
 		}
 
 		.hero::before {
-			background: linear-gradient(0deg, rgba(2, 8, 16, 0.88) 24%, rgba(2, 8, 16, 0.42));
+			background: linear-gradient(0deg, rgba(5, 6, 26, 0.88) 24%, rgba(5, 6, 26, 0.42));
 		}
 
 		.hero-inner {
@@ -1410,7 +1455,7 @@
 		}
 
 		.section-top {
-			display: grid;
+			grid-template-columns: 1fr;
 			align-items: start;
 		}
 	}

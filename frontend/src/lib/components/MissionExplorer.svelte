@@ -61,8 +61,8 @@
 
 	.terms button:hover,
 	.terms button.active {
-		border-color: var(--teal);
-		background: var(--teal);
+		border-color: var(--accent);
+		background: var(--accent);
 		color: white;
 		transform: translateY(-2px);
 	}
@@ -80,7 +80,7 @@
 	}
 
 	.explanation > span {
-		color: var(--aqua-dark);
+		color: var(--accent-soft);
 		font-family: var(--font-display);
 		font-size: 0.9rem;
 	}

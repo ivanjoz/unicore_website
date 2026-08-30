@@ -58,33 +58,37 @@ export const labProjects: LabProject[] = [
 	{
 		name: 'Genix ERP',
 		kind: 'ERP + E-commerce',
+		logo: '/svg/genix_logo.svg',
 		description:
-			'Plataforma autoalojable y multiempresa para pequeños negocios: punto de venta, inventarios, caja, clientes y flujos de caja proyectados. Cada empresa puede exportar una copia completa de sus datos cuando quiera.',
+			'Sistema de gestión empresarial, CRM y E-commerce para pequeñas empresas. Punto de venta, logistica, gestión de cuentas, clientes y flujos de caja proyectados y facturación electrónica. Permite a cada empresa exportar su data. Arquitectura híbrida: cloud-native o self-host. Hecho en Go + Svelte.js.',
 		url: 'https://github.com/ivanjoz/genix',
 		status: 'En desarrollo',
-		stack: ['Go', 'ScyllaDB', 'SvelteKit']
+		stack: ['Go', 'ScyllaDB', 'AI']
 	},
 	{
 		name: 'Colbin',
 		kind: 'Serialización',
+		logo: '/svg/colbin_icon.svg',
 		description:
-			'Serializador binario columnar para arreglos de structs. Transpone los datos y los codifica columna por columna, reduciendo drásticamente el ancho de banda frente a formatos por fila como JSON o CBOR.',
+			'Serializador binario columnar optimizado para arrays de registros. Hecho en Go y AssemblyScript. Transpone los datos y los codifica por columna usando varint, delta encoding y 5-bit chars, reduciendo el ancho de banda frente a formatos como JSON, CBOR o Protobuf.',
 		url: 'https://github.com/ivanjoz/colbin',
 		status: 'Activo',
 		stack: ['Go', 'Rust']
 	},
 	{
-		name: 'Genix ORM',
-		kind: 'Acceso a datos',
+		name: 'Genix Search',
+		kind: 'Motor de búsqueda',
+		logo: '/svg/genix_search.svg',
 		description:
-			'ORM con API de consultas verificada en tiempo de compilación para ScyllaDB / Cassandra y DynamoDB. Los patrones de acceso se declaran por adelantado y se sirven por partición, índice o vista.',
-		url: 'https://github.com/ivanjoz/genix-orm',
+			'Backend de búsqueda compacto y rankeado, optimizado para textos cortos y multi-índice con bajo consumo de RAM. Usa bigramas computados en español, claves enteras directas y RocksDB como storage. Binario estático sin dependencias.',
+		url: 'https://github.com/ivanjoz/genix-search',
 		status: 'Activo',
-		stack: ['Go', 'ScyllaDB', 'DynamoDB']
+		stack: ['Rust', 'RocksDB', 'TCP']
 	},
 	{
 		name: 'Genix Agentic UI',
 		kind: 'Componentes de IA',
+		logo: '/svg/genix_ui.svg',
 		description:
 			'Componentes de interfaz agénticos: modelos pequeños y sin visión que acompañan al usuario a navegar el sistema y a ejecutar instrucciones, exprimiendo cada dólar de inferencia.',
 		url: 'https://github.com/ivanjoz/genix-ui',
@@ -92,8 +96,19 @@ export const labProjects: LabProject[] = [
 		stack: ['Svelte', 'LLM']
 	},
 	{
+		name: 'Factura-Go',
+		kind: 'Facturación electrónica',
+		logo: '/svg/factura_go.svg',
+		description:
+			'Librería en Go para la emisión de comprobantes electrónicos: construcción del documento, firma digital, envío y consulta del estado ante la SUNAT (Perú).',
+		url: 'https://github.com/ivanjoz/facturago',
+		status: 'En desarrollo',
+		stack: ['Go', 'XML/UBL']
+	},
+	{
 		name: 'Simple Vault',
 		kind: 'Seguridad',
+		logo: '/svg/simple_vault_logo.png',
 		description:
 			'Gestor de contraseñas offline-first que cifra todo en el navegador con Argon2id y AES-256-GCM, y guarda la bóveda en el almacenamiento aislado de tu propio Google Drive. Sin servidor de aplicación.',
 		url: 'https://github.com/ivanjoz/simple-vault',
@@ -101,22 +116,33 @@ export const labProjects: LabProject[] = [
 		stack: ['SvelteKit', 'PWA', 'Criptografía']
 	},
 	{
-		name: 'Factura-Go',
-		kind: 'Facturación electrónica',
+		name: 'Genix ORM',
+		kind: 'Bases de datos',
+		logo: '/svg/genix_orm.svg',
 		description:
-			'Librería en Go para la emisión de comprobantes electrónicos: construcción del documento, firma digital, envío y consulta del estado ante la administración tributaria.',
-		url: 'https://github.com/ivanjoz/facturago',
-		status: 'En desarrollo',
-		stack: ['Go', 'XML/UBL']
+			'ORM con API de consultas verificada en tiempo de compilación para ScyllaDB / Cassandra y DynamoDB. Los patrones de acceso se declaran por adelantado y se sirven por partición, índice o vista.',
+		url: 'https://github.com/ivanjoz/genix-orm',
+		status: 'Activo',
+		stack: ['Go', 'ScyllaDB', 'DynamoDB']
 	},
 	{
-		name: 'Genix Search',
-		kind: 'Motor de búsqueda',
+		name: 'Auth-Limiter',
+		kind: 'Infraestructura',
+		logo: '/svg/relimiter_logo.svg',
 		description:
-			'Backend de búsqueda compacto y rankeado, optimizado para nombres de productos y texto comercial en español. Índice por pares de letras, claves enteras directas y binarios estáticos sin dependencias.',
-		url: 'https://github.com/ivanjoz/genix-search',
-		status: 'Activo',
-		stack: ['Rust', 'RocksDB', 'TCP']
+			'Un solo proceso en Rust que expone cuatro servicios: control de acceso con cobro de créditos, locks para serializar acciones entre Lambdas concurrentes, log de peticiones y un puente SSE. Resuelve la autorización y la cuota de CPU o inferencia en un mismo viaje, sobre TCP crudo con tramas firmadas por HMAC y atadas al nonce de la conexión. Agrega el consumo en memoria y vuelca a ScyllaDB solo lo que cambió.',
+		url: 'https://github.com/ivanjoz/auth-limiter',
+		status: 'En desarrollo',
+		stack: ['Rust', 'TCP', 'SSE', 'ScyllaDB']
+	},
+	{
+		name: 'Genix Support AI',
+		kind: 'Agente autónomo',
+		logo: '/svg/genix_support_agent.svg',
+		description:
+			'Automatización de soporte para proyectos de código abierto: indexa el código, lee los tickets, reproduce el problema como un usuario real con BrowserOS, abre el PR con la corrección, espera el despliegue y responde el ticket.',
+		status: 'En diseño',
+		stack: ['Agentes', 'BrowserOS', 'CI/CD']
 	},
 	{
 		name: 'Classi-Cont',
@@ -126,23 +152,6 @@ export const labProjects: LabProject[] = [
 		status: 'En diseño',
 		stack: ['ML', 'PCGE', 'Modelo ad-hoc']
 	},
-	{
-		name: 'Re-Limiter',
-		kind: 'Infraestructura',
-		description:
-			'Servicio en Rust que recibe mensajes autenticados de tamaño fijo sobre TCP y aplica límites de CPU y de créditos de inferencia por empresa, por usuario y por ventana de tiempo.',
-		url: 'https://github.com/ivanjoz/genix/tree/main/server_utils',
-		status: 'En desarrollo',
-		stack: ['Rust', 'TCP', 'ScyllaDB']
-	},
-	{
-		name: 'Genix Support AI',
-		kind: 'Agente autónomo',
-		description:
-			'Automatización de soporte para proyectos de código abierto: indexa el código, lee los tickets, reproduce el problema como un usuario real con BrowserOS, abre el PR con la corrección, espera el despliegue y responde el ticket.',
-		status: 'En diseño',
-		stack: ['Agentes', 'BrowserOS', 'CI/CD']
-	}
 ];
 
 export const missionTerms = [

@@ -259,7 +259,7 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		min-height: 45rem;
-		background: #071b2b;
+		background: #0a0b1f;
 		color: white;
 	}
 
@@ -326,7 +326,7 @@
 	}
 
 	.objective-grid article > span {
-		color: var(--teal);
+		color: var(--accent);
 		font-size: 0.68rem;
 	}
 
@@ -411,9 +411,9 @@
 		grid-template-columns: 1fr 1fr;
 		align-items: stretch;
 		overflow: hidden;
-		border: 1px solid #d7d0c4;
+		border: 1px solid var(--line);
 		border-radius: var(--radius-lg);
-		background: #fffdf8;
+		background: #fbfaff;
 		box-shadow: 0 30px 80px rgba(65, 54, 32, 0.08);
 	}
 
@@ -426,7 +426,7 @@
 		min-height: 34rem;
 		place-items: center;
 		padding: 3rem;
-		background: #e8e3d8;
+		background: #e6e4f6;
 	}
 
 	.brand-art img {
@@ -436,7 +436,7 @@
 	}
 
 	.current .brand-art {
-		background: #dfeeed;
+		background: #e2f6f2;
 	}
 
 	.brand-copy {

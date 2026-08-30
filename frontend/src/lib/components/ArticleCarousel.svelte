@@ -141,8 +141,8 @@
 	}
 
 	.controls > button:hover {
-		border-color: var(--teal);
-		background: var(--teal);
+		border-color: var(--accent);
+		background: var(--accent);
 		color: white;
 	}
 
@@ -166,7 +166,7 @@
 
 	.track button.active {
 		width: 1.5rem;
-		background: var(--teal);
+		background: var(--accent);
 	}
 
 	@media (max-width: 760px) {

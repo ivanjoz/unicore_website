@@ -12,20 +12,27 @@
 	let menuOpen = $state(false);
 	let currentPath = $derived(page.url.pathname);
 
+	// La cabecera se compacta en cuanto la página deja de estar arriba del todo. El umbral
+	// no es cero para que un rebote de scroll de unos pocos píxeles no la haga parpadear.
+	let scrollY = $state(0);
+	let scrolled = $derived(scrollY > 24);
+
 	function isActive(href: string) {
 		if (href.includes('#')) return false;
 		return href === `${base}/` ? currentPath === `${base}/` : currentPath.startsWith(href);
 	}
 </script>
 
-<header class:menu-open={menuOpen}>
+<svelte:window bind:scrollY />
+
+<header class:menu-open={menuOpen} class:scrolled>
 	<a
 		class="brand"
 		href={`${base}/`}
 		aria-label="Unicore, ir al inicio"
 		onclick={() => (menuOpen = false)}
 	>
-		<img src={`${base}/svg/logo_unicore_horizontal_light.svg`} alt="Unicore Labs" />
+		<img src={`${base}/svg/logo_unicore_horizontal_light_mini.svg`} alt="Unicore Labs" />
 	</a>
 
 	<nav aria-label="Navegación principal">
@@ -65,9 +72,14 @@
 		justify-content: space-between;
 		padding: 0 clamp(1.25rem, 5vw, 5rem);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-		background: rgba(5, 24, 37, 0.82);
+		background: rgba(8, 9, 28, 0.82);
 		color: white;
 		backdrop-filter: blur(18px);
+		transition: height 220ms ease;
+	}
+
+	header.scrolled {
+		height: 54px;
 	}
 
 	.brand {
@@ -80,9 +92,15 @@
 
 	.brand img {
 		width: auto;
-		height: 2.6rem;
+		height: 44px;
 		object-fit: contain;
 		filter: drop-shadow(0 5px 14px rgba(0, 0, 0, 0.3));
+		transition: height 220ms ease;
+	}
+
+	/* 2.6rem no cabe en 54px: el logo se encoge con la barra. */
+	.scrolled .brand img {
+		height: 38px;
 	}
 
 	@media (max-width: 400px) {
@@ -165,7 +183,7 @@
 			padding: 1rem;
 			border: 1px solid rgba(255, 255, 255, 0.13);
 			border-radius: 1.25rem;
-			background: rgba(5, 24, 37, 0.98);
+			background: rgba(8, 9, 28, 0.98);
 			box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
 			opacity: 0;
 			pointer-events: none;
@@ -199,6 +217,13 @@
 
 		.menu-open .menu-toggle span:last-child {
 			transform: translateY(-0.19rem) rotate(-45deg);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		header,
+		.brand img {
+			transition: none;
 		}
 	}
 </style>

@@ -2,7 +2,7 @@ UNICORE LABS
 
 Iniciativas de codigo abierto que democratizan el acceso a tecnologia de alto impacto.
 
-Desarrollamos sistemas y herramientas que incentiva la participación comunitaria y la exploración científica.
+Desarrollamos sistemas y herramientas que incentiva la participación comunitaria y la innovación tecnológica.
 
 ¿Quíenes somos?
 

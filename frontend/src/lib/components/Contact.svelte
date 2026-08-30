@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { base } from '$app/paths';
+
 	let form = $state({
 		name: '',
 		email: '',
@@ -18,26 +20,20 @@
 
 <section class="contact-section" id="contacto">
 	<div class="contact-copy">
-		<p class="eyebrow light">Hablemos</p>
-		<h2>¿Tienes un proyecto<br />en mente?</h2>
+		<h2>Contáctanos</h2>
+
 		<p>
 			Si tienes una iniciativa de código abierto o quieres participar en el desarrollo de
 			alguna de las nuestras, escríbenos: podemos ayudarte y asesorarte.
 		</p>
-		<div class="contact-detail">
-			<span>ESCRÍBENOS</span>
-			<a href="mailto:contacto@un.pe">contacto@un.pe</a>
-		</div>
-		<div class="contact-detail">
-			<span>CÓDIGO</span>
-			<a href="https://github.com/ivanjoz" target="_blank" rel="noreferrer">
-				github.com/ivanjoz ↗
-			</a>
-		</div>
-		<div class="contact-detail">
-			<span>EQUIPO DESCENTRALIZADO</span>
-			<p>Trujillo, La Libertad · Perú</p>
-		</div>
+
+		<figure class="contact-art">
+			<img
+				src={`${base}/svg/conversation-dark.svg`}
+				alt="Dos personas conversando frente a un café"
+				loading="lazy"
+			/>
+		</figure>
 	</div>
 
 	<form onsubmit={(event) => { event.preventDefault(); submit(); }}>
@@ -75,13 +71,14 @@
 		gap: clamp(3rem, 9vw, 9rem);
 		padding: clamp(5rem, 10vw, 9rem) var(--page-pad);
 		background:
-			radial-gradient(circle at 12% 90%, rgba(31, 195, 189, 0.16), transparent 28rem),
-			#071b2b;
+			radial-gradient(circle at 8% 88%, rgba(100, 105, 238, 0.24), transparent 30rem),
+			radial-gradient(circle at 78% 12%, rgba(0, 216, 179, 0.1), transparent 26rem),
+			#0a0b1f;
 		color: white;
 	}
 
 	.contact-copy h2 {
-		margin: 1.2rem 0 1.5rem;
+		margin: 0 0 1.5rem;
 		font-family: var(--font-display);
 		font-size: clamp(2.5rem, 5vw, 5rem);
 		font-weight: 500;
@@ -95,25 +92,14 @@
 		line-height: 1.75;
 	}
 
-	.contact-detail {
-		display: grid;
-		gap: 0.35rem;
-		margin-top: 2.2rem;
+	.contact-art {
+		max-width: 24.3rem;
+		margin: 2rem 0 0;
 	}
 
-	.contact-detail span {
-		color: var(--aqua);
-		font-size: 0.64rem;
-		font-weight: 700;
-		letter-spacing: 0.16em;
-	}
-
-	.contact-detail a,
-	.contact-detail p {
-		margin: 0;
-		color: white;
-		font-size: 0.94rem;
-		text-decoration: none;
+	.contact-art img {
+		width: 100%;
+		height: auto;
 	}
 
 	form {
@@ -168,8 +154,8 @@
 		padding: 1rem 1.2rem;
 		border: 0;
 		border-radius: 999px;
-		background: var(--aqua);
-		color: #04242b;
+		background: var(--accent);
+		color: white;
 		font: inherit;
 		font-size: 0.78rem;
 		font-weight: 800;
@@ -181,7 +167,7 @@
 	}
 
 	form button:hover {
-		background: white;
+		background: var(--accent-soft);
 		transform: translateY(-2px);
 	}
 

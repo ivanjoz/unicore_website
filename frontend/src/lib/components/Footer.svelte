@@ -5,17 +5,24 @@
 </script>
 
 <footer>
-	<div class="footer-brand">
-		<img src={`${base}/svg/logo_unicore_horizontal_light.svg`} alt="Unicore Labs" />
-		<span>Iniciativas de código abierto que democratizan el acceso a tecnología</span>
-	</div>
+	<div class="footer-top">
+		<div class="footer-brand">
+			<img src={`${base}/svg/logo_unicore_horizontal_light_mini.svg`} alt="Unicore Labs" />
+			<span>Iniciativas de código abierto que democratizan el acceso a la tecnología</span>
+		</div>
 
-	<div class="footer-links">
-		<a href={`${base}/`}>Inicio</a>
-		<a href={`${base}/#proyectos`}>Proyectos</a>
-		<a href={`${base}/nosotros/`}>Nosotros</a>
-		<a href="https://github.com/ivanjoz" target="_blank" rel="noreferrer">GitHub ↗</a>
-		<a href="mailto:contacto@un.pe">contacto@un.pe</a>
+		<div class="footer-contact">
+			<div class="footer-detail">
+				<span>ESCRÍBENOS</span>
+				<a href="mailto:contacto@un.pe">contacto@un.pe</a>
+			</div>
+			<div class="footer-detail">
+				<span>CÓDIGO</span>
+				<a href="https://github.com/ivanjoz?tab=repositories" target="_blank" rel="noreferrer">
+					github.com/ivanjoz ↗
+				</a>
+			</div>
+		</div>
 	</div>
 
 	<div class="legal">
@@ -28,8 +35,17 @@
 	footer {
 		padding: clamp(3rem, 7vw, 5rem) var(--page-pad) 2rem;
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
-		background: #04141f;
+		background: #07081a;
 		color: white;
+	}
+
+	.footer-top {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: start;
+		justify-content: space-between;
+		gap: 2.5rem clamp(2rem, 6vw, 5rem);
+		margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
 	}
 
 	.footer-brand {
@@ -50,20 +66,31 @@
 		line-height: 1.6;
 	}
 
-	.footer-links {
+	.footer-contact {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 1rem 2rem;
-		margin: 2.5rem 0 3.5rem;
+		gap: 1.6rem clamp(2rem, 5vw, 4rem);
 	}
 
-	.footer-links a {
-		color: rgba(255, 255, 255, 0.72);
-		font-size: 0.82rem;
+	.footer-detail {
+		display: grid;
+		gap: 0.35rem;
+	}
+
+	.footer-detail span {
+		color: var(--aqua);
+		font-size: 0.64rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+	}
+
+	.footer-detail a {
+		color: white;
+		font-size: 0.94rem;
 		text-decoration: none;
 	}
 
-	.footer-links a:hover {
+	.footer-detail a:hover {
 		color: var(--aqua);
 	}
 
