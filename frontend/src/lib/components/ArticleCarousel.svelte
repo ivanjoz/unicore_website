@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { articles } from '$lib/data/site';
 	import { base } from '$app/paths';
+	import T from '$lib/components/T.svelte';
+	import { localeTag, t } from '$lib/i18n.svelte';
 
 	let current = $state(0);
 	let article = $derived(articles[current]);
@@ -21,26 +23,28 @@
 	</div>
 
 	<div class="content" aria-live="polite">
-		<p class="eyebrow">Ideas y publicaciones</p>
+		<p class="eyebrow"><T text="Ideas y publicaciones|Ideas and writing" /></p>
 		<time datetime={article.date}
-			>{new Intl.DateTimeFormat('es-PE', { dateStyle: 'long' }).format(new Date(article.date))}</time
+			>{new Intl.DateTimeFormat(localeTag(), { dateStyle: 'long' }).format(
+				new Date(article.date)
+			)}</time
 		>
-		<h3>{article.title}</h3>
-		<p>{article.summary}</p>
+		<h3><T text={article.title} /></h3>
+		<p><T text={article.summary} /></p>
 
 		<div class="controls">
-			<button type="button" onclick={previous} aria-label="Publicación anterior">←</button>
+			<button type="button" onclick={previous} aria-label={t('Publicación anterior|Previous post')}>←</button>
 			<div class="track">
 				{#each articles as _, index}
 					<button
 						type="button"
 						class:active={index === current}
 						onclick={() => (current = index)}
-						aria-label={`Ver publicación ${index + 1}`}
+						aria-label={`${t('Ver publicación|View post')} ${index + 1}`}
 					></button>
 				{/each}
 			</div>
-			<button type="button" onclick={next} aria-label="Siguiente publicación">→</button>
+			<button type="button" onclick={next} aria-label={t('Siguiente publicación|Next post')}>→</button>
 		</div>
 	</div>
 </div>

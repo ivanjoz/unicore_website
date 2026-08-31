@@ -1,36 +1,80 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import T from '$lib/components/T.svelte';
+	import { t } from '$lib/i18n.svelte';
+	import { ApiError, sendContactMessage } from '$lib/api';
+
+	/* Los mínimos son los mismos que valida el backend (handlers/contact.go): pedirlos
+	 * aquí convierte un 400 con texto genérico en un aviso del propio navegador. */
+	const MIN_NAME = 2;
+	const MIN_MESSAGE = 10;
+	const MAX_MESSAGE = 4000;
 
 	let form = $state({
 		name: '',
 		email: '',
 		message: ''
 	});
-	let status = $state<'idle' | 'ready'>('idle');
+	let status = $state<'idle' | 'sending' | 'sent' | 'error'>('idle');
+	let errorText = $state('');
 
-	function submit() {
-		const subject = encodeURIComponent(`Consulta web de ${form.name}`);
-		const body = encodeURIComponent(
-			`Nombre: ${form.name}\nEmail: ${form.email}\n\nMensaje:\n${form.message}`
+	/*
+	 * El backend responde en español y este sitio es bilingüe, así que el texto que
+	 * se muestra se decide por el código HTTP —que sí es neutro— y no por el cuerpo.
+	 */
+	function messageForStatus(httpStatus: number): string {
+		if (httpStatus === 429) {
+			return t(
+				'Has enviado varios mensajes seguidos. Inténtalo de nuevo en unos minutos.|You have sent several messages in a row. Please try again in a few minutes.'
+			);
+		}
+		if (httpStatus === 400) {
+			return t(
+				'Revisa los datos del formulario e inténtalo de nuevo.|Please check the form fields and try again.'
+			);
+		}
+		return t(
+			'No pudimos enviar tu mensaje. Escríbenos a contacto@un.pe y lo vemos.|We could not send your message. Write to us at contacto@un.pe and we will take a look.'
 		);
-		status = 'ready';
-		window.location.href = `mailto:contacto@un.pe?subject=${subject}&body=${body}`;
+	}
+
+	async function submit() {
+		if (status === 'sending') return;
+
+		status = 'sending';
+		errorText = '';
+
+		try {
+			await sendContactMessage({
+				Name: form.name.trim(),
+				Email: form.email.trim(),
+				Message: form.message.trim()
+			});
+			// `Notified: false` significa que el correo de aviso falló, no que el
+			// mensaje se haya perdido: quedó guardado y alguien lo va a leer igual.
+			status = 'sent';
+			form = { name: '', email: '', message: '' };
+		} catch (error) {
+			status = 'error';
+			errorText = messageForStatus(error instanceof ApiError ? error.status : 0);
+		}
 	}
 </script>
 
 <section class="contact-section" id="contacto">
 	<div class="contact-copy">
-		<h2>Contáctanos</h2>
+		<h2><T text="Contáctanos|Contact us" /></h2>
 
 		<p>
-			Si tienes una iniciativa de código abierto o quieres participar en el desarrollo de
-			alguna de las nuestras, escríbenos: podemos ayudarte y asesorarte.
+			<T
+				text="Si tienes una iniciativa de código abierto o quieres participar en el desarrollo de alguna de las nuestras, escríbenos: podemos ayudarte y asesorarte.|If you have an open-source initiative, or you would like to take part in the development of one of ours, write to us: we can help and advise you."
+			/>
 		</p>
 
 		<figure class="contact-art">
 			<img
 				src={`${base}/svg/conversation-dark.svg`}
-				alt="Dos personas conversando frente a un café"
+				alt={t('Dos personas conversando frente a un café|Two people talking over a coffee')}
 				loading="lazy"
 			/>
 		</figure>
@@ -38,11 +82,18 @@
 
 	<form onsubmit={(event) => { event.preventDefault(); submit(); }}>
 		<div class="field">
-			<label for="contact-name">Nombre</label>
-			<input id="contact-name" bind:value={form.name} autocomplete="name" required />
+			<label for="contact-name"><T text="Nombre|Name" /></label>
+			<input
+				id="contact-name"
+				bind:value={form.name}
+				autocomplete="name"
+				minlength={MIN_NAME}
+				maxlength="120"
+				required
+			/>
 		</div>
 		<div class="field">
-			<label for="contact-email">Correo</label>
+			<label for="contact-email"><T text="Correo|Email" /></label>
 			<input
 				id="contact-email"
 				type="email"
@@ -52,14 +103,32 @@
 			/>
 		</div>
 		<div class="field">
-			<label for="contact-message">Mensaje</label>
-			<textarea id="contact-message" bind:value={form.message} rows="5" required></textarea>
+			<label for="contact-message"><T text="Mensaje|Message" /></label>
+			<textarea
+				id="contact-message"
+				bind:value={form.message}
+				rows="5"
+				minlength={MIN_MESSAGE}
+				maxlength={MAX_MESSAGE}
+				required
+			></textarea>
 		</div>
-		<button type="submit">Preparar mensaje <span>↗</span></button>
-		{#if status === 'ready'}
+		<button type="submit" disabled={status === 'sending'}>
+			{#if status === 'sending'}
+				<T text="Enviando…|Sending…" />
+			{:else}
+				<T text="Enviar mensaje|Send message" />
+			{/if}
+			<span>↗</span>
+		</button>
+		{#if status === 'sent'}
 			<p class="form-status" role="status">
-				Hemos preparado tu mensaje en la aplicación de correo del dispositivo.
+				<T
+					text="Recibimos tu mensaje. Te responderemos al correo que nos dejaste.|We have your message. We will reply to the address you left us."
+				/>
 			</p>
+		{:else if status === 'error'}
+			<p class="form-status is-error" role="alert">{errorText}</p>
 		{/if}
 	</form>
 </section>
@@ -175,11 +244,21 @@
 		font-size: 1.15rem;
 	}
 
+	form button:disabled {
+		opacity: 0.65;
+		transform: none;
+		cursor: progress;
+	}
+
 	.form-status {
 		margin: 1rem 0 0;
 		color: var(--aqua);
 		font-size: 0.78rem;
 		line-height: 1.5;
+	}
+
+	.form-status.is-error {
+		color: #ff9aa5;
 	}
 
 	@media (max-width: 760px) {

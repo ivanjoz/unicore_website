@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { base } from '$app/paths';
+	import T from '$lib/components/T.svelte';
+	import { lang, t, toggleLang } from '$lib/i18n.svelte';
 
 	const links = [
-		{ href: `${base}/`, label: 'Inicio' },
-		{ href: `${base}/#proyectos`, label: 'Proyectos' },
-		{ href: `${base}/#nosotros`, label: 'Nosotros' },
-		{ href: `${base}/#contacto`, label: 'Contacto' }
+		{ href: `${base}/`, label: 'Inicio|Home' },
+		{ href: `${base}/#proyectos`, label: 'Proyectos|Projects' },
+		{ href: `${base}/#nosotros`, label: 'Nosotros|About us' },
+		{ href: `${base}/#contacto`, label: 'Contacto|Contact' }
 	];
 
 	let menuOpen = $state(false);
@@ -29,13 +31,13 @@
 	<a
 		class="brand"
 		href={`${base}/`}
-		aria-label="Unicore, ir al inicio"
+		aria-label={t('Unicore, ir al inicio|Unicore, go to the home page')}
 		onclick={() => (menuOpen = false)}
 	>
 		<img src={`${base}/svg/logo_unicore_horizontal_light_mini.svg`} alt="Unicore Labs" />
 	</a>
 
-	<nav aria-label="Navegación principal">
+	<nav aria-label={t('Navegación principal|Main navigation')}>
 		{#each links as link}
 			<a
 				href={link.href}
@@ -43,20 +45,34 @@
 				aria-current={isActive(link.href) ? 'page' : undefined}
 				onclick={() => (menuOpen = false)}
 			>
-				{link.label}
+				<T text={link.label} />
 			</a>
 		{/each}
 	</nav>
 
-	<button
-		class="menu-toggle"
-		type="button"
-		aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-		aria-expanded={menuOpen}
-		onclick={() => (menuOpen = !menuOpen)}
-	>
-		<span></span><span></span>
-	</button>
+	<div class="header-actions">
+		<!-- El idioma activo es el que queda resaltado; el otro es el destino del click. -->
+		<button
+			class="lang-toggle"
+			type="button"
+			aria-label={t('Cambiar a inglés|Switch to Spanish')}
+			onclick={toggleLang}
+		>
+			<span class:active={lang.value === 'es'}>ES</span>
+			<span class="lang-sep" aria-hidden="true"></span>
+			<span class:active={lang.value === 'en'}>EN</span>
+		</button>
+
+		<button
+			class="menu-toggle"
+			type="button"
+			aria-label={menuOpen ? t('Cerrar menú|Close menu') : t('Abrir menú|Open menu')}
+			aria-expanded={menuOpen}
+			onclick={() => (menuOpen = !menuOpen)}
+		>
+			<span></span><span></span>
+		</button>
+	</div>
 </header>
 
 <style>
@@ -82,9 +98,14 @@
 		height: 54px;
 	}
 
+	/* Ancho fijo: el logo se encoge con la barra al hacer scroll y, sin este contenedor,
+	   el menú se desplazaría lateralmente al cambiar el ancho de la imagen. */
 	.brand {
 		display: flex;
+		width: 122px;
+		flex: none;
 		align-items: center;
+		justify-content: flex-start;
 		gap: 0.65rem;
 		color: white;
 		text-decoration: none;
@@ -104,6 +125,10 @@
 	}
 
 	@media (max-width: 400px) {
+		.brand {
+			width: 94px;
+		}
+
 		.brand img {
 			height: 2.1rem;
 		}
@@ -149,6 +174,47 @@
 
 	nav a.active::after {
 		transform: scaleX(1);
+	}
+
+	.header-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	/* Conmutador de idioma: las dos opciones siempre visibles, la activa resaltada. */
+	.lang-toggle {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.34rem 0.7rem;
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.05);
+		color: rgba(255, 255, 255, 0.55);
+		font: inherit;
+		font-size: 0.66rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		cursor: pointer;
+		transition:
+			border-color 180ms ease,
+			background 180ms ease;
+	}
+
+	.lang-toggle:hover {
+		border-color: rgba(61, 220, 201, 0.55);
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	.lang-toggle span.active {
+		color: var(--aqua);
+	}
+
+	.lang-sep {
+		width: 1px;
+		height: 0.75rem;
+		background: rgba(255, 255, 255, 0.24);
 	}
 
 	.menu-toggle {
@@ -209,6 +275,10 @@
 
 		.menu-toggle {
 			display: block;
+		}
+
+		.lang-toggle {
+			padding: 0.3rem 0.55rem;
 		}
 
 		.menu-open .menu-toggle span:first-child {

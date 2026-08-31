@@ -3,23 +3,25 @@
 	import Contact from '$lib/components/Contact.svelte';
 	import Reveal from '$lib/components/Reveal.svelte';
 	import SectionCurve from '$lib/components/SectionCurve.svelte';
-	import { labProjects } from '$lib/data/site';
+	import T from '$lib/components/T.svelte';
+	import { t } from '$lib/i18n.svelte';
+	import { labProjects, statusLabels } from '$lib/data/site';
 
 	const doubts = [
 		{
-			text: '¿La empresa proveedora seguirá existiendo en los próximos años?',
+			text: '¿La empresa proveedora seguirá existiendo en los próximos años?|Will the vendor still be around in the coming years?',
 			icon: '/svg/icons/icon-continuity.svg'
 		},
 		{
-			text: '¿Puedo mover mis datos a mi propia nube?',
+			text: '¿Puedo mover mis datos a mi propia nube?|Can I move my data to my own cloud?',
 			icon: '/svg/icons/icon-portability.svg'
 		},
 		{
-			text: '¿Por qué no puedo modificar el sistema para adecuarlo a mis procesos?',
+			text: '¿Por qué no puedo modificar el sistema para adecuarlo a mis procesos?|Why can I not modify the system to fit my own processes?',
 			icon: '/svg/icons/icon-processes.svg'
 		},
 		{
-			text: '¿Dependo de un solo proveedor para cualquier soporte?',
+			text: '¿Dependo de un solo proveedor para cualquier soporte?|Do I depend on a single vendor for any kind of support?',
 			icon: '/svg/icons/icon-support.svg'
 		}
 	];
@@ -28,67 +30,112 @@
 	// un icono nuevo: basta con apuntarlo a un archivo dentro de /static/svg.
 	const genixFeatures = [
 		{
-			title: 'Productos e insumos',
-			description: 'Catálogo con presentaciones, lotes, series e insumos de producción.',
+			title: 'Productos e insumos|Products and supplies',
+			description:
+				'Catálogo con presentaciones, lotes, series e insumos de producción.|Catalog with presentations, batches, serial numbers and production supplies.',
 			icon: '/svg/producto1.svg'
 		},
 		{
-			title: 'Almacenes y logística',
-			description: 'Stock por almacén, órdenes de compra, recepciones y proveedores.',
+			title: 'Almacenes y logística|Warehouses and logistics',
+			description:
+				'Stock por almacén, órdenes de compra, recepciones y proveedores.|Stock by warehouse, purchase orders, goods receipts and suppliers.',
 			icon: '/svg/almacen1.svg'
 		},
 		{
-			title: 'Punto de venta',
-			description: 'Cobro en segundos, venta al crédito y descuento de stock automático.',
+			title: 'Punto de venta|Point of sale',
+			description:
+				'Cobro en segundos, venta al crédito y descuento de stock automático.|Checkout in seconds, credit sales and automatic stock deduction.',
 			icon: '/svg/ventas1.svg'
 		},
 		{
-			title: 'Clientes y CRM',
-			description: 'Clientes y proveedores con RUC o DNI, historial y reporte por cliente.',
+			title: 'Clientes y CRM|Customers and CRM',
+			description:
+				'Clientes y proveedores con RUC o DNI, historial y reporte por cliente.|Customers and suppliers by tax or national ID, with history and per-customer reporting.',
 			icon: '/svg/people2.svg'
 		},
 		{
-			title: 'Caja y finanzas',
-			description: 'Cajas y bancos, gastos, cuentas por cobrar y flujo de caja proyectado.',
+			title: 'Caja y finanzas|Cash and finance',
+			description:
+				'Cajas y bancos, gastos, cuentas por cobrar y flujo de caja proyectado.|Cash registers and banks, expenses, receivables and projected cash flow.',
 			icon: '/svg/finanzas2.svg'
 		},
 		{
-			title: 'Contabilidad',
-			description: 'Facturación, libros, activos, estados financieros y balance general.',
+			title: 'Contabilidad|Accounting',
+			description:
+				'Facturación, libros, activos, estados financieros y balance general.|Invoicing, ledgers, assets, financial statements and balance sheet.',
 			icon: '/svg/finanzas3.svg'
 		},
 		{
-			title: 'Indicadores y gráficos',
-			description: 'Dashboards que parten de lo general y bajan al detalle con un click.',
+			title: 'Indicadores y gráficos|Metrics and charts',
+			description:
+				'Dashboards que parten de lo general y bajan al detalle con un click.|Dashboards that start from the big picture and drill down to the detail in one click.',
 			icon: '/svg/idea.svg'
 		},
 		{
-			title: 'Comercio electrónico',
-			description: 'Tienda en línea armada con IA sobre el mismo catálogo del ERP.',
+			title: 'Comercio electrónico|E-commerce',
+			description:
+				'Tienda en línea armada con IA sobre el mismo catálogo del ERP.|Online store assembled with AI on top of the very same ERP catalog.',
 			icon: ''
 		}
 	];
 
 	const legacy = [
-		{ place: 'Bell Labs', note: 'El transistor, UNIX y la teoría de la información.' },
-		{ place: 'Xerox PARC', note: 'La interfaz gráfica, el ratón y la red local.' },
+		{
+			place: 'Bell Labs',
+			note: 'El transistor, UNIX y la teoría de la información.|The transistor, UNIX and information theory.'
+		},
+		{
+			place: 'Xerox PARC',
+			note: 'La interfaz gráfica, el ratón y la red local.|The graphical interface, the mouse and the local network.'
+		},
 		{
 			place: 'Google Research',
-			note: '«Attention is All You Need», el origen de la IA moderna.'
+			note: '«Attention is All You Need», el origen de la IA moderna.|«Attention is All You Need», the origin of modern AI.'
 		}
 	];
+
+	/*
+	 * Textos con etiquetas propias: viven aquí porque llevan comillas dobles dentro
+	 * y se pasan a <T html /> por variable en lugar de escribirlos en el atributo.
+	 */
+	// El espacio tras cada <br /> es intencional: en móvil el salto se oculta
+	// (.hero h1 br { display: none }) y sin él las palabras quedarían pegadas.
+	const heroHeading =
+		'Iniciativas de <em>código abierto</em> que<br /> democratizan el acceso<br /> a tecnología de alto impacto|<em>Open source</em> initiatives that<br /> democratize access<br /> to high-impact technology';
+
+	const introHeading =
+		'Un equipo profesional<br />descentralizado.|A decentralized team<br />of professionals.';
+
+	const openSourceLead =
+		'Liberar el código amplía el mercado, acelera la adopción, multiplica la visibilidad, construye comunidad y hace el software más seguro porque cualquiera puede auditarlo. Linux, Red Hat, Valve, WordPress, GitLab y Odoo lo probaron. <strong>El open source resuelve lo siguiente:</strong>|Releasing the code widens the market, speeds up adoption, multiplies visibility, builds community and makes the software safer, because anyone can audit it. Linux, Red Hat, Valve, WordPress, GitLab and Odoo proved it. <strong>Open source solves the following:</strong>';
+
+	const openSourceAnswer =
+		'Con open source, <strong>el proveedor deja de ser el cuello de botella</strong>, el soporte se descentraliza, el sistema es más flexible y la IA es más autónoma al poder inspeccionar el código. Estos proyectos crecen de forma orgánica con la colaboración de profesionales, investigadores y empresas SaaS que los incorporan como base de sus servicios.|With open source, <strong>the vendor stops being the bottleneck</strong>, support becomes decentralized, the system is more flexible and AI is more autonomous because it can inspect the code. These projects grow organically through the collaboration of professionals, researchers and SaaS companies that adopt them as the base of their own services.';
+
+	const labsProduct =
+		'Creemos en anteponer el desarrollo de producto por sobre cualquier otro eje empresarial. <strong>El producto es la empresa y la investigación da forma al producto.</strong> Las regalías comerciales sirven para financiar al producto y su investigación, el cual <strong>responde a un impacto esperado</strong>. El sufijo «labs» abraza estos conceptos.|We believe in putting product development ahead of every other axis of the business. <strong>The product is the company, and research shapes the product.</strong> Commercial royalties are there to fund the product and its research, which <strong>answers to an expected impact</strong>. The «labs» suffix embraces these ideas.';
+
+	const genixNote =
+		'Disponible desde el 8 de Febrero 2027, con límite para uso gratuito o con plan profesional de pago. <a href="#contacto">Escríbenos</a> para ser de los primeros en usarlo.|Available from 8 February 2027, with a capped free tier or a paid professional plan. <a href="#contacto">Write to us</a> to be among the first to use it.';
 </script>
 
 <svelte:head>
-	<title>Unicore Labs | Código abierto de alto impacto</title>
+	<title>Unicore Labs | {t('Código abierto de alto impacto|High-impact open source')}</title>
 	<meta
 		name="description"
-		content="Iniciativas de código abierto que democratizan el acceso a tecnología de alto impacto. Sistemas y herramientas que incentivan la participación comunitaria y la innovación tecnológica."
+		content={t(
+			'Iniciativas de código abierto que democratizan el acceso a tecnología de alto impacto. Sistemas y herramientas que incentivan la participación comunitaria y la innovación tecnológica.|Open-source initiatives that democratize access to high-impact technology. Systems and tools that encourage community participation and technological innovation.'
+		)}
 	/>
-	<meta property="og:title" content="Unicore Labs | Código abierto de alto impacto" />
+	<meta
+		property="og:title"
+		content={`Unicore Labs | ${t('Código abierto de alto impacto|High-impact open source')}`}
+	/>
 	<meta
 		property="og:description"
-		content="Desarrollamos sistemas y herramientas de código abierto que incentivan la participación comunitaria y la innovación tecnológica."
+		content={t(
+			'Desarrollamos sistemas y herramientas de código abierto que incentivan la participación comunitaria y la innovación tecnológica.|We build open-source systems and tools that encourage community participation and technological innovation.'
+		)}
 	/>
 	<link rel="preload" as="image" href={`${base}/images/space_earth.webp`} />
 </svelte:head>
@@ -103,18 +150,19 @@
 
 		<div class="hero-inner">
 			<div class="hero-copy">
-				<h1>
-					Iniciativas de <em>código abierto</em> que<br />
-					democratizan el acceso<br />
-					a tecnología de alto impacto
-				</h1>
+				<h1><T html text={heroHeading} /></h1>
 				<p class="hero-lead">
-					Desarrollamos sistemas y herramientas que incentivan la participación
-					comunitaria y la innovación tecnológica.
+					<T
+						text="Desarrollamos sistemas y herramientas que incentivan la participación comunitaria y la innovación tecnológica.|We build systems and tools that encourage community participation and technological innovation."
+					/>
 				</p>
 				<div class="hero-actions">
-					<a class="button-primary" href="#proyectos">Ver proyectos <span>↓</span></a>
-					<a class="button-secondary" href="#contacto">Colaborar <span>↗</span></a>
+					<a class="button-primary" href="#proyectos">
+						<T text="Ver proyectos|See projects" /> <span>↓</span>
+					</a>
+					<a class="button-secondary" href="#contacto">
+						<T text="Colaborar|Collaborate" /> <span>↗</span>
+					</a>
 				</div>
 			</div>
 
@@ -128,30 +176,32 @@
 		<div class="hero-foot">
 			<span>GPL · MIT</span>
 			<span class="hero-foot-line"></span>
-			<span>{labProjects.length} PROYECTOS ABIERTOS</span>
+			<span>{labProjects.length} <T text="PROYECTOS ABIERTOS|OPEN PROJECTS" /></span>
 		</div>
 	</section>
 
 	<section class="intro" id="nosotros">
 		<Reveal>
 			<div class="intro-copy">
-				<p class="eyebrow">¿Quiénes somos?</p>
-				<h2 class="section-heading">Un equipo profesional<br />descentralizado.</h2>
+				<p class="eyebrow"><T text="¿Quiénes somos?|Who are we?" /></p>
+				<h2 class="section-heading"><T html text={introHeading} /></h2>
 				<p>
-					Somos personas apasionadas por el desarrollo de tecnologías de código abierto y apostamos por iniciativas de
-					interés general, con fines comerciales, científicos y/o sociales.
+					<T
+						text="Somos personas apasionadas por el desarrollo de tecnologías de código abierto y apostamos por iniciativas de interés general, con fines comerciales, científicos y/o sociales.|We are people passionate about building open-source technology, and we back initiatives of general interest with commercial, scientific and/or social aims."
+					/>
 				</p>
 				<p>
-					Desde sistemas de facturación, logística y finanzas para pequeñas empresas,
-					aplicaciones de comercio electrónico y automatización de soporte con IA, hasta
-					algoritmos de serialización para reducir el uso de ancho de banda.
+					<T
+						text="Desde sistemas de facturación, logística y finanzas para pequeñas empresas, aplicaciones de comercio electrónico y automatización de soporte con IA, hasta algoritmos de serialización para reducir el uso de ancho de banda.|From invoicing, logistics and finance systems for small companies, e-commerce applications and AI support automation, to serialization algorithms that cut bandwidth usage."
+					/>
 				</p>
 				<div class="intro-cta">
 					<p>
-						¿Tienes un proyecto de código abierto o quieres participar en el desarrollo de
-						alguno?
+						<T
+							text="¿Tienes un proyecto de código abierto o quieres participar en el desarrollo de alguno?|Do you have an open-source project, or would you like to take part in one?"
+						/>
 					</p>
-					<a href="#contacto">Conversemos <span>→</span></a>
+					<a href="#contacto"><T text="Conversemos|Let’s talk" /> <span>→</span></a>
 				</div>
 			</div>
 		</Reveal>
@@ -159,7 +209,9 @@
 			<figure class="intro-art">
 				<img
 					src={`${base}/svg/coworking.svg`}
-					alt="Tres personas trabajando con laptops en un espacio compartido"
+					alt={t(
+						'Tres personas trabajando con laptops en un espacio compartido|Three people working on laptops in a shared space'
+					)}
 					loading="lazy"
 				/>
 			</figure>
@@ -173,17 +225,22 @@
 			<figure class="section-top-art">
 				<img
 					src={`${base}/svg/team-work.svg`}
-					alt="Un equipo trabajando junto sobre una pizarra de tareas"
+					alt={t(
+						'Un equipo trabajando junto sobre una pizarra de tareas|A team working together at a task board'
+					)}
 					loading="lazy"
 				/>
 			</figure>
 
 			<div class="section-top-copy">
-				<p class="eyebrow">PROYECTOS</p>
-				<h2 class="section-heading">Lo que estamos construyendo.</h2>
+				<p class="eyebrow"><T text="PROYECTOS|PROJECTS" /></p>
+				<h2 class="section-heading">
+					<T text="Lo que estamos construyendo.|What we are building." />
+				</h2>
 				<p>
-					Cada pieza resuelve un problema concreto y vive en su propio repositorio, con
-					licencia abierta y documentación pública.
+					<T
+						text="Cada pieza resuelve un problema concreto y vive en su propio repositorio, con licencia abierta y documentación pública.|Each piece solves a specific problem and lives in its own repository, with an open license and public documentation."
+					/>
 				</p>
 			</div>
 		</div>
@@ -194,7 +251,10 @@
 					<article class="project-card">
 						<div class="project-logo">
 							{#if project.logo}
-								<img src={`${base}${project.logo}`} alt={`Logo de ${project.name}`} />
+								<img
+									src={`${base}${project.logo}`}
+									alt={`${t('Logo de|Logo of')} ${project.name}`}
+								/>
 							{:else}
 								<span>{project.name}</span>
 							{/if}
@@ -202,31 +262,31 @@
 
 						<div class="project-body">
 							<div class="project-meta">
-								<p class="project-kind">{project.kind}</p>
+								<p class="project-kind"><T text={project.kind} /></p>
 								<span
 									class="project-status"
 									class:live={project.status === 'Activo'}
 									class:draft={project.status === 'En diseño'}
 								>
-									{project.status}
+									<T text={statusLabels[project.status]} />
 								</span>
 							</div>
 							<h3>{project.name}</h3>
-							<p class="project-text">{project.description}</p>
+							<p class="project-text"><T text={project.description} /></p>
 
 							<div class="project-foot">
 								<ul class="project-stack">
 									{#each project.stack as item}
-										<li>{item}</li>
+										<li><T text={item} /></li>
 									{/each}
 								</ul>
 
 								{#if project.url}
 									<a class="project-link" href={project.url} target="_blank" rel="noreferrer">
-										Ver <span>↗</span>
+										<T text="Ver|View" /> <span>↗</span>
 									</a>
 								{:else}
-									<span class="project-link muted">Próximamente</span>
+									<span class="project-link muted"><T text="Próximamente|Coming soon" /></span>
 								{/if}
 							</div>
 						</div>
@@ -240,14 +300,14 @@
 		<SectionCurve fill="var(--mist)" />
 
 		<div class="os-head">
-			<p class="eyebrow light">¿Por qué código abierto?</p>
-			<h2>Las empresas <em>open source</em> son disruptivas por naturaleza.</h2>
-			<p>
-				Liberar el
-				código amplía el mercado, acelera la adopción, multiplica la visibilidad,
-				construye comunidad y hace el software más seguro porque cualquiera puede
-				auditarlo. Linux, Red Hat, Valve, WordPress, GitLab y Odoo lo probaron. <strong>El open source resuelve lo siguiente:</strong>
-			</p>
+			<p class="eyebrow light"><T text="¿Por qué código abierto?|Why open source?" /></p>
+			<h2>
+				<T
+					html
+					text="Las empresas <em>open source</em> son disruptivas por naturaleza.|<em>Open source</em> companies are disruptive by nature."
+				/>
+			</h2>
+			<p><T html text={openSourceLead} /></p>
 		</div>
 
 		<div class="doubts">
@@ -258,7 +318,7 @@
 						<div class="doubt-icon">
 							<img src={`${base}${doubt.icon}`} alt="" loading="lazy" />
 						</div>
-						<p>{doubt.text}</p>
+						<p><T text={doubt.text} /></p>
 					</blockquote>
 				</Reveal>
 			{/each}
@@ -294,14 +354,7 @@
 
 		<Reveal>
 			<div class="os-answer">
-				<p>
-					Con open source, <strong
-						>el proveedor deja de ser el cuello de botella</strong
-					>, el soporte se descentraliza, el sistema es más flexible y la IA es más
-					autónoma al poder inspeccionar el código. Estos proyectos crecen de forma
-					orgánica con la colaboración de profesionales, investigadores y empresas SaaS que
-					los incorporan como base de sus servicios.
-				</p>
+				<p><T html text={openSourceAnswer} /></p>
 			</div>
 		</Reveal>
 	</section>
@@ -311,8 +364,10 @@
 
 		<Reveal>
 			<div class="labs-head">
-				<p class="eyebrow">¿Por qué «labs»?</p>
-				<h2 class="section-heading">Un espacio de innovación e investigación</h2>
+				<p class="eyebrow"><T text="¿Por qué «labs»?|Why «labs»?" /></p>
+				<h2 class="section-heading">
+					<T text="Un espacio de innovación e investigación|A space for innovation and research" />
+				</h2>
 			</div>
 		</Reveal>
 
@@ -327,10 +382,9 @@
 						></span>
 						<span class="labs-point-rule" aria-hidden="true"></span>
 						<p>
-							Inspirados en Bell Labs y Xerox PARC. Espacios de innovación donde nacieron
-							los fundamentos tecnológicos que dieron forma a las décadas siguientes. Y en
-							Google Research que produjo «Attention is All You Need», el origen de la IA
-							moderna.
+							<T
+								text="Inspirados en Bell Labs y Xerox PARC. Espacios de innovación donde nacieron los fundamentos tecnológicos que dieron forma a las décadas siguientes. Y en Google Research que produjo «Attention is All You Need», el origen de la IA moderna.|Inspired by Bell Labs and Xerox PARC: spaces of innovation where the technological foundations that shaped the following decades were born. And by Google Research, which produced «Attention is All You Need», the origin of modern AI."
+							/>
 						</p>
 					</div>
 					<div class="labs-point">
@@ -340,13 +394,7 @@
 							aria-hidden="true"
 						></span>
 						<span class="labs-point-rule" aria-hidden="true"></span>
-						<p>
-							Creemos en anteponer el desarrollo de producto por sobre cualquier otro eje
-							empresarial. <strong>El producto es la empresa y la investigación da forma al
-							producto.</strong> Las regalías comerciales sirven para financiar al producto
-							y su investigación, el cual <strong>responde a un impacto esperado</strong>.
-							El sufijo «labs» abraza estos conceptos.
-						</p>
+						<p><T html text={labsProduct} /></p>
 					</div>
 					<div class="labs-point accent">
 						<span
@@ -356,10 +404,9 @@
 						></span>
 						<span class="labs-point-rule" aria-hidden="true"></span>
 						<p>
-							Si eres una mente curiosa, con habilidades para la programación y quieres
-							aportar al código abierto, escríbenos. Eres libre de hacer un fork de
-							cualquiera de nuestros proyectos y usarlos como base de nuevos desarrollos.
-							Háznoslo saber en GitHub.
+							<T
+								text="Si eres una mente curiosa, con habilidades para la programación y quieres aportar al código abierto, escríbenos. Eres libre de hacer un fork de cualquiera de nuestros proyectos y usarlos como base de nuevos desarrollos. Háznoslo saber en GitHub.|If you are a curious mind with programming skills and you want to contribute to open source, write to us. You are free to fork any of our projects and use them as the base for new work. Let us know on GitHub."
+							/>
 						</p>
 					</div>
 				</div>
@@ -368,7 +415,9 @@
 				<figure class="labs-art">
 					<img
 						src={`${base}/svg/connecting-teams.svg`}
-						alt="Personas colaborando y compartiendo información entre sí"
+						alt={t(
+							'Personas colaborando y compartiendo información entre sí|People collaborating and sharing information with each other'
+						)}
 						loading="lazy"
 					/>
 				</figure>
@@ -382,23 +431,25 @@
 		<figure class="ai-art">
 			<img
 				src={`${base}/svg/voice-assistant-dark.svg`}
-				alt="Persona conversando con un asistente de voz"
+				alt={t(
+					'Persona conversando con un asistente de voz|A person talking to a voice assistant'
+				)}
 				loading="lazy"
 			/>
 		</figure>
 
 		<div class="ai-copy">
-			<p class="eyebrow light">Inteligencia artificial</p>
-			<h2>IA al alcance de cualquier usuario.</h2>
+			<p class="eyebrow light"><T text="Inteligencia artificial|Artificial intelligence" /></p>
+			<h2><T text="IA al alcance de cualquier usuario.|AI within reach of every user." /></h2>
 			<p>
-				Enfrentamos el reto de democratizar el acceso al software reduciendo el costo de la
-				IA por proceso. Usamos IA de frontera para desarrollar, pero implementamos métodos
-				más determinísticos para desplegar servicios eficientes basados en IA.
+				<T
+					text="Enfrentamos el reto de democratizar el acceso al software reduciendo el costo de la IA por proceso. Usamos IA de frontera para desarrollar, pero implementamos métodos más determinísticos para desplegar servicios eficientes basados en IA.|We take on the challenge of democratizing access to software by cutting the cost of AI per process. We use frontier AI to build, but we deploy efficient AI-based services with more deterministic methods."
+				/>
 			</p>
 			<p>
-				Genix Agentic UI es un ejemplo de cómo modelos pequeños y sin visión pueden servir
-				como agentes que ayudan al usuario a navegar el sistema y ejecutar instrucciones.
-				Ello permite exprimir cada dólar de inferencia.
+				<T
+					text="Genix Agentic UI es un ejemplo de cómo modelos pequeños y sin visión pueden servir como agentes que ayudan al usuario a navegar el sistema y ejecutar instrucciones. Ello permite exprimir cada dólar de inferencia.|Genix Agentic UI is an example of how small, vision-free models can act as agents that help the user navigate the system and carry out instructions. That is what makes it possible to squeeze every dollar of inference."
+				/>
 			</p>
 		</div>
 
@@ -410,24 +461,22 @@
 		<div class="genix-intro">
 			<img class="genix-logo" src={`${base}/svg/genix_logo.svg`} alt="Genix" />
 			<a class="genix-cta" href="https://genix.un.pe/" target="_blank" rel="noreferrer">
-				Ir a la aplicación <span>↗</span>
+				<T text="Ir a la aplicación|Go to the app" /> <span>↗</span>
 			</a>
 
 			<span class="genix-rule" aria-hidden="true"></span>
 
-			<p class="eyebrow">Producto insignia</p>
-			<h2>Gestione cada proceso de su empresa.</h2>
+			<p class="eyebrow"><T text="Producto insignia|Flagship product" /></p>
+			<h2><T text="Gestione cada proceso de su empresa.|Manage every process in your company." /></h2>
 			<p class="genix-lead">
-				Genix reúne ventas, inventario, compras, finanzas y comercio electrónico para
-				pequeñas empresas que buscan control sin complejidad. Autoalojable, multiempresa y
-				con exportación completa de sus datos cuando quiera.
+				<T
+					text="Genix reúne ventas, inventario, compras, finanzas y comercio electrónico para pequeñas empresas que buscan control sin complejidad. Autoalojable, multiempresa y con exportación completa de sus datos cuando quiera.|Genix brings sales, inventory, purchasing, finance and e-commerce together for small companies that want control without complexity. Self-hostable, multi-company, and with a full export of your data whenever you want."
+				/>
 			</p>
 
 			<p class="genix-note">
 				<span class="genix-note-mark" aria-hidden="true"></span>
-				Disponible desde el 8 de Febrero 2027, con límite para uso gratuito o con plan
-				profesional de pago. <a href="#contacto">Escríbenos</a> para ser de los primeros en
-				usarlo.
+				<T html text={genixNote} />
 			</p>
 		</div>
 
@@ -438,10 +487,12 @@
 						{#if feature.icon}
 							<img src={`${base}${feature.icon}`} alt="" loading="lazy" />
 						{:else}
-							<span class="feature-icon-slot" aria-hidden="true">icono<br />pendiente</span>
+							<span class="feature-icon-slot" aria-hidden="true">
+								<T html text="icono<br />pendiente|icon<br />pending" />
+							</span>
 						{/if}
-						<h3>{feature.title}</h3>
-						<p>{feature.description}</p>
+						<h3><T text={feature.title} /></h3>
+						<p><T text={feature.description} /></p>
 					</article>
 				</Reveal>
 			{/each}
@@ -526,7 +577,7 @@
 		letter-spacing: -0.035em;
 	}
 
-	.hero h1 em {
+	.hero h1 :global(em) {
 		position: relative;
 		background: var(--brand-ramp);
 		-webkit-background-clip: text;
@@ -895,7 +946,7 @@
 	.project-text {
 		margin: 0 0 1.3rem;
 		color: var(--muted);
-		font-size: 0.86rem;
+		font-size: 0.94rem;
 		line-height: 1.65;
 	}
 
@@ -966,7 +1017,7 @@
 		text-align: center;
 	}
 
-	.os-head h2 em {
+	.os-head h2 :global(em) {
 		background: var(--brand-ramp);
 		-webkit-background-clip: text;
 		background-clip: text;
@@ -976,7 +1027,7 @@
 
 	.os-head h2 {
 		max-width: 26ch;
-		margin: 1rem auto 1.4rem;
+		margin: 0.6rem auto 1.8rem;
 		font-family: var(--font-display);
 		font-size: clamp(2.2rem, 4.8vw, 4.4rem);
 		font-weight: 500;
@@ -989,9 +1040,10 @@
 		margin: 0 auto;
 		color: rgba(255, 255, 255, 0.6);
 		line-height: 1.78;
+		font-size: 1.05rem;
 	}
 
-	.os-head > p:last-child strong {
+	.os-head > p:last-child :global(strong) {
 		color: rgba(255, 255, 255, 0.92);
 		font-weight: 600;
 	}
@@ -1114,7 +1166,7 @@
 		line-height: 1.85;
 	}
 
-	.os-answer strong {
+	.os-answer :global(strong) {
 		color: white;
 		font-weight: 600;
 	}
@@ -1194,7 +1246,7 @@
 		line-height: 1.85;
 	}
 
-	.labs-copy strong {
+	.labs-copy :global(strong) {
 		color: var(--ink);
 		font-weight: 600;
 		background-image: linear-gradient(
@@ -1332,7 +1384,7 @@
 		background: #f97316;
 	}
 
-	.genix-note a {
+	.genix-note :global(a) {
 		color: #b4470b;
 		font-weight: 600;
 		text-underline-offset: 0.2em;
@@ -1581,7 +1633,7 @@
 			text-wrap: balance;
 		}
 
-		.hero h1 br {
+		.hero h1 :global(br) {
 			display: none;
 		}
 

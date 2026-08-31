@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import T from '$lib/components/T.svelte';
 
 	const year = new Date().getFullYear();
 </script>
@@ -8,16 +9,20 @@
 	<div class="footer-top">
 		<div class="footer-brand">
 			<img src={`${base}/svg/logo_unicore_horizontal_light_mini.svg`} alt="Unicore Labs" />
-			<span>Iniciativas de código abierto que democratizan el acceso a la tecnología</span>
+			<span>
+				<T
+					text="Iniciativas de código abierto que democratizan el acceso a la tecnología|Open-source initiatives that democratize access to technology"
+				/>
+			</span>
 		</div>
 
 		<div class="footer-contact">
 			<div class="footer-detail">
-				<span>ESCRÍBENOS</span>
+				<span><T text="ESCRÍBENOS|WRITE TO US" /></span>
 				<a href="mailto:contacto@un.pe">contacto@un.pe</a>
 			</div>
 			<div class="footer-detail">
-				<span>CÓDIGO</span>
+				<span><T text="CÓDIGO|CODE" /></span>
 				<a href="https://github.com/ivanjoz?tab=repositories" target="_blank" rel="noreferrer">
 					github.com/ivanjoz ↗
 				</a>
@@ -27,7 +32,7 @@
 
 	<div class="legal">
 		<span>© {year} Unicore Labs</span>
-		<span>Trujillo · La Libertad · Perú</span>
+		<span><T text="Trujillo · La Libertad · Perú|Trujillo · La Libertad · Peru" /></span>
 	</div>
 </footer>
 
