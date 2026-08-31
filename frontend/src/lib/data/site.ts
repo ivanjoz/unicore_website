@@ -77,7 +77,7 @@ export const labProjects: LabProject[] = [
 		logo: '/svg/genix_logo.svg',
 		description:
 			'Sistema de gestión empresarial, CRM y E-commerce para pequeñas empresas. Punto de venta, logistica, gestión de cuentas, clientes y flujos de caja proyectados y facturación electrónica. Permite a cada empresa exportar su data. Arquitectura híbrida: cloud-native o self-host. Hecho en Go + Svelte.js.|Business management, CRM and e-commerce system for small companies. Point of sale, logistics, account management, customers, projected cash flows and electronic invoicing. Every company can export its own data. Hybrid architecture: cloud-native or self-hosted. Built with Go + Svelte.js.',
-		url: 'https://github.com/ivanjoz/genix',
+		url: 'https://genix.un.pe',
 		status: 'En desarrollo',
 		stack: ['Go', 'ScyllaDB', 'AI']
 	},
@@ -87,7 +87,7 @@ export const labProjects: LabProject[] = [
 		logo: '/svg/colbin_icon.svg',
 		description:
 			'Serializador binario columnar optimizado para arrays de registros. Hecho en Go y AssemblyScript. Transpone los datos y los codifica por columna usando varint, delta encoding y 5-bit chars, reduciendo el ancho de banda frente a formatos como JSON, CBOR o Protobuf.|Columnar binary serializer optimized for arrays of records. Written in Go and AssemblyScript. It transposes the data and encodes it column by column using varint, delta encoding and 5-bit chars, cutting bandwidth compared with formats such as JSON, CBOR or Protobuf.',
-		url: 'https://github.com/ivanjoz/colbin',
+		url: 'https://colbin.un.pe',
 		status: 'Activo',
 		stack: ['Go', 'Rust']
 	},
@@ -117,7 +117,7 @@ export const labProjects: LabProject[] = [
 		logo: '/svg/factura_go.svg',
 		description:
 			'Librería en Go para la emisión de comprobantes electrónicos: construcción del documento, firma digital, envío y consulta del estado ante la SUNAT (Perú).|Go library for issuing electronic tax documents: building the document, signing it digitally, sending it and checking its status with SUNAT (Peru).',
-		url: 'https://github.com/ivanjoz/facturago',
+		url: 'https://facturago.un.pe',
 		status: 'En desarrollo',
 		stack: ['Go', 'XML/UBL']
 	},
