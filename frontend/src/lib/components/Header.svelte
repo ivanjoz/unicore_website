@@ -144,7 +144,7 @@
 		position: relative;
 		padding: 0.65rem 0;
 		color: rgba(255, 255, 255, 0.72);
-		font-size: 0.72rem;
+		font-size: calc(0.72rem + var(--fs-bump));
 		font-weight: 700;
 		letter-spacing: 0.16em;
 		text-decoration: none;
@@ -193,7 +193,7 @@
 		background: rgba(255, 255, 255, 0.05);
 		color: rgba(255, 255, 255, 0.55);
 		font: inherit;
-		font-size: 0.66rem;
+		font-size: calc(0.66rem + var(--fs-bump));
 		font-weight: 700;
 		letter-spacing: 0.12em;
 		cursor: pointer;

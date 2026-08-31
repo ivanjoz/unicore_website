@@ -88,7 +88,7 @@
 		right: 1.5rem;
 		bottom: 1.25rem;
 		color: white;
-		font-size: 0.72rem;
+		font-size: calc(0.72rem + var(--fs-bump));
 		letter-spacing: 0.14em;
 	}
 
@@ -102,7 +102,7 @@
 	time {
 		margin: 1.4rem 0 0.75rem;
 		color: var(--muted);
-		font-size: 0.75rem;
+		font-size: calc(0.75rem + var(--fs-bump));
 		text-transform: capitalize;
 	}
 

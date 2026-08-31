@@ -188,7 +188,7 @@
 
 	label {
 		color: rgba(255, 255, 255, 0.62);
-		font-size: 0.7rem;
+		font-size: calc(0.7rem + var(--fs-bump));
 		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
@@ -226,7 +226,7 @@
 		background: var(--accent);
 		color: white;
 		font: inherit;
-		font-size: 0.78rem;
+		font-size: calc(0.78rem + var(--fs-bump));
 		font-weight: 800;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
@@ -253,7 +253,7 @@
 	.form-status {
 		margin: 1rem 0 0;
 		color: var(--aqua);
-		font-size: 0.78rem;
+		font-size: calc(0.78rem + var(--fs-bump));
 		line-height: 1.5;
 	}
 

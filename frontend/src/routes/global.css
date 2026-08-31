@@ -39,7 +39,12 @@
 	--sand: #f4f2fd;
 	--line: #e2e3f3;
 	--header-height: 4.75rem;
-	--page-pad: clamp(1.25rem, 6vw, 7rem);
+	/*
+	 * Compensación de lectura: en monitores anchos (>=1800px) el cuerpo de texto
+	 * gana 1px. Solo aplica al texto corrido, los titulares mantienen su escala.
+	 */
+	--fs-bump: 0px;
+	--page-pad: clamp(1.1rem, 4vw, 7rem);
 	--radius-lg: clamp(1.25rem, 2.5vw, 2rem);
 	--curve-h: clamp(3rem, 7vw, 8rem);
 	--shadow: 0 28px 80px rgba(28, 22, 74, 0.12);
@@ -61,9 +66,16 @@ html {
 	background: #0a0b1f;
 }
 
+@media (min-width: 1800px) {
+	:root {
+		--fs-bump: 1px;
+	}
+}
+
 body {
 	min-width: 320px;
 	margin: 0;
+	font-size: calc(1rem + var(--fs-bump));
 	overflow-x: hidden;
 	background: #f7f7fd;
 }
@@ -87,7 +99,7 @@ img {
 .eyebrow {
 	margin: 0;
 	color: var(--accent-soft);
-	font-size: 0.82rem;
+	font-size: calc(0.82rem + var(--fs-bump));
 	font-weight: 800;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
@@ -117,7 +129,7 @@ img {
 	padding: 0.8rem 1.3rem;
 	border: 1px solid transparent;
 	border-radius: 999px;
-	font-size: 0.73rem;
+	font-size: calc(0.73rem + var(--fs-bump));
 	font-weight: 800;
 	letter-spacing: 0.11em;
 	text-decoration: none;

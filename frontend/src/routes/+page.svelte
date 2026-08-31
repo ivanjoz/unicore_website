@@ -557,7 +557,7 @@
 		gap: 0.85rem;
 		margin: 0 0 1.6rem;
 		color: var(--aqua);
-		font-size: 0.68rem;
+		font-size: calc(0.68rem + var(--fs-bump));
 		font-weight: 700;
 		letter-spacing: 0.32em;
 	}
@@ -571,7 +571,7 @@
 	.hero h1 {
 		margin: 0;
 		font-family: var(--font-display);
-		font-size: clamp(1.5rem, 2.85vw, 2.75rem);
+		font-size: clamp(1.5rem, 2.9vw, 2.9rem);
 		font-weight: 500;
 		line-height: 1.15;
 		letter-spacing: -0.035em;
@@ -590,7 +590,7 @@
 		max-width: 34rem;
 		margin: 1.8rem 0 0;
 		color: rgba(228, 230, 255, 0.72);
-		font-size: clamp(1rem, 1.35vw, 1.15rem);
+		font-size: calc(clamp(1rem, 1.35vw, 1.15rem) + var(--fs-bump));
 		line-height: 1.75;
 	}
 
@@ -685,7 +685,7 @@
 		gap: 1.1rem;
 		margin-top: clamp(2.5rem, 6vh, 4.5rem);
 		color: rgba(228, 230, 255, 0.45);
-		font-size: 0.6rem;
+		font-size: calc(0.6rem + var(--fs-bump));
 		letter-spacing: 0.24em;
 	}
 
@@ -717,7 +717,7 @@
 		max-width: 44rem;
 		margin: 0 0 1.2rem;
 		color: var(--muted);
-		font-size: clamp(0.98rem, 1.3vw, 1.1rem);
+		font-size: calc(clamp(0.98rem, 1.3vw, 1.1rem) + var(--fs-bump));
 		line-height: 1.8;
 	}
 
@@ -749,7 +749,7 @@
 		flex: 1 1 20rem;
 		margin: 0;
 		color: var(--ink);
-		font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+		font-size: calc(clamp(0.95rem, 1.2vw, 1.05rem) + var(--fs-bump));
 		line-height: 1.5;
 	}
 
@@ -762,7 +762,7 @@
 		border-radius: 999px;
 		background: var(--accent);
 		color: white;
-		font-size: 0.75rem;
+		font-size: calc(0.75rem + var(--fs-bump));
 		font-weight: 800;
 		letter-spacing: 0.1em;
 		text-decoration: none;
@@ -897,7 +897,7 @@
 	.project-kind {
 		margin: 0;
 		color: var(--accent);
-		font-size: 0.6rem;
+		font-size: calc(0.6rem + var(--fs-bump));
 		font-weight: 800;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
@@ -913,7 +913,7 @@
 		border-radius: 999px;
 		background: #fbfaff;
 		color: var(--muted);
-		font-size: 0.58rem;
+		font-size: calc(0.58rem + var(--fs-bump));
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
@@ -946,7 +946,7 @@
 	.project-text {
 		margin: 0 0 1.3rem;
 		color: var(--muted);
-		font-size: 0.94rem;
+		font-size: calc(0.94rem + var(--fs-bump));
 		line-height: 1.65;
 	}
 
@@ -975,7 +975,7 @@
 		border-radius: 0.45rem;
 		background: var(--mist);
 		color: var(--muted);
-		font-size: 0.65rem;
+		font-size: calc(0.65rem + var(--fs-bump));
 		letter-spacing: 0.04em;
 	}
 
@@ -986,7 +986,7 @@
 		gap: 0.35rem;
 		color: var(--accent);
 		white-space: nowrap;
-		font-size: 0.7rem;
+		font-size: calc(0.7rem + var(--fs-bump));
 		font-weight: 800;
 		letter-spacing: 0.1em;
 		text-decoration: none;
@@ -1040,7 +1040,7 @@
 		margin: 0 auto;
 		color: rgba(255, 255, 255, 0.6);
 		line-height: 1.78;
-		font-size: 1.05rem;
+		font-size: calc(1.05rem + var(--fs-bump));
 	}
 
 	.os-head > p:last-child :global(strong) {
@@ -1084,7 +1084,7 @@
 
 	.doubt-num {
 		color: var(--aqua);
-		font-size: 0.65rem;
+		font-size: calc(0.65rem + var(--fs-bump));
 		letter-spacing: 0.14em;
 	}
 
@@ -1114,7 +1114,7 @@
 		margin: auto 0 0;
 		color: rgba(255, 255, 255, 0.86);
 		font-family: var(--font-display);
-		font-size: clamp(1rem, 1.5vw, 1.2rem);
+		font-size: calc(clamp(1rem, 1.5vw, 1.2rem) + var(--fs-bump));
 		line-height: 1.42;
 	}
 
@@ -1143,14 +1143,22 @@
 		translate: -50% -50%;
 	}
 
+	/*
+	 * El trazo sólo ocupa la franja baja del viewBox, así que los márgenes negativos
+	 * recortan el aire sobrante de la caja. Van en proporción a la altura: en píxeles
+	 * fijos, al encoger el arco en móvil se restaba más de lo que medía y el arco se
+	 * montaba sobre el texto de arriba y de abajo.
+	 */
 	.horizon svg {
+		--horizon-h: clamp(2.75rem, 5.5vw, 5.5rem);
+
 		display: block;
 		width: 100%;
-		height: clamp(2.75rem, 5.5vw, 5.5rem);
+		height: var(--horizon-h);
 		overflow: visible;
 		filter: drop-shadow(0 0 1rem rgba(0, 216, 179, 0.38));
-		margin-top: -28px;
-		margin-bottom: -32px;
+		margin-top: calc(var(--horizon-h) * -0.32);
+		margin-bottom: calc(var(--horizon-h) * -0.36);
 	}
 
 	.os-answer {
@@ -1162,8 +1170,8 @@
 	.os-answer p {
 		margin: 0;
 		color: rgba(255, 255, 255, 0.66);
-		font-size: clamp(1rem, 1.35vw, 1.15rem);
-		line-height: 1.85;
+		font-size: calc(clamp(1rem, 1.35vw, 1.15rem) + var(--fs-bump));
+		line-height: 1.7;
 	}
 
 	.os-answer :global(strong) {
@@ -1242,7 +1250,7 @@
 	.labs-copy p {
 		margin: 0;
 		color: var(--muted);
-		font-size: clamp(0.98rem, 1.3vw, 1.1rem);
+		font-size: calc(clamp(0.98rem, 1.3vw, 1.1rem) + var(--fs-bump));
 		line-height: 1.85;
 	}
 
@@ -1292,7 +1300,7 @@
 
 	.legacy span {
 		color: var(--muted);
-		font-size: 0.85rem;
+		font-size: calc(0.85rem + var(--fs-bump));
 		line-height: 1.6;
 	}
 
@@ -1337,7 +1345,7 @@
 		border-radius: 999px;
 		background: var(--mist);
 		color: var(--accent);
-		font-size: 0.72rem;
+		font-size: calc(0.72rem + var(--fs-bump));
 		font-weight: 800;
 		letter-spacing: 0.1em;
 		text-decoration: none;
@@ -1370,7 +1378,7 @@
 		border-radius: 0.9rem;
 		background: #fff5ed;
 		color: #7a3d10;
-		font-size: 0.84rem;
+		font-size: calc(0.84rem + var(--fs-bump));
 		line-height: 1.65;
 	}
 
@@ -1480,7 +1488,7 @@
 	.feature-grid p {
 		margin: 0;
 		color: var(--muted);
-		font-size: 0.82rem;
+		font-size: calc(0.82rem + var(--fs-bump));
 		line-height: 1.6;
 	}
 
@@ -1578,9 +1586,82 @@
 
 		.intro,
 		.labs-body,
-		.genix-intro,
-		.ai {
+		.genix-intro {
 			grid-template-columns: 1fr;
+		}
+
+		/*
+		 * La ilustración va entre el titular y el cuerpo de texto, pero en el
+		 * marcado es hermana de `.ai-copy`. `display: contents` disuelve esa caja
+		 * para que rótulo, titular y párrafos sean hermanos directos de la
+		 * ilustración y `order` pueda intercalarla.
+		 */
+		.ai {
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0;
+		}
+
+		.ai-copy {
+			display: contents;
+		}
+
+		.ai-copy .eyebrow {
+			order: 1;
+		}
+
+		.ai-copy h2 {
+			order: 2;
+			max-width: none;
+			margin-bottom: 0;
+		}
+
+		.ai-art {
+			order: 3;
+			max-width: 22rem;
+			margin: clamp(1.5rem, 5vw, 2.25rem) auto;
+		}
+
+		.ai-copy p:not(.eyebrow) {
+			order: 4;
+		}
+
+		/* El titular por delante de la ilustración al apilarse. */
+		.section-top-copy {
+			order: -1;
+		}
+
+		/*
+		 * El `padding-top` de escritorio es un valor fijo pensado para una cúpula de
+		 * 8rem; al encoger la curva con el ancho dejaba un hueco creciente.
+		 */
+		.labs {
+			padding-top: calc(var(--curve-h) + 1.5rem);
+		}
+
+		/* La ilustración sube justo debajo del titular de la sección. */
+		.labs-body > :global(.reveal:last-child) {
+			order: -1;
+		}
+
+		.labs-art {
+			max-width: 20rem;
+			margin: 0 auto;
+		}
+
+		/* Con el texto a todo el ancho, centrar el icono lo deja flotando. */
+		.labs-point {
+			align-items: start;
+		}
+
+		/*
+		 * El desplazamiento que alinea el rótulo con el logo sólo tiene sentido con
+		 * las dos columnas; apilado, monta el rótulo sobre el botón.
+		 */
+		.genix-intro .eyebrow {
+			margin-bottom: 0;
+			transform: none;
 		}
 
 		/* Sin las tres columnas, el filete no separa nada y el resto se apila. */
@@ -1622,6 +1703,23 @@
 		.doubts,
 		.feature-grid {
 			grid-template-columns: 1fr;
+		}
+
+		/* Apilado, el texto y el botón no necesitan el aire de la versión ancha. */
+		.intro-cta {
+			gap: 0.9rem;
+			padding: 1.15rem 1.2rem;
+		}
+
+		/* Centrado y a una medida corta, el texto pedía separarse de los bordes. */
+		.os-answer {
+			margin-top: 2.25rem;
+			padding: 0 1.1rem;
+		}
+
+		/* El arco es mucho más bajo aquí: necesita su propio aire a ambos lados. */
+		.horizon {
+			margin-top: 2.25rem;
 		}
 
 		.doubt-icon {
