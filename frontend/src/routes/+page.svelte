@@ -15,7 +15,7 @@
 			icon: '/svg/icons/icon-portability.svg'
 		},
 		{
-			text: '¿Por qué mi equipo no puede modificar el sistema para adecuarlo a mis procesos?',
+			text: '¿Por qué no puedo modificar el sistema para adecuarlo a mis procesos?',
 			icon: '/svg/icons/icon-processes.svg'
 		},
 		{
@@ -103,7 +103,6 @@
 
 		<div class="hero-inner">
 			<div class="hero-copy">
-				<p class="hero-kicker"><span></span>UNICORE LABS</p>
 				<h1>
 					Iniciativas de <em>código abierto</em> que<br />
 					democratizan el acceso<br />
@@ -127,7 +126,7 @@
 		</div>
 
 		<div class="hero-foot">
-			<span>GPL · MIT · APACHE 2.0</span>
+			<span>GPL · MIT</span>
 			<span class="hero-foot-line"></span>
 			<span>{labProjects.length} PROYECTOS ABIERTOS</span>
 		</div>
@@ -409,21 +408,27 @@
 	<section class="genix">
 
 		<div class="genix-intro">
-			<div>
-				<p class="eyebrow">Producto insignia</p>
-				<img src={`${base}/svg/genix_logo.svg`} alt="Genix" />
-			</div>
-			<div>
-				<h2>Gestione cada proceso<br />de su empresa.</h2>
-				<p>
-					Genix reúne ventas, inventario, compras, finanzas y comercio electrónico para
-					pequeñas empresas que buscan control sin complejidad. Autoalojable, multiempresa
-					y con exportación completa de sus datos cuando quiera.
-				</p>
-				<a class="genix-link" href="https://github.com/ivanjoz/genix" target="_blank" rel="noreferrer">
-					Ver el repositorio <span>↗</span>
-				</a>
-			</div>
+			<img class="genix-logo" src={`${base}/svg/genix_logo.svg`} alt="Genix" />
+			<a class="genix-cta" href="https://genix.un.pe/" target="_blank" rel="noreferrer">
+				Ir a la aplicación <span>↗</span>
+			</a>
+
+			<span class="genix-rule" aria-hidden="true"></span>
+
+			<p class="eyebrow">Producto insignia</p>
+			<h2>Gestione cada proceso de su empresa.</h2>
+			<p class="genix-lead">
+				Genix reúne ventas, inventario, compras, finanzas y comercio electrónico para
+				pequeñas empresas que buscan control sin complejidad. Autoalojable, multiempresa y
+				con exportación completa de sus datos cuando quiera.
+			</p>
+
+			<p class="genix-note">
+				<span class="genix-note-mark" aria-hidden="true"></span>
+				Disponible desde el 8 de Febrero 2027, con límite para uso gratuito o con plan
+				profesional de pago. <a href="#contacto">Escríbenos</a> para ser de los primeros en
+				usarlo.
+			</p>
 		</div>
 
 		<div class="feature-grid">
@@ -1248,19 +1253,114 @@
 		color: var(--ink);
 	}
 
+	/*
+	 * Una sola rejilla para toda la cabecera. Las filas se declaran a mano porque
+	 * la columna izquierda (logo y botón) y la derecha (rótulo, titular y texto)
+	 * no llevan el mismo número de elementos, y el filete tiene que cruzarlas todas.
+	 */
 	.genix-intro {
 		display: grid;
-		grid-template-columns: minmax(15rem, 0.65fr) minmax(0, 1.35fr);
-		gap: clamp(2.5rem, 7vw, 7rem);
-		align-items: center;
+		grid-template-columns: auto 1px minmax(0, 1fr);
+		gap: 0 clamp(1.5rem, 4vw, 3.5rem);
+		align-items: start;
 	}
 
-	.genix-intro img {
-		width: min(17rem, 80%);
-		margin-top: 1.4rem;
+	.genix-logo {
+		grid-row: 1 / 3;
+		grid-column: 1;
+		width: min(15rem, 100%);
+		align-self: center;
+	}
+
+	.genix-cta {
+		display: inline-flex;
+		grid-row: 3;
+		grid-column: 1;
+		align-items: center;
+		justify-self: start;
+		gap: 0.5rem;
+		margin-top: clamp(1.2rem, 2.5vw, 1.8rem);
+		padding: 0.75rem 1.15rem;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		background: var(--mist);
+		color: var(--accent);
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-decoration: none;
+		text-transform: uppercase;
+		transition:
+			background 180ms ease,
+			border-color 180ms ease,
+			transform 180ms ease;
+	}
+
+	.genix-cta:hover {
+		border-color: var(--accent);
+		background: white;
+		transform: translateY(-2px);
+	}
+
+	/*
+	 * Único elemento naranja del sitio: es un aviso de disponibilidad y tiene que
+	 * leerse aparte de la paleta violeta, no integrarse en ella.
+	 */
+	.genix-note {
+		position: relative;
+		grid-row: 4;
+		grid-column: 3;
+		/* Misma medida que el párrafo de arriba: los dos bloques alinean sus bordes. */
+		max-width: 40rem;
+		margin: clamp(1.4rem, 2.5vw, 1.9rem) 0 0;
+		padding: 1.1rem 1.2rem 1.1rem 2.6rem;
+		border: 1px solid #f6d3b8;
+		border-radius: 0.9rem;
+		background: #fff5ed;
+		color: #7a3d10;
+		font-size: 0.84rem;
+		line-height: 1.65;
+	}
+
+	.genix-note-mark {
+		position: absolute;
+		top: 1.45rem;
+		left: 1.15rem;
+		width: 0.62rem;
+		height: 0.62rem;
+		border-radius: 0.15rem;
+		background: #f97316;
+	}
+
+	.genix-note a {
+		color: #b4470b;
+		font-weight: 600;
+		text-underline-offset: 0.2em;
+	}
+
+	.genix-rule {
+		grid-row: 1 / -1;
+		grid-column: 2;
+		align-self: stretch;
+		background: linear-gradient(180deg, transparent, var(--line) 8%, var(--line) 92%, transparent);
+	}
+
+	.genix-intro .eyebrow {
+		grid-row: 1;
+		grid-column: 3;
+		/*
+		 * El margen negativo cancela su propia caja para que la fila 1 no aporte
+		 * altura: sólo con la fila a cero el titular y el logo comparten centro.
+		 * El desplazamiento lo sube por encima del titular, y al ser un transform
+		 * no vuelve a ocupar sitio en la rejilla.
+		 */
+		margin-bottom: -1rem;
+		transform: translateY(-1.25rem);
 	}
 
 	.genix-intro h2 {
+		grid-row: 2;
+		grid-column: 3;
 		margin: 0;
 		font-family: var(--font-display);
 		font-size: clamp(2.2rem, 4.6vw, 4.2rem);
@@ -1269,28 +1369,13 @@
 		letter-spacing: -0.04em;
 	}
 
-	.genix-intro > div:last-child p {
+	.genix-lead {
+		grid-row: 3;
+		grid-column: 3;
 		max-width: 40rem;
-		margin: 1.5rem 0 0;
+		margin: clamp(1.2rem, 2.5vw, 1.8rem) 0 0;
 		color: var(--muted);
 		line-height: 1.8;
-	}
-
-	.genix-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		margin-top: 1.6rem;
-		color: var(--accent);
-		font-size: 0.82rem;
-		font-weight: 500;
-		letter-spacing: 0.08em;
-		text-decoration: none;
-		text-transform: uppercase;
-	}
-
-	.genix-link:hover {
-		color: var(--accent-dark);
 	}
 
 	.feature-grid {
@@ -1444,6 +1529,26 @@
 		.genix-intro,
 		.ai {
 			grid-template-columns: 1fr;
+		}
+
+		/* Sin las tres columnas, el filete no separa nada y el resto se apila. */
+		.genix-rule {
+			display: none;
+		}
+
+		/* Una sola columna: las filas explícitas dejan de servir y todo se apila. */
+		.genix-logo,
+		.genix-cta,
+		.genix-note,
+		.genix-intro .eyebrow,
+		.genix-intro h2,
+		.genix-lead {
+			grid-row: auto;
+			grid-column: 1;
+		}
+
+		.genix-cta {
+			margin-bottom: clamp(1.2rem, 3vw, 2rem);
 		}
 
 		.feature-grid {

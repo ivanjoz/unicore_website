@@ -130,7 +130,7 @@ export const labProjects: LabProject[] = [
 		kind: 'Infraestructura',
 		logo: '/svg/relimiter_logo.svg',
 		description:
-			'Un solo proceso en Rust que expone cuatro servicios: control de acceso con cobro de créditos, locks para serializar acciones entre Lambdas concurrentes, log de peticiones y un puente SSE. Resuelve la autorización y la cuota de CPU o inferencia en un mismo viaje, sobre TCP crudo con tramas firmadas por HMAC y atadas al nonce de la conexión. Agrega el consumo en memoria y vuelca a ScyllaDB solo lo que cambió.',
+			'Servicio en memoria que valida accesos y descuenta créditos de uso en una sola llamada TCP, en base a quotas por minuto. Proceso en Rust con tramas HMAC, locks entre Lambdas concurrentes, request logs, reportería y puente SSE.',
 		url: 'https://github.com/ivanjoz/auth-limiter',
 		status: 'En desarrollo',
 		stack: ['Rust', 'TCP', 'SSE', 'ScyllaDB']
@@ -195,17 +195,4 @@ export const missionTerms = [
 		description:
 			'Nos sumamos al reto de modernizar la gestión del empresariado peruano y llevar sus capacidades a nuevos horizontes.'
 	}
-];
-
-export const worldview = [
-	'Creemos en la tolerancia, el respeto y los derechos individuales.',
-	'Creemos que las empresas son motores indispensables de generación de valor.',
-	'Creemos que todas las profesiones son trascendentes y el arte, una expresión sublime.',
-	'Creemos que la tecnología, el conocimiento y la información deben ser accesibles.',
-	'Creemos en una población culta, educada e informada como base del desarrollo.',
-	'Creemos en el método científico y en decisiones sustentadas en evidencias.',
-	'Creemos en resolver los conflictos de nuestra época con conciencia y consenso.',
-	'Creemos en la urgencia de detener el cambio climático y la degradación del planeta.',
-	'Creemos que el poder de la tecnología debe manejarse con responsabilidad.',
-	'Creemos en la humanidad y en su capacidad de corregirse y superarse.'
 ];

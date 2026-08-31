@@ -5,7 +5,7 @@
 	const links = [
 		{ href: `${base}/`, label: 'Inicio' },
 		{ href: `${base}/#proyectos`, label: 'Proyectos' },
-		{ href: `${base}/nosotros/`, label: 'Nosotros' },
+		{ href: `${base}/#nosotros`, label: 'Nosotros' },
 		{ href: `${base}/#contacto`, label: 'Contacto' }
 	];
 
