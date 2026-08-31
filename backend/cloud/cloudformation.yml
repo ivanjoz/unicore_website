@@ -1,0 +1,212 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Unicore - backend en Go sobre Lambda, con DynamoDB y Function URL
+
+# Desplegada por cloud/cloudformation.go (acción 3), que la lleva embebida en su binario. Todo
+# valor que varía por entorno llega como parámetro leído de config.toml, así que este archivo
+# permanece estático y versionado.
+#
+# El stack crea su propio rol de ejecución, por lo que el despliegue envía CAPABILITY_NAMED_IAM.
+
+Parameters:
+  NamePrefix:
+    Type: String
+    Default: unicore
+    Description: app_name de config.toml. Prefija todo nombre físico de recurso.
+  DeploymentBucket:
+    Type: String
+    Description: Bucket existente donde el deployer sube el .zip compilado.
+  CompiledS3Key:
+    Type: String
+    Description: Clave del .zip del backend dentro de DeploymentBucket.
+  AppUrl:
+    Type: String
+    Default: https://un.pe
+    Description: URL pública del sitio. Solo aparece en el correo de notificación.
+  AllowedOrigins:
+    Type: String
+    Default: "*"
+    Description: Lista separada por comas de orígenes permitidos por CORS.
+  ClientIpHeader:
+    Type: String
+    Default: ""
+    Description: >-
+      Cabecera de la que leer la IP del visitante. Vacío usa SourceIP, que AWS escribe desde el
+      par TCP y no se puede falsificar. Solo se rellena cuando hay un CDN delante Y la Function
+      URL no se puede alcanzar directamente.
+  ContactEmail:
+    Type: String
+    Default: ""
+    Description: Buzón que recibe el formulario. Vacío deshabilita el endpoint.
+  ContactMaxMessagesPerIp:
+    Type: Number
+    Default: 3
+    Description: Mensajes permitidos por IP dentro de la ventana.
+  ContactWindowMinutes:
+    Type: Number
+    Default: 10
+    Description: Duración de la ventana del limitador, en minutos.
+  ContactTtlDays:
+    Type: Number
+    Default: 0
+    Description: Caducidad de los mensajes almacenados. 0 los conserva para siempre.
+  SesFromEmail:
+    Type: String
+    Default: ""
+    Description: >-
+      Remitente verificado en SES. Vacío deshabilita el envío por SES, en cuyo caso los mensajes
+      se almacenan con estado 2 (no notificado) y no se pierde nada.
+  ReservedConcurrency:
+    Type: Number
+    Default: 10
+    Description: >-
+      Techo de invocaciones simultáneas. Es el único freno de coste delante de una Function URL
+      pública: el limitador por IP protege el buzón, esto protege la factura.
+
+Conditions:
+  # Sin remitente no hay nada a lo que conceder ses:SendEmail, y un ARN con el hueco vacío sería
+  # una política malformada que hace fallar el stack entero.
+  HasSesSender: !Not [!Equals [!Ref SesFromEmail, ""]]
+
+Resources:
+  # ------------------------------------------------------------------- base de datos
+
+  # Retenida a propósito: los mensajes de contacto son el contenido del sistema, y destruir el
+  # stack no debe borrarlos. Un stack posterior no podrá recrear este nombre mientras el huérfano
+  # exista; hay que borrarlo a mano primero.
+  DatabaseTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub "${NamePrefix}-db"
+      # Por demanda porque el tráfico de un formulario de contacto es casi todo cero, con picos
+      # impredecibles. Aprovisionar capacidad para eso es pagar por reposo.
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: pk, AttributeType: S }
+        - { AttributeName: sk, AttributeType: S }
+      KeySchema:
+        - { AttributeName: pk, KeyType: HASH }
+        - { AttributeName: sk, KeyType: RANGE }
+      # Las ventanas del limitador se borran solas. Sin esto la tabla acumularía un ítem por IP y
+      # por ventana para siempre, que es basura que nadie volverá a leer.
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  # ------------------------------------------------------------------------- backend
+
+  BackendRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${NamePrefix}-backend-role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: lambda.amazonaws.com }
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: backend
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              # Sin logs:CreateLogGroup: el grupo lo declara este stack, y concederlo dejaría a la
+              # Lambda crear grupos sin retención que nadie borra.
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${NamePrefix}-backend:*"
+              # Solo las tres operaciones que el código ejecuta, y solo sobre esta tabla. Sin
+              # DeleteItem ni Scan: nada en este backend borra ni recorre, y concederlo ampliaría
+              # lo que un fallo de código puede llegar a hacer.
+              - Effect: Allow
+                Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:Query]
+                Resource: !GetAtt DatabaseTable.Arn
+              # Acotado a la identidad configurada, y también a su dominio, porque un remitente
+              # puede estar verificado de cualquiera de las dos formas. Con "*" cualquier fallo de
+              # este código podría enviar correo como cualquier identidad de la cuenta.
+              - !If
+                - HasSesSender
+                - Effect: Allow
+                  Action: [ses:SendEmail]
+                  Resource:
+                    - !Sub "arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${SesFromEmail}"
+                    - !Sub
+                      - "arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${Domain}"
+                      - Domain: !Select [1, !Split ["@", !Ref SesFromEmail]]
+                - !Ref AWS::NoValue
+
+  BackendFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub "${NamePrefix}-backend"
+      Runtime: provided.al2023
+      Handler: bootstrap
+      # arm64 es más barato por milisegundo que x86_64 y Go compila igual de bien para ambos.
+      Architectures: [arm64]
+      MemorySize: 256
+      # El techo real de una petición son los 8s del mailer más las escrituras. 30 deja margen
+      # para un arranque en frío sin dejar que una petición colgada consuma cinco minutos.
+      Timeout: 30
+      ReservedConcurrentExecutions: !Ref ReservedConcurrency
+      Role: !GetAtt BackendRole.Arn
+      Code:
+        S3Bucket: !Ref DeploymentBucket
+        S3Key: !Ref CompiledS3Key
+      # CloudFormation REEMPLAZA este bloque entero en cada despliegue, no lo fusiona. Por eso el
+      # deployer reinyecta las variables al terminar (acción 2): las que llevan secreto —hoy solo
+      # SMTP_PASSWORD— no aparecen aquí, donde serían legibles en la consola de CloudFormation.
+      Environment:
+        Variables:
+          APP_NAME: !Ref NamePrefix
+          APP_URL: !Ref AppUrl
+          DYNAMO_TABLE: !Ref DatabaseTable
+          ALLOWED_ORIGINS: !Ref AllowedOrigins
+          CLIENT_IP_HEADER: !Ref ClientIpHeader
+          CONTACT_EMAIL: !Ref ContactEmail
+          CONTACT_MAX_MESSAGES_PER_IP: !Ref ContactMaxMessagesPerIp
+          CONTACT_WINDOW_MINUTES: !Ref ContactWindowMinutes
+          CONTACT_TTL_DAYS: !Ref ContactTtlDays
+          SES_FROM_EMAIL: !Ref SesFromEmail
+
+  # BUFFERED y no RESPONSE_STREAM: la respuesta más grande que este backend produce son unas
+  # decenas de bytes de JSON, y el modo buffered es el que devuelve un 429 con su cabecera
+  # Retry-After sin ceremonia.
+  #
+  # Sin bloque Cors: la lista blanca vive en ALLOWED_ORIGINS y el handler responde el preflight.
+  # Declararla también aquí sería una segunda definición de la misma política, libre de discrepar
+  # en silencio con la primera.
+  BackendFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !GetAtt BackendFunction.Arn
+      AuthType: NONE
+      InvokeMode: BUFFERED
+
+  BackendFunctionUrlPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunctionUrl
+      FunctionName: !GetAtt BackendFunction.Arn
+      Principal: "*"
+      FunctionUrlAuthType: NONE
+
+  # Declarado explícitamente solo para acotar la retención; Lambda lo crearía sin límite. Se borra
+  # con el stack, a diferencia de la tabla: los logs son desechables, y un grupo huérfano impediría
+  # que un stack futuro recreara el mismo nombre.
+  BackendLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${NamePrefix}-backend"
+      RetentionInDays: 30
+
+Outputs:
+  BackendUrl:
+    Description: URL pública del backend. El deployer la escribe en aws.lambda_url de config.toml.
+    Value: !GetAtt BackendFunctionUrl.FunctionUrl
+  FunctionName:
+    Value: !Ref BackendFunction
+  TableName:
+    Value: !Ref DatabaseTable

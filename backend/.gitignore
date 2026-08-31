@@ -1,0 +1,9 @@
+tmp/
+# Lleva mailer.smtp_password.
+config.toml
+# Artefactos de compilación del deployer.
+cloud/deployer
+cloud/backend-compiled
+cloud/backend-compiled.zip
+bootstrap
+*.zip

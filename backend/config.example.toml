@@ -1,0 +1,49 @@
+# Copiar a config.toml y completar. config.toml está en .gitignore porque lleva
+# mailer.smtp_password.
+
+# Prefija todo nombre físico: stack, Lambda, tabla DynamoDB y rol IAM.
+app_name = "unicore"
+
+[aws]
+# Perfil de ~/.aws/credentials. Se nombra explícitamente para no desplegar a la cuenta que
+# resulte estar activa en el entorno.
+profile = "default"
+region = "us-east-1"
+# Debe existir antes del primer despliegue: el stack lee de aquí el .zip del backend, así que
+# crearlo desde el propio stack sería circular.
+deployment_bucket = "mis-despliegues"
+# Lo escribe el deployer tras la acción 3. No hay que rellenarlo a mano.
+lambda_url = ""
+
+[backend]
+# Solo aparece en el pie del correo de notificación.
+app_url = "https://un.pe"
+# Orígenes que el navegador puede leer, separados por comas. "*" solo para desarrollo.
+allowed_origins = "https://un.pe,https://www.un.pe"
+# Vacío usa SourceIP, que AWS escribe desde el par TCP y no se puede falsificar. Rellenar solo
+# con un CDN delante Y la Function URL inalcanzable directamente; ver el README.
+client_ip_header = ""
+# Techo de invocaciones simultáneas: el freno de coste delante de un endpoint público.
+reserved_concurrency = 10
+
+[contact]
+# Buzón que recibe los mensajes. Vacío deshabilita el endpoint (responde 503).
+email = "contacto@un.pe"
+max_messages_per_ip = 3
+window_minutes = 10
+# Caducidad de los mensajes almacenados, vía TTL de DynamoDB. 0 los conserva para siempre.
+ttl_days = 0
+
+[mailer]
+# SES es lo preferido: no necesita secreto, el rol de la Lambda lleva el permiso. El remitente
+# debe estar verificado en SES en la misma región.
+ses_from_email = "no-reply@un.pe"
+
+# Alternativa a SES. smtp_password es el único secreto del archivo, y por eso las variables se
+# inyectan con la API de Lambda en vez de declararse en la plantilla, donde serían legibles en la
+# consola de CloudFormation.
+smtp_host = ""
+smtp_port = 587
+smtp_user = ""
+smtp_password = ""
+smtp_from = ""
