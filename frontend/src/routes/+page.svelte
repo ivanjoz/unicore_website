@@ -1,28 +1,47 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import Contact from '$lib/components/Contact.svelte';
+	import LangToggle from '$lib/components/LangToggle.svelte';
 	import Reveal from '$lib/components/Reveal.svelte';
 	import SectionCurve from '$lib/components/SectionCurve.svelte';
 	import T from '$lib/components/T.svelte';
 	import { t } from '$lib/i18n.svelte';
 	import { labProjects, statusLabels } from '$lib/data/site';
+	import {
+		almacen1,
+		ecommerce,
+		finanzas2,
+		finanzas3,
+		genixLogo,
+		iconContinuity,
+		iconPortability,
+		iconProcesses,
+		iconSupport,
+		idea,
+		nounInnovation,
+		nounMind,
+		nounResearch,
+		people2,
+		producto1,
+		ventas1
+	} from '$lib/svg/icons.gen';
 
 	const doubts = [
 		{
 			text: '¿La empresa proveedora seguirá existiendo en los próximos años?|Will the vendor still be around in the coming years?',
-			icon: '/svg/icons/icon-continuity.svg'
+			icon: iconContinuity
 		},
 		{
 			text: '¿Puedo mover mis datos a mi propia nube?|Can I move my data to my own cloud?',
-			icon: '/svg/icons/icon-portability.svg'
+			icon: iconPortability
 		},
 		{
 			text: '¿Por qué no puedo modificar el sistema para adecuarlo a mis procesos?|Why can I not modify the system to fit my own processes?',
-			icon: '/svg/icons/icon-processes.svg'
+			icon: iconProcesses
 		},
 		{
 			text: '¿Dependo de un solo proveedor para cualquier soporte?|Do I depend on a single vendor for any kind of support?',
-			icon: '/svg/icons/icon-support.svg'
+			icon: iconSupport
 		}
 	];
 
@@ -33,49 +52,86 @@
 			title: 'Productos e insumos|Products and supplies',
 			description:
 				'Catálogo con presentaciones, lotes, series e insumos de producción.|Catalog with presentations, batches, serial numbers and production supplies.',
-			icon: '/svg/producto1.svg'
+			icon: producto1
 		},
 		{
 			title: 'Almacenes y logística|Warehouses and logistics',
 			description:
 				'Stock por almacén, órdenes de compra, recepciones y proveedores.|Stock by warehouse, purchase orders, goods receipts and suppliers.',
-			icon: '/svg/almacen1.svg'
+			icon: almacen1
 		},
 		{
 			title: 'Punto de venta|Point of sale',
 			description:
 				'Cobro en segundos, venta al crédito y descuento de stock automático.|Checkout in seconds, credit sales and automatic stock deduction.',
-			icon: '/svg/ventas1.svg'
+			icon: ventas1
 		},
 		{
 			title: 'Clientes y CRM|Customers and CRM',
 			description:
 				'Clientes y proveedores con RUC o DNI, historial y reporte por cliente.|Customers and suppliers by tax or national ID, with history and per-customer reporting.',
-			icon: '/svg/people2.svg'
+			icon: people2
 		},
 		{
 			title: 'Caja y finanzas|Cash and finance',
 			description:
 				'Cajas y bancos, gastos, cuentas por cobrar y flujo de caja proyectado.|Cash registers and banks, expenses, receivables and projected cash flow.',
-			icon: '/svg/finanzas2.svg'
+			icon: finanzas2
 		},
 		{
 			title: 'Contabilidad|Accounting',
 			description:
 				'Facturación, libros, activos, estados financieros y balance general.|Invoicing, ledgers, assets, financial statements and balance sheet.',
-			icon: '/svg/finanzas3.svg'
+			icon: finanzas3
 		},
 		{
 			title: 'Indicadores y gráficos|Metrics and charts',
 			description:
 				'Dashboards que parten de lo general y bajan al detalle con un click.|Dashboards that start from the big picture and drill down to the detail in one click.',
-			icon: '/svg/idea.svg'
+			icon: idea
 		},
 		{
 			title: 'Comercio electrónico|E-commerce',
 			description:
 				'Tienda en línea armada con IA sobre el mismo catálogo del ERP.|Online store assembled with AI on top of the very same ERP catalog.',
-			icon: ''
+			icon: ecommerce
+		}
+	];
+
+	/*
+	 * Lo que sabe hacer el agente de Genix. Va dentro de la ficha del producto, así
+	 * que cada entrada es de una línea: el detalle largo vive en la app, no aquí.
+	 */
+	const agentSkills = [
+		{
+			title: 'Navega por ti|Navigates for you',
+			description:
+				'Abre el módulo, filtra y te deja en la vista exacta.|Opens the module, filters and lands you on the exact view.'
+		},
+		{
+			title: 'Llena formularios|Fills in forms',
+			description:
+				'Le dictas los datos y él completa los campos.|You dictate the data and it fills in the fields.'
+		},
+		{
+			title: 'Te orienta|Guides you',
+			description:
+				'Resuelve dudas de uso sin sacarte de la pantalla.|Answers how-to questions without pulling you off the screen.'
+		},
+		{
+			title: 'Arma tu tienda|Builds your store',
+			description:
+				'Es parte del constructor de la página y el catálogo.|It is part of the builder for your page and catalog.'
+		},
+		{
+			title: 'Reportes y gráficos|Reports and charts',
+			description:
+				'Pregunta por tus ventas y responde con el gráfico.|Ask about your sales and it answers with the chart.'
+		},
+		{
+			title: 'Recordatorios|Reminders',
+			description:
+				'Avisa de cobros por vencer y stock por reponer.|Flags payments coming due and stock to replenish.'
 		}
 	];
 
@@ -98,19 +154,21 @@
 	 * Textos con etiquetas propias: viven aquí porque llevan comillas dobles dentro
 	 * y se pasan a <T html /> por variable en lugar de escribirlos en el atributo.
 	 */
-	// El espacio tras cada <br /> es intencional: en móvil el salto se oculta
-	// (.hero h1 br { display: none }) y sin él las palabras quedarían pegadas.
+	// El titular se corta en sitios distintos según el ancho, así que lleva los dos
+	// juegos de saltos: `w` (wide) sólo se ve en pantalla ancha y `n` (narrow) sólo
+	// en móvil. El espacio tras cada <br /> es intencional: el salto que sobra se
+	// oculta con display:none y sin ese espacio las palabras quedarían pegadas.
 	const heroHeading =
-		'Iniciativas de <em>código abierto</em> que<br /> democratizan el acceso<br /> a tecnología de alto impacto|<em>Open source</em> initiatives that<br /> democratize access<br /> to high-impact technology';
+		'Iniciativas de <em>código abierto</em><br class="n" /> que<br class="w" /> expanden<br class="n" /> el acceso a<br class="w" /> tecnologías<br class="n" /> de alto impacto|<em>Open source</em> initiatives<br class="n" /> that<br class="w" /> expands access<br class="n" /> to<br class="w" /> high-impact technology';
 
 	const introHeading =
 		'Un equipo profesional<br />descentralizado.|A decentralized team<br />of professionals.';
 
 	const openSourceLead =
-		'Liberar el código amplía el mercado, acelera la adopción, multiplica la visibilidad, construye comunidad y hace el software más seguro porque cualquiera puede auditarlo. Linux, Red Hat, Valve, WordPress, GitLab y Odoo lo probaron. <strong>El open source resuelve lo siguiente:</strong>|Releasing the code widens the market, speeds up adoption, multiplies visibility, builds community and makes the software safer, because anyone can audit it. Linux, Red Hat, Valve, WordPress, GitLab and Odoo proved it. <strong>Open source solves the following:</strong>';
+		'Liberar el código amplía el mercado, acelera la adopción, multiplica la visibilidad, construye comunidad y hace el software más seguro porque cualquiera puede auditarlo. <span class="os-split">Linux, Red Hat, Valve, WordPress, GitLab y Odoo lo probaron. <strong>El open source resuelve lo siguiente:</strong></span>|Releasing the code widens the market, speeds up adoption, multiplies visibility, builds community and makes the software safer, because anyone can audit it. <span class="os-split">Linux, Red Hat, Valve, WordPress, GitLab and Odoo proved it. <strong>Open source solves the following:</strong></span>';
 
 	const openSourceAnswer =
-		'Con open source, <strong>el proveedor deja de ser el cuello de botella</strong>, el soporte se descentraliza, el sistema es más flexible y la IA es más autónoma al poder inspeccionar el código. Estos proyectos crecen de forma orgánica con la colaboración de profesionales, investigadores y empresas SaaS que los incorporan como base de sus servicios.|With open source, <strong>the vendor stops being the bottleneck</strong>, support becomes decentralized, the system is more flexible and AI is more autonomous because it can inspect the code. These projects grow organically through the collaboration of professionals, researchers and SaaS companies that adopt them as the base of their own services.';
+		'Con open source, <strong>el proveedor deja de ser el cuello de botella</strong>, el soporte se descentraliza, el sistema es más flexible y la IA es más autónoma al poder inspeccionar el código. <span class="os-split">Estos proyectos crecen de forma orgánica con la colaboración de profesionales, investigadores y empresas SaaS que los incorporan como base de sus servicios.</span>|With open source, <strong>the vendor stops being the bottleneck</strong>, support becomes decentralized, the system is more flexible and AI is more autonomous because it can inspect the code. <span class="os-split">These projects grow organically through the collaboration of professionals, researchers and SaaS companies that adopt them as the base of their own services.</span>';
 
 	const labsProduct =
 		'Creemos en anteponer el desarrollo de producto por sobre cualquier otro eje empresarial. <strong>El producto es la empresa y la investigación da forma al producto.</strong> Las regalías comerciales sirven para financiar al producto y su investigación, el cual <strong>responde a un impacto esperado</strong>. El sufijo «labs» abraza estos conceptos.|We believe in putting product development ahead of every other axis of the business. <strong>The product is the company, and research shapes the product.</strong> Commercial royalties are there to fund the product and its research, which <strong>answers to an expected impact</strong>. The «labs» suffix embraces these ideas.';
@@ -137,16 +195,58 @@
 			'Desarrollamos sistemas y herramientas de código abierto que incentivan la participación comunitaria y la innovación tecnológica.|We build open-source systems and tools that encourage community participation and technological innovation.'
 		)}
 	/>
-	<link rel="preload" as="image" href={`${base}/images/space_earth.webp`} />
+	<!--
+		Un preload por condición, nunca dos para el mismo ancho: el atributo `type`
+		hace que el navegador ignore el que no soporta, así que listar AVIF y WebP
+		a la vez haría que Chrome —que soporta ambos— se descargara los dos.
+	-->
+	<link
+		rel="preload"
+		as="image"
+		type="image/avif"
+		media="(max-width: 720px)"
+		href={`${base}/images/space_earth_mobile.avif`}
+	/>
+	<link
+		rel="preload"
+		as="image"
+		type="image/avif"
+		media="(min-width: 721px)"
+		href={`${base}/images/space_earth.avif`}
+	/>
 </svelte:head>
 
 <main>
-	<section
-		class="hero"
-		style:--hero-webp={`url("${base}/images/space_earth.webp")`}
-		style:--hero-jpg={`url("${base}/images/space_earth.jpg")`}
-	>
+	<section class="hero">
+		<!--
+			En vertical la foto apaisada del hero se recortaba a una franja, así que
+			bajo 720px entra una toma en formato retrato. Va en <picture> y no como
+			`background-image` porque `image-set()` no permite condicionar por ancho.
+		-->
+		<picture class="hero-bg">
+			<source
+				media="(max-width: 720px)"
+				type="image/avif"
+				srcset={`${base}/images/space_earth_mobile.avif`}
+			/>
+			<source
+				media="(max-width: 720px)"
+				type="image/webp"
+				srcset={`${base}/images/space_earth_mobile.webp`}
+			/>
+			<source type="image/avif" srcset={`${base}/images/space_earth.avif`} />
+			<!--
+				El respaldo del <img> es WebP: cualquier navegador que entienda
+				<picture> lo descodifica, así que un JPEG extra sólo añadiría peso al
+				repositorio sin ampliar la cobertura.
+			-->
+			<img src={`${base}/images/space_earth.webp`} alt="" fetchpriority="high" decoding="async" />
+		</picture>
+
 		<div class="hero-grid" aria-hidden="true"></div>
+
+		<!-- Sin cabecera en móvil, el selector de idioma se ancla al hero. -->
+		<div class="hero-lang"><LangToggle /></div>
 
 		<div class="hero-inner">
 			<div class="hero-copy">
@@ -190,7 +290,7 @@
 						text="Somos personas apasionadas por el desarrollo de tecnologías de código abierto y apostamos por iniciativas de interés general, con fines comerciales, científicos y/o sociales.|We are people passionate about building open-source technology, and we back initiatives of general interest with commercial, scientific and/or social aims."
 					/>
 				</p>
-				<p>
+				<p class="intro-more">
 					<T
 						text="Desde sistemas de facturación, logística y finanzas para pequeñas empresas, aplicaciones de comercio electrónico y automatización de soporte con IA, hasta algoritmos de serialización para reducir el uso de ancho de banda.|From invoicing, logistics and finance systems for small companies, e-commerce applications and AI support automation, to serialization algorithms that cut bandwidth usage."
 					/>
@@ -242,6 +342,12 @@
 						text="Cada pieza resuelve un problema concreto y vive en su propio repositorio, con licencia abierta y documentación pública.|Each piece solves a specific problem and lives in its own repository, with an open license and public documentation."
 					/>
 				</p>
+
+				<p class="project-hint">
+					<T text="Haz click en|Click on" />
+					<span class="icon-[lucide--external-link]" aria-hidden="true"></span>
+					<T text="para ir a la página de cada proyecto.|to go to each project’s page." />
+				</p>
 			</div>
 		</div>
 
@@ -249,10 +355,22 @@
 			{#each labProjects as project, index}
 				<Reveal delay={(index % 3) * 90}>
 					<article class="project-card">
+						{#if project.url}
+							<a
+								class="project-open"
+								href={project.url}
+								target="_blank"
+								rel="noreferrer"
+								aria-label={`${t('Ir a la página de|Go to the page of')} ${project.name}`}
+							>
+								<span class="icon-[lucide--external-link]" aria-hidden="true"></span>
+							</a>
+						{/if}
+
 						<div class="project-logo">
 							{#if project.logo}
 								<img
-									src={`${base}${project.logo}`}
+									src={project.logo}
 									alt={`${t('Logo de|Logo of')} ${project.name}`}
 								/>
 							{:else}
@@ -281,11 +399,9 @@
 									{/each}
 								</ul>
 
-								{#if project.url}
-									<a class="project-link" href={project.url} target="_blank" rel="noreferrer">
-										<T text="Ver|View" /> <span>↗</span>
-									</a>
-								{:else}
+								<!-- El enlace vive en el icono de la esquina; aquí sólo queda el aviso
+								     de los proyectos que todavía no tienen web. -->
+								{#if !project.url}
 									<span class="project-link muted"><T text="Próximamente|Coming soon" /></span>
 								{/if}
 							</div>
@@ -316,7 +432,7 @@
 					<blockquote>
 						<span class="doubt-num">{String(index + 1).padStart(2, '0')}</span>
 						<div class="doubt-icon">
-							<img src={`${base}${doubt.icon}`} alt="" loading="lazy" />
+							<img src={doubt.icon} alt="" loading="lazy" />
 						</div>
 						<p><T text={doubt.text} /></p>
 					</blockquote>
@@ -342,8 +458,19 @@
 						<stop offset="1" stop-color="#a69aff" stop-opacity="0" />
 					</linearGradient>
 				</defs>
+				<!-- El arco acompaña la curva que trazan las cuatro tarjetas; apiladas en
+				     una sola columna esa lectura se pierde y queda sólo la línea. -->
 				<path
+					class="horizon-arc"
 					d="M0 72 C 400 8 1040 8 1440 72"
+					fill="none"
+					stroke="url(#horizonStroke)"
+					stroke-width="2"
+					vector-effect="non-scaling-stroke"
+				/>
+				<path
+					class="horizon-flat"
+					d="M0 72 H1440"
 					fill="none"
 					stroke="url(#horizonStroke)"
 					stroke-width="2"
@@ -377,10 +504,11 @@
 					<div class="labs-point">
 						<span
 							class="labs-point-icon"
-							style={`--icon: url(${base}/svg/noun_Research.svg)`}
+							style:--icon={`url("${nounResearch}")`}
 							aria-hidden="true"
-						></span>
-						<span class="labs-point-rule" aria-hidden="true"></span>
+						>
+							<span class="labs-point-glyph"></span>
+						</span>
 						<p>
 							<T
 								text="Inspirados en Bell Labs y Xerox PARC. Espacios de innovación donde nacieron los fundamentos tecnológicos que dieron forma a las décadas siguientes. Y en Google Research que produjo «Attention is All You Need», el origen de la IA moderna.|Inspired by Bell Labs and Xerox PARC: spaces of innovation where the technological foundations that shaped the following decades were born. And by Google Research, which produced «Attention is All You Need», the origin of modern AI."
@@ -390,19 +518,21 @@
 					<div class="labs-point">
 						<span
 							class="labs-point-icon"
-							style={`--icon: url(${base}/svg/noun_innovation.svg)`}
+							style:--icon={`url("${nounInnovation}")`}
 							aria-hidden="true"
-						></span>
-						<span class="labs-point-rule" aria-hidden="true"></span>
+						>
+							<span class="labs-point-glyph"></span>
+						</span>
 						<p><T html text={labsProduct} /></p>
 					</div>
-					<div class="labs-point accent">
+					<div class="labs-point">
 						<span
 							class="labs-point-icon"
-							style={`--icon: url(${base}/svg/noun_mind.svg)`}
+							style:--icon={`url("${nounMind}")`}
 							aria-hidden="true"
-						></span>
-						<span class="labs-point-rule" aria-hidden="true"></span>
+						>
+							<span class="labs-point-glyph"></span>
+						</span>
 						<p>
 							<T
 								text="Si eres una mente curiosa, con habilidades para la programación y quieres aportar al código abierto, escríbenos. Eres libre de hacer un fork de cualquiera de nuestros proyectos y usarlos como base de nuevos desarrollos. Háznoslo saber en GitHub.|If you are a curious mind with programming skills and you want to contribute to open source, write to us. You are free to fork any of our projects and use them as the base for new work. Let us know on GitHub."
@@ -448,7 +578,7 @@
 			</p>
 			<p>
 				<T
-					text="Genix Agentic UI es un ejemplo de cómo modelos pequeños y sin visión pueden servir como agentes que ayudan al usuario a navegar el sistema y ejecutar instrucciones. Ello permite exprimir cada dólar de inferencia.|Genix Agentic UI is an example of how small, vision-free models can act as agents that help the user navigate the system and carry out instructions. That is what makes it possible to squeeze every dollar of inference."
+					text="Genix Agentic UI es un ejemplo de cómo modelos pequeños y sin visión pueden servir como agentes que ayudan al usuario a navegar el sistema y ejecutar instrucciones. Ello reduce drásticamente los costos de inferencia.|Genix Agentic UI is an example of how small, vision-free models can act as agents that help the user navigate the system and carry out instructions. That is what makes it possible to squeeze every dollar of inference."
 				/>
 			</p>
 		</div>
@@ -459,7 +589,7 @@
 	<section class="genix">
 
 		<div class="genix-intro">
-			<img class="genix-logo" src={`${base}/svg/genix_logo.svg`} alt="Genix" />
+			<img class="genix-logo" src={genixLogo} alt="Genix" />
 			<a class="genix-cta" href="https://genix.un.pe/" target="_blank" rel="noreferrer">
 				<T text="Ir a la aplicación|Go to the app" /> <span>↗</span>
 			</a>
@@ -485,7 +615,11 @@
 				<Reveal delay={(index % 4) * 70}>
 					<article>
 						{#if feature.icon}
-							<img src={`${base}${feature.icon}`} alt="" loading="lazy" />
+							<span
+								class="feature-icon"
+								style:--icon={`url("${feature.icon}")`}
+								aria-hidden="true"
+							></span>
 						{:else}
 							<span class="feature-icon-slot" aria-hidden="true">
 								<T html text="icono<br />pendiente|icon<br />pending" />
@@ -496,6 +630,40 @@
 					</article>
 				</Reveal>
 			{/each}
+		</div>
+
+		<div class="genix-agent">
+			<figure class="genix-agent-art">
+				<img
+					src={`${base}/svg/feature-ai.svg`}
+					alt={t(
+						'Un asistente virtual conversando con el usuario dentro de la aplicación|A virtual assistant chatting with the user inside the application'
+					)}
+					loading="lazy"
+				/>
+			</figure>
+
+			<div class="genix-agent-copy">
+				<h3>
+					<T
+						text="Un asistente virtual apoyándote en cada click.|A virtual assistant supporting you on every click."
+					/>
+				</h3>
+				<p class="genix-agent-lead">
+					<T
+						text="Genix incorpora un agente que ve la misma pantalla que tú y actúa sobre ella: le pides algo en tus propias palabras y lo hace, así que aprender el sistema deja de ser un requisito para usarlo.|The agent sees the same screen you do and acts on it: you ask for something in your own words and it does it, so learning the system stops being a requirement for using it."
+					/>
+				</p>
+			</div>
+
+			<ul class="genix-agent-skills">
+				{#each agentSkills as skill}
+					<li>
+						<strong><T text={skill.title} /></strong>
+						<span><T text={skill.description} /></span>
+					</li>
+				{/each}
+			</ul>
 		</div>
 	</section>
 
@@ -512,18 +680,31 @@
 		justify-content: center;
 		overflow: hidden;
 		padding: calc(var(--header-height) + 4rem) var(--page-pad) 4.5rem;
-		background: #05061a var(--hero-jpg) center 32% / cover no-repeat;
+		background: #05061a;
 		color: white;
 	}
 
-	@supports (background-image: image-set(url('a.webp') type('image/webp'))) {
-		.hero {
-			background-image: image-set(var(--hero-webp) type('image/webp'), var(--hero-jpg) type('image/jpeg'));
-		}
+	/*
+	 * Capas del hero, de abajo arriba: foto (0), velo y rejilla (1), contenido (2).
+	 * Los z-index son explícitos porque la foto va después del ::before en el DOM
+	 * y sin ellos taparía el velo que hace legible el texto.
+	 */
+	.hero-bg {
+		position: absolute;
+		z-index: 0;
+		inset: 0;
+	}
+
+	.hero-bg img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 32%;
 	}
 
 	.hero::before {
 		position: absolute;
+		z-index: 1;
 		inset: 0;
 		background:
 			linear-gradient(100deg, rgba(5, 6, 26, 0.9) 0%, rgba(5, 6, 26, 0.56) 46%, rgba(5, 6, 26, 0.24) 100%),
@@ -531,8 +712,14 @@
 		content: '';
 	}
 
+	/* Sólo visible en móvil: en escritorio el selector sigue en la cabecera. */
+	.hero-lang {
+		display: none;
+	}
+
 	.hero-grid {
 		position: absolute;
+		z-index: 1;
 		inset: 0;
 		background-image:
 			linear-gradient(rgba(150, 170, 255, 0.06) 1px, transparent 1px),
@@ -543,7 +730,7 @@
 
 	.hero-inner {
 		position: relative;
-		z-index: 1;
+		z-index: 2;
 		display: grid;
 		width: 100%;
 		grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
@@ -574,7 +761,12 @@
 		font-size: clamp(1.5rem, 2.9vw, 2.9rem);
 		font-weight: 500;
 		line-height: 1.15;
-		letter-spacing: -0.035em;
+		letter-spacing: -0.025em;
+	}
+
+	/* Saltos de la versión estrecha: ocultos hasta que la media query los active. */
+	.hero h1 :global(br.n) {
+		display: none;
 	}
 
 	.hero h1 :global(em) {
@@ -718,7 +910,7 @@
 		margin: 0 0 1.2rem;
 		color: var(--muted);
 		font-size: calc(clamp(0.98rem, 1.3vw, 1.1rem) + var(--fs-bump));
-		line-height: 1.8;
+		line-height: 1.7;
 	}
 
 	.intro-art {
@@ -813,8 +1005,8 @@
 		max-width: none;
 	}
 
-	.section-top-copy p:not(.eyebrow) {
-		max-width: 32rem;
+	.section-top-copy p:not(.eyebrow):not(.project-hint) {
+		max-width: 38rem;
 		margin: 1.4rem 0 0;
 		color: var(--muted);
 		line-height: 1.7;
@@ -832,7 +1024,23 @@
 		height: 100%;
 	}
 
+	/* Cuelga del párrafo anterior, dentro del mismo bloque de texto. */
+	.project-hint {
+		margin: 0.85rem 0 0;
+		color: var(--muted);
+		font-size: calc(0.92rem + var(--fs-bump));
+	}
+
+	/* El icono va dentro de la frase, así que se alinea con la línea base. */
+	.project-hint span[class*='icon-'] {
+		width: 1.15em;
+		height: 1.15em;
+		color: var(--accent);
+		vertical-align: -0.28em;
+	}
+
 	.project-card {
+		position: relative;
 		display: flex;
 		width: 100%;
 		flex-direction: column;
@@ -850,6 +1058,49 @@
 	.project-card:hover {
 		box-shadow: 0 34px 90px rgba(28, 22, 74, 0.18);
 		transform: translateY(-0.4rem);
+	}
+
+	/* Acceso directo a la web del proyecto, sobre la banda del logo. */
+	.project-open {
+		position: absolute;
+		z-index: 1;
+		top: 0.55rem;
+		right: 0.55rem;
+		display: inline-flex;
+		width: 2.5rem;
+		height: 2.5rem;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0.7rem;
+		/* La esquina exterior acompaña la curva de la tarjeta. */
+		border-top-right-radius: 1.125rem;
+		background: rgba(255, 255, 255, 0.7);
+		color: var(--accent);
+		transition:
+			background 180ms ease,
+			color 180ms ease;
+	}
+
+	/* El hover de la tarjeta sólo marca el botón en gris... */
+	.project-card:hover .project-open {
+		background: var(--mist);
+	}
+
+	/*
+	 * ...el azul se reserva para el hover del propio botón, que es lo que de verdad
+	 * se pulsa. Necesita ganar en especificidad a la regla de arriba, porque al
+	 * apuntar al botón también se está sobre la tarjeta.
+	 */
+	.project-card:hover .project-open:hover,
+	.project-open:hover,
+	.project-open:focus-visible {
+		background: var(--accent);
+		color: white;
+	}
+
+	.project-open span {
+		width: 1.4rem;
+		height: 1.4rem;
 	}
 
 	.project-logo {
@@ -884,7 +1135,9 @@
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		padding: clamp(1.3rem, 2.2vw, 1.75rem);
+		/* Arriba menos aire: el rótulo ya viene separado por el filete del logo. */
+		padding: clamp(0.8rem, 1.3vw, 1.05rem) clamp(1.3rem, 2.2vw, 1.75rem)
+			clamp(1.3rem, 2.2vw, 1.75rem);
 	}
 
 	.project-meta {
@@ -936,7 +1189,7 @@
 	}
 
 	.project-card h3 {
-		margin: 0.9rem 0 0.7rem;
+		margin: 0.5rem 0 0.7rem;
 		font-family: var(--font-display);
 		font-size: clamp(1.35rem, 2vw, 1.75rem);
 		font-weight: 500;
@@ -944,10 +1197,10 @@
 	}
 
 	.project-text {
-		margin: 0 0 1.3rem;
+		margin: 0 0 0.85rem;
 		color: var(--muted);
 		font-size: calc(0.94rem + var(--fs-bump));
-		line-height: 1.65;
+		line-height: 1.6;
 	}
 
 	/* Los tags y el enlace comparten fila; `margin-top: auto` la fija al pie. */
@@ -957,7 +1210,7 @@
 		justify-content: space-between;
 		gap: 0.75rem;
 		margin-top: auto;
-		padding-top: 1.2rem;
+		padding-top: 0.5rem;
 	}
 
 	.project-stack {
@@ -1039,7 +1292,7 @@
 		max-width: 46rem;
 		margin: 0 auto;
 		color: rgba(255, 255, 255, 0.6);
-		line-height: 1.78;
+		line-height: 1.65;
 		font-size: calc(1.05rem + var(--fs-bump));
 	}
 
@@ -1161,6 +1414,10 @@
 		margin-bottom: calc(var(--horizon-h) * -0.36);
 	}
 
+	.horizon-flat {
+		display: none;
+	}
+
 	.os-answer {
 		max-width: 56rem;
 		margin: clamp(1.5rem, 4vw, 3rem) auto 0;
@@ -1213,38 +1470,35 @@
 
 	.labs-point {
 		display: grid;
-		grid-template-columns: auto 2px minmax(0, 1fr);
-		gap: clamp(0.9rem, 2vw, 1.35rem);
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: clamp(1.1rem, 2.2vw, 1.7rem);
 		align-items: center;
 	}
 
+	/*
+	 * Neumorfismo: la pastilla es del mismo color que la sección y sólo se separa
+	 * del fondo por dos sombras opuestas —una luz arriba a la izquierda y una
+	 * sombra abajo a la derecha—, así que el color de `--sand` y el de la sombra
+	 * oscura tienen que moverse juntos si algún día cambia el fondo.
+	 */
 	.labs-point-icon {
-		width: clamp(2.3rem, 3.6vw, 3.1rem);
+		display: grid;
+		place-items: center;
+		width: clamp(4.1rem, 6.2vw, 5.4rem);
 		aspect-ratio: 1;
-		background: var(--accent);
+		border-radius: 30%;
+		background: var(--sand);
+		box-shadow:
+			6px 6px 14px rgba(105, 97, 168, 0.22),
+			-6px -6px 14px #ffffff;
+	}
+
+	.labs-point-glyph {
+		width: 70%;
+		aspect-ratio: 1;
+		background: var(--icon-ink);
 		-webkit-mask: var(--icon) center / contain no-repeat;
 		mask: var(--icon) center / contain no-repeat;
-		opacity: 0.75;
-	}
-
-	.labs-point-rule {
-		align-self: stretch;
-		border-radius: 2px;
-		background: linear-gradient(
-			180deg,
-			rgba(100, 105, 238, 0.08),
-			var(--brand-blue) 26%,
-			var(--brand-violet) 74%,
-			rgba(166, 154, 255, 0.08)
-		);
-	}
-
-	.labs-point.accent .labs-point-icon {
-		opacity: 1;
-	}
-
-	.labs-point.accent p {
-		color: var(--ink);
 	}
 
 	.labs-copy p {
@@ -1325,11 +1579,17 @@
 		align-items: start;
 	}
 
+	/*
+	 * La columna izquierda es más ancha que el logotipo, así que sin centrarlo el
+	 * bloque quedaba pegado al margen. `align-self` mantiene la altura a la del
+	 * titular; `justify-self` sólo lo mueve dentro de su propia columna.
+	 */
 	.genix-logo {
 		grid-row: 1 / 3;
 		grid-column: 1;
 		width: min(15rem, 100%);
 		align-self: center;
+		justify-self: center;
 	}
 
 	.genix-cta {
@@ -1337,7 +1597,7 @@
 		grid-row: 3;
 		grid-column: 1;
 		align-items: center;
-		justify-self: start;
+		justify-self: center;
 		gap: 0.5rem;
 		margin-top: clamp(1.2rem, 2.5vw, 1.8rem);
 		padding: 0.75rem 1.15rem;
@@ -1438,48 +1698,154 @@
 		line-height: 1.8;
 	}
 
+	/*
+	 * Sin panel de fondo: la sección es blanca y las tarjetas también, así que el
+	 * relieve lo dan el filete y la sombra, no una tercera capa de color.
+	 */
 	.feature-grid {
 		display: grid;
 		grid-template-columns: repeat(4, minmax(0, 1fr));
-		gap: 1px;
-		margin-top: clamp(3rem, 7vw, 5.5rem);
-		background: var(--line);
+		gap: clamp(1rem, 1.8vw, 1.4rem);
+		margin-top: clamp(1.8rem, 3.5vw, 3rem);
+	}
+
+	/* El envoltorio de Reveal es el que cae en la rejilla: sin este `flex` la
+	   tarjeta no se estira hasta el alto de su fila y los bordes quedan desiguales. */
+	.feature-grid > :global(.reveal) {
+		display: flex;
 	}
 
 	.feature-grid article {
 		display: flex;
-		min-height: 17rem;
+		flex: 1;
 		flex-direction: column;
+		position: relative;
+		/* Recorta los realces contra el radio de la tarjeta. */
+		overflow: hidden;
 		padding: 1.6rem;
+		border: 1px solid var(--line);
+		border-radius: 1.1rem;
 		background: #ffffff;
+		box-shadow:
+			0 1px 2px rgba(19, 22, 52, 0.04),
+			0 12px 26px -16px rgba(91, 79, 214, 0.26);
+		transition:
+			transform 220ms ease,
+			box-shadow 220ms ease,
+			border-color 220ms ease;
 	}
 
-	.feature-grid img {
-		width: 4.6rem;
-		height: 4.6rem;
-		margin: 0.4rem 0 1.9rem;
-		object-fit: contain;
-		/* los iconos están dibujados en blanco para fondo oscuro */
-		filter: invert(1) opacity(0.82);
+	/*
+	 * Realce de esquina. Cada uno es un cuadrado anclado a su esquina, con un
+	 * degradado radial centrado en el vértice INTERIOR y transparente hasta el 76 %
+	 * del radio. Al quedar la esquina fuera de esa circunferencia, su borde es un
+	 * arco que abomba hacia la esquina, y el realce se estrecha justo en la
+	 * diagonal: eso es lo que lo mantiene pegado al vértice en vez de repartirse
+	 * por toda la tarjeta, que es lo que pasaba al centrar el degradado en el
+	 * elemento entero.
+	 *
+	 * El lado del cuadrado marca el radio del arco: cuanto menor, más cerrada es la
+	 * curva. El 44 % es el punto en el que se lee como curva y no como diagonal.
+	 *
+	 * El cuadrado es la clave del truco: al medir lo mismo de alto que de ancho,
+	 * sus otros dos vértices caen dentro del tramo transparente y el realce muere
+	 * antes de llegar a los bordes de la caja, sin cortes secos.
+	 */
+	.feature-grid article::before,
+	.feature-grid article::after {
+		position: absolute;
+		width: 44%;
+		aspect-ratio: 1;
+		content: '';
+		pointer-events: none;
+	}
+
+	/* Luz violeta en la esquina superior derecha. */
+	.feature-grid article::before {
+		top: 0;
+		right: 0;
+		background: radial-gradient(
+			circle farthest-corner at 0% 100%,
+			rgba(98, 66, 173, 0) 0%,
+			rgba(98, 66, 173, 0) 76%,
+			rgba(98, 66, 173, 0.035) 90%,
+			rgba(98, 66, 173, 0.16) 100%
+		);
+	}
+
+	/* Sombra fría en la esquina inferior izquierda. */
+	.feature-grid article::after {
+		bottom: 0;
+		left: 0;
+		background: radial-gradient(
+			circle farthest-corner at 100% 0%,
+			rgba(29, 33, 68, 0) 0%,
+			rgba(29, 33, 68, 0) 77%,
+			rgba(29, 33, 68, 0.02) 90%,
+			rgba(29, 33, 68, 0.1) 100%
+		);
+	}
+
+	/* Los realces van absolutos y pintarían por encima del texto: este z-index los
+	   devuelve al fondo sin necesidad de un contexto de apilamiento aparte. */
+	.feature-grid article > * {
+		position: relative;
+		z-index: 1;
+	}
+
+	.feature-grid article:hover {
+		border-color: rgba(91, 79, 214, 0.3);
+		box-shadow:
+			0 2px 4px rgba(19, 22, 52, 0.05),
+			0 22px 40px -20px rgba(91, 79, 214, 0.4);
+		transform: translateY(-4px);
+	}
+
+	/*
+	 * Los iconos vienen dibujados en blanco, así que se usan como máscara y el
+	 * color lo pone el fondo del propio elemento, en vez del negro que daba
+	 * `invert()`. No llevan `--accent`: a este tamaño, ocho manchas de violeta
+	 * saturado gritan más que el propio titular. Este índigo apagado conserva el
+	 * matiz de la marca y deja el violeta pleno para enlaces y botones.
+	 */
+	.feature-icon {
+		display: block;
+		width: 3.8rem;
+		height: 3.8rem;
+		margin: 0.2rem 0 1.2rem;
+		background: var(--icon-ink);
+		mask: var(--icon) center / contain no-repeat;
+		-webkit-mask: var(--icon) center / contain no-repeat;
+		transition: filter 220ms ease;
+	}
+
+	/* Oscurecer con `filter` y no con otro `background`: así el degradado del icono
+	   se mantiene en el hover en vez de aplanarse a un color liso. */
+	.feature-grid article:hover .feature-icon {
+		filter: brightness(0.82) saturate(1.1);
 	}
 
 	.feature-icon-slot {
 		display: grid;
-		width: 4.6rem;
-		height: 4.6rem;
-		margin: 0.4rem 0 1.9rem;
-		border: 1px dashed var(--line);
-		border-radius: 0.5rem;
-		color: rgba(92, 110, 119, 0.55);
-		font-size: 0.6rem;
+		width: 3.8rem;
+		height: 3.8rem;
+		margin: 0.2rem 0 1.2rem;
+		border: 1px dashed rgba(61, 63, 102, 0.3);
+		border-radius: 0.7rem;
+		color: rgba(61, 63, 102, 0.5);
+		font-size: 0.58rem;
 		letter-spacing: 0.08em;
 		place-content: center;
 		text-align: center;
 		text-transform: uppercase;
 	}
 
+	/*
+	 * Sin `margin-top: auto`: el título va pegado al icono en vez de caer al fondo
+	 * de la tarjeta, que en las de texto corto abría un hueco enorme.
+	 */
 	.feature-grid h3 {
-		margin: auto 0 0.6rem;
+		margin: 0 0 0.6rem;
 		font-family: var(--font-display);
 		font-size: 1.1rem;
 		font-weight: 500;
@@ -1533,11 +1899,86 @@
 		line-height: 1.8;
 	}
 
+	/*
+	 * Ficha del agente: cierra la sección de Genix, así que no es una sección más
+	 * sino una tarjeta dentro de ella. El gris lila la despega del blanco de la
+	 * sección sin competir con la mancha de la ilustración.
+	 */
+	.genix-agent {
+		display: grid;
+		grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+		gap: clamp(1.2rem, 3vw, 2.5rem);
+		align-items: center;
+		margin-top: clamp(2.5rem, 5vw, 4rem);
+		padding: clamp(1.6rem, 3vw, 2.4rem);
+		border-radius: 1.2rem;
+		background: #f6f5fa;
+	}
+
+	.genix-agent-art {
+		grid-row: 1 / 3;
+		align-self: center;
+		margin: 0;
+	}
+
+	.genix-agent-art img {
+		width: 100%;
+		height: auto;
+	}
+
+	.genix-agent-copy h3 {
+		max-width: 22ch;
+		margin: 0 0 0.9rem;
+		font-family: var(--font-display);
+		font-size: clamp(1.75rem, 3vw, 2.6rem);
+		font-weight: 500;
+		line-height: 1.08;
+		letter-spacing: -0.03em;
+	}
+
+	.genix-agent-lead {
+		max-width: 46rem;
+		margin: 0;
+		color: var(--muted);
+		font-size: calc(0.98rem + var(--fs-bump));
+		line-height: 1.75;
+	}
+
+	.genix-agent-skills {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem clamp(1.2rem, 2.5vw, 2rem);
+		/* Sin margen propio: el hueco con el párrafo ya lo pone el `gap` de la ficha. */
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.genix-agent-skills li {
+		padding-top: 0.7rem;
+		border-top: 1px solid #dcd9f2;
+	}
+
+	.genix-agent-skills strong {
+		display: block;
+		margin-bottom: 0.15rem;
+		color: var(--accent);
+		font-size: calc(0.95rem + var(--fs-bump));
+		font-weight: 700;
+	}
+
+	.genix-agent-skills span {
+		color: var(--muted);
+		font-size: calc(0.88rem + var(--fs-bump));
+		line-height: 1.55;
+	}
+
 	/* --------------------------------------------------------- responsive */
 	@media (max-width: 1080px) {
 		.project-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
+
 
 		.doubts {
 			/* The arc only reads with the four cards on one row. */
@@ -1563,11 +2004,34 @@
 	@media (max-width: 860px) {
 		.hero {
 			padding-top: calc(var(--header-height) + 2.5rem);
-			background-position: center 45%;
 		}
 
+		/* El encuadre que antes daba `background-position` ahora es del <img>. */
+		.hero-bg img {
+			object-position: center 45%;
+		}
+
+		/* Apilado el texto ocupa menos alto, así que el velo puede aclararse. */
 		.hero::before {
-			background: linear-gradient(0deg, rgba(5, 6, 26, 0.88) 24%, rgba(5, 6, 26, 0.42));
+			background: linear-gradient(0deg, rgba(5, 6, 26, 0.65) 24%, rgba(5, 6, 26, 0.2));
+		}
+
+		/*
+		 * Con el velo más claro, el texto cae sobre el limbo iluminado de la Tierra,
+		 * que además es la zona con más detalle. La sombra hace dos cosas: la corta
+		 * define el filo de la letra y la ancha abre un halo oscuro que la despega
+		 * del fondo. No se aplica a los botones: el principal lleva texto oscuro
+		 * sobre aguamarina y ahí la sombra sólo ensucia.
+		 */
+		.hero h1 {
+			text-shadow: 0 2px 12px rgba(3, 4, 20, 0.55);
+		}
+
+		.hero-lead,
+		.hero-foot {
+			text-shadow:
+				0 1px 3px rgba(3, 4, 20, 0.75),
+				0 0 14px rgba(3, 4, 20, 0.6);
 		}
 
 		.hero-inner {
@@ -1584,10 +2048,61 @@
 			max-width: 100%;
 		}
 
-		.intro,
 		.labs-body,
 		.genix-intro {
 			grid-template-columns: 1fr;
+		}
+
+		/* Apilada, la ilustración se queda arriba y a un tamaño de icono grande. */
+		.genix-agent {
+			grid-template-columns: 1fr;
+		}
+
+		.genix-agent-art {
+			grid-row: auto;
+			width: min(15rem, 65%);
+		}
+
+		.genix-agent-skills {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		/*
+		 * Apilada, la ilustración sube entre el primer y el segundo párrafo. Para
+		 * intercalarla hay que disolver las cajas intermedias (el envoltorio de
+		 * Reveal y `.intro-copy`) y dejar que rótulo, titular, párrafos, figura y
+		 * llamada a la acción sean hermanos directos del mismo contenedor flex.
+		 */
+		.intro {
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0;
+		}
+
+		.intro > :global(.reveal),
+		.intro-copy {
+			display: contents;
+		}
+
+		/*
+		 * El resto del texto pasa a un grupo posterior; todo lo demás se queda en el
+		 * grupo por defecto conservando el orden del marcado, así que la figura cae
+		 * justo detrás del primer párrafo.
+		 */
+		.intro-more,
+		.intro-cta {
+			order: 1;
+		}
+
+		/*
+		 * Arriba basta con poco: el párrafo anterior ya aporta su propio margen
+		 * inferior (en flex los márgenes no colapsan). Abajo, en cambio, el texto
+		 * arranca sin margen superior y necesita todo el aire aquí.
+		 */
+		.intro-art {
+			max-width: 20rem;
+			margin: 0.25rem auto clamp(1.75rem, 6vw, 2.5rem);
 		}
 
 		/*
@@ -1627,9 +2142,22 @@
 			order: 4;
 		}
 
-		/* El titular por delante de la ilustración al apilarse. */
+		/*
+		 * Apilado, la ilustración va entre la entradilla y la línea de ayuda, que se
+		 * queda pegada a las tarjetas que explica. Como en «¿Quiénes somos?», hay que
+		 * disolver `.section-top-copy` para poder intercalarla con `order`.
+		 */
 		.section-top-copy {
+			display: contents;
+		}
+
+		.section-top-copy > :not(.project-hint) {
 			order: -1;
+		}
+
+		.project-hint {
+			order: 1;
+			margin-top: clamp(2rem, 5vw, 4.5rem);
 		}
 
 		/*
@@ -1657,11 +2185,24 @@
 
 		/*
 		 * El desplazamiento que alinea el rótulo con el logo sólo tiene sentido con
-		 * las dos columnas; apilado, monta el rótulo sobre el botón.
+		 * las dos columnas; apilado, monta el rótulo sobre el botón. Y como aquí el
+		 * rótulo y el titular presentan la sección, se colocan delante del logo: en
+		 * una sola columna basta con `order`, la rejilla respeta ese orden.
 		 */
 		.genix-intro .eyebrow {
-			margin-bottom: 0;
+			order: -2;
+			/* Sin el `transform` que lo montaba sobre el titular, necesita su propio aire. */
+			margin-bottom: 0.6rem;
 			transform: none;
+		}
+
+		.genix-intro h2 {
+			order: -1;
+		}
+
+		/* Ya no abre el bloque: necesita separarse del titular que ahora va encima. */
+		.genix-logo {
+			margin-top: calc(clamp(1.2rem, 4vw, 2rem) + 0.5rem);
 		}
 
 		/* Sin las tres columnas, el filete no separa nada y el resto se apila. */
@@ -1693,28 +2234,263 @@
 		}
 
 		.section-top {
-			grid-template-columns: 1fr;
-			align-items: start;
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			/* El espaciado lo llevan los márgenes de cada bloque, no el `gap`. */
+			gap: 0;
+			margin-bottom: clamp(1rem, 2.2vw, 1.5rem);
+		}
+
+		.section-top-art {
+			margin: clamp(2rem, 5vw, 4.5rem) auto 0;
+		}
+	}
+
+	/*
+	 * Móvil: no hay cabecera (sólo el botón del menú flotando en la esquina), así
+	 * que el hero recupera la parte alta de la pantalla y el selector de idioma se
+	 * ancla a su esquina superior izquierda. Con el logo apilado encima, el texto
+	 * queda centrado.
+	 */
+	@media (max-width: 720px) {
+		/*
+		 * El borde inferior es sólo el respiro del pie: la posición vertical del
+		 * bloque la fija el `margin-top` de `.hero-inner`, no el reparto del
+		 * centrado. Cuanto se le añada aquí se suma al alto del hero y lo saca de
+		 * la pantalla.
+		 */
+		.hero {
+			padding-top: 3.75rem;
+			padding-bottom: 2rem;
+		}
+
+		.hero-bg img {
+			object-position: center;
+		}
+
+		/*
+		 * Con el logo ocupando media pantalla, el balanceo del `float` se lee como
+		 * un temblor: en pantalla ancha es un detalle, aquí distrae.
+		 */
+		.hero-mark img {
+			animation: none;
+		}
+
+		.hero-lang {
+			position: absolute;
+			z-index: 3;
+			top: 1rem;
+			left: var(--page-pad);
+			display: block;
+		}
+
+		.hero-copy {
+			text-align: center;
+		}
+
+		.hero-lead {
+			margin-top: 2.5rem;
+			margin-inline: auto;
+		}
+
+		/* Más aire entre el logo y el titular que el que reparte el layout ancho. */
+		.hero-inner {
+			gap: 20vw;
+			margin-top: 14vw;
+		}
+
+		/*
+		 * El botón fantasma cae justo sobre el limbo iluminado de la Tierra, donde
+		 * el borde de 1px se pierde. Un velo negro le devuelve el contorno sin
+		 * convertirlo en un botón sólido que compita con el principal.
+		 */
+		.hero-actions .button-secondary {
+			background: rgba(0, 0, 0, 0.35);
+		}
+
+		.hero-actions,
+		.hero-foot {
+			justify-content: center;
+		}
+
+		.intro {
+			padding-top: 2.75rem;
+			text-align: center;
+		}
+
+		.ai {
+			text-align: center;
+		}
+
+		/* Rótulo y titular presentan la sección de Genix: centrados como el resto. */
+		.genix-intro .eyebrow,
+		.genix-intro h2 {
+			text-align: center;
+		}
+
+		/*
+		 * El botón se recuesta en el costado derecho y sube con margen negativo para
+		 * aprovechar el aire que deja el logo por debajo.
+		 */
+		.genix-cta {
+			justify-self: end;
+			margin-top: -1.5rem;
+		}
+
+		.ai-copy p:not(.eyebrow) {
+			margin-inline: auto;
+		}
+
+		/*
+		 * Los puntos de «labs» se reorganizan: la pastilla del icono encima, alineada
+		 * al margen, y el texto a todo el ancho debajo.
+		 */
+		.labs-point {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0.95rem;
+			align-items: center;
+		}
+
+		/* En su propia fila el icono ya no compite con el texto: puede crecer. */
+		.labs-point-icon {
+			width: 5.6rem;
+		}
+
+		/* Dos líneas largas: en móvil el titular de «labs» pide un cuerpo menor. */
+		.labs-head .section-heading {
+			font-size: clamp(1.95rem, 5vw, 5rem);
+		}
+
+		/* Rótulo, titular y entradilla de «Proyectos», también centrados. */
+		.section-top-copy {
+			text-align: center;
+		}
+
+		.section-top-copy p:not(.eyebrow) {
+			margin-inline: auto;
+		}
+
+		.project-hint {
+			text-align: center;
+		}
+
+		/*
+		 * El bloque de llamada a la acción conserva su texto alineado a la izquierda
+		 * y el botón cae a la derecha, casi pegado a la pregunta: apilados no
+		 * necesitan el aire de la versión ancha.
+		 */
+		.intro-cta {
+			justify-content: flex-end;
+			gap: 0 1.2rem;
+			padding: 1.15rem 1.2rem;
+			text-align: left;
+		}
+
+		/* El alto mínimo del botón ya deja aire de sobra sobre su rótulo. */
+		.intro-cta a {
+			margin-top: -0.45rem;
 		}
 	}
 
 	@media (max-width: 640px) {
 		.project-grid,
 		.doubts,
-		.feature-grid {
+		.feature-grid,
+		.genix-agent-skills {
 			grid-template-columns: 1fr;
 		}
 
-		/* Apilado, el texto y el botón no necesitan el aire de la versión ancha. */
-		.intro-cta {
-			gap: 0.9rem;
-			padding: 1.15rem 1.2rem;
+		/*
+		 * En una columna la ficha ya no necesita despegarse de nada: el recuadro
+		 * gris solo roba ancho al texto. Se disuelve y su papel de cierre lo asume
+		 * un filete con la rampa de la marca, difuminado en los extremos para que
+		 * no choque con los bordes de la página.
+		 */
+		.genix-agent {
+			padding: 0;
+			border-radius: 0;
+			background: none;
 		}
 
-		/* Centrado y a una medida corta, el texto pedía separarse de los bordes. */
+		/* Como hijo directo de la rejilla ocupa su propia fila; el `gap` lo separa. */
+		.genix-agent::before {
+			display: block;
+			height: 2px;
+			border-radius: 999px;
+			background: var(--brand-ramp);
+			-webkit-mask: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+			mask: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+			content: '';
+		}
+
+		/*
+		 * En una columna el titular abre el bloque y la ilustración lo cierra, así
+		 * que la figura baja con `order`. El filete es el primer hijo de la rejilla
+		 * y también entra en el reparto: se queda arriba con un `order` negativo.
+		 */
+		.genix-agent {
+			text-align: center;
+		}
+
+		.genix-agent::before {
+			order: -1;
+		}
+
+		.genix-agent-art {
+			order: 1;
+			margin-inline: auto;
+		}
+
+		/* Las capacidades van después de la ilustración y siguen leyéndose en fila. */
+		.genix-agent-skills {
+			order: 2;
+			text-align: left;
+		}
+
+		.genix-agent-copy h3,
+		.genix-agent-lead {
+			margin-inline: auto;
+		}
+
+
+		/*
+		 * Una tarjeta por fila: el icono se va al costado derecho y el texto ocupa la
+		 * columna izquierda, en lugar de apilarse bajo un icono suelto a la izquierda.
+		 */
+		.feature-grid article {
+			display: grid;
+			min-height: 0;
+			grid-template-columns: minmax(0, 1fr) auto;
+			gap: 0 1.2rem;
+			align-content: start;
+			padding: 1.3rem 1.4rem;
+		}
+
+		.feature-icon,
+		.feature-icon-slot {
+			grid-row: 1 / span 2;
+			grid-column: 2;
+			align-self: start;
+			margin: 0;
+		}
+
+		.feature-grid h3 {
+			grid-row: 1;
+			grid-column: 1;
+		}
+
+		.feature-grid p {
+			grid-row: 2;
+			grid-column: 1;
+			/* A este ancho el cuerpo de 0.82rem se quedaba corto. */
+			font-size: calc(0.95rem + var(--fs-bump));
+			line-height: 1.45;
+		}
+
+		/* La sección ya aporta `--page-pad`: este sangrado extra sobraba. */
 		.os-answer {
 			margin-top: 2.25rem;
-			padding: 0 1.1rem;
 		}
 
 		/* El arco es mucho más bajo aquí: necesita su propio aire a ambos lados. */
@@ -1722,17 +2498,75 @@
 			margin-top: 2.25rem;
 		}
 
-		.doubt-icon {
-			margin: 1.3rem 0 1.5rem;
+		.horizon-arc {
+			display: none;
 		}
 
+		.horizon-flat {
+			display: block;
+		}
+
+		/*
+		 * Una recta no necesita caja alta ni los recortes que pedía la curva, y a todo
+		 * el ancho pesa demasiado: se queda en un filete centrado.
+		 */
+		.horizon svg {
+			--horizon-h: 0.75rem;
+
+			width: 78%;
+			margin: 0 auto;
+		}
+
+		/*
+		 * A una tarjeta por fila el número no necesita su propia línea: se saca del
+		 * flujo y se ancla a la izquierda del icono, que así sube y recupera el aire
+		 * que le quitaba encima.
+		 */
+		.doubts blockquote {
+			position: relative;
+		}
+
+		.doubt-num {
+			position: absolute;
+			top: 0.35rem;
+			left: 15%;
+		}
+
+		.doubt-icon {
+			margin: 0 0 1.5rem;
+		}
+
+		/*
+		 * El cuerpo lo manda el corte pedido: «Iniciativas de código abierto» tiene
+		 * que caber de una pieza en la primera línea. Manda el 7vw; el mínimo está
+		 * en 1.6rem y no en 1.85 porque a partir de ahí el cuerpo dejaría de
+		 * encoger con la pantalla mientras el ancho disponible sigue bajando, y por
+		 * debajo de 400px la primera línea se partía en dos.
+		 */
 		.hero h1 {
-			font-size: clamp(1.85rem, 7.6vw, 2.4rem);
+			font-size: clamp(1.6rem, 7vw, 2.4rem);
 			text-wrap: balance;
 		}
 
-		.hero h1 :global(br) {
+		/* Se intercambian los dos juegos de saltos. */
+		.hero h1 :global(br.w) {
 			display: none;
+		}
+
+		.hero h1 :global(br.n) {
+			display: inline;
+		}
+
+		/*
+		 * En estrecho el último tramo de estos dos párrafos pasa a leerse aparte:
+		 * el <span> se vuelve bloque, lo que ya fuerza el salto, y el margen abre
+		 * el aire. En ancho no lleva estilo ninguno y sigue siendo texto corrido,
+		 * así que no hace falta partir el string bilingüe en dos entradas.
+		 */
+		.os-head :global(.os-split),
+		.os-answer :global(.os-split) {
+			display: block;
+			margin-top: 1em;
 		}
 
 		.hero-foot {

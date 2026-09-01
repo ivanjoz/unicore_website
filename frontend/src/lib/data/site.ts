@@ -4,6 +4,9 @@
  * en ambos idiomas (nombres, siglas, tecnologías) va sin separador.
  */
 
+import simpleVaultLogo from '$lib/images/simple_vault_logo.png';
+import { colbinIcon, facturaGo, genixLogo, genixOrm, genixSearch, genixSupportAgent, genixUi, relimiterLogo } from '$lib/svg/icons.gen';
+
 export type Article = {
 	title: string;
 	summary: string;
@@ -16,7 +19,7 @@ export type LabProject = {
 	kind: string;
 	description: string;
 	url?: string;
-	/** Ruta a un logo en /static. Si no existe, la tarjeta muestra el nombre. */
+	/** URL ya resuelta del logo (data-URI de $lib/svg/icons.gen o asset importado). */
 	logo?: string;
 	status: 'Activo' | 'En desarrollo' | 'En diseño';
 	stack: string[];
@@ -74,9 +77,9 @@ export const labProjects: LabProject[] = [
 	{
 		name: 'Genix ERP',
 		kind: 'ERP + E-commerce',
-		logo: '/svg/genix_logo.svg',
+		logo: genixLogo,
 		description:
-			'Sistema de gestión empresarial, CRM y E-commerce para pequeñas empresas. Punto de venta, logistica, gestión de cuentas, clientes y flujos de caja proyectados y facturación electrónica. Permite a cada empresa exportar su data. Arquitectura híbrida: cloud-native o self-host. Hecho en Go + Svelte.js.|Business management, CRM and e-commerce system for small companies. Point of sale, logistics, account management, customers, projected cash flows and electronic invoicing. Every company can export its own data. Hybrid architecture: cloud-native or self-hosted. Built with Go + Svelte.js.',
+			'Sistema de gestión empresarial, CRM y E-commerce para pequeñas empresas. Punto de venta, logistica, gestión de cuentas, clientes, flujos de caja proyectados y facturación electrónica. Permite a cada empresa exportar su data. Arquitectura híbrida: cloud-native o self-host.|Business management, CRM and e-commerce system for small companies. Point of sale, logistics, account management, customers, projected cash flows and electronic invoicing. Every company can export its own data. Hybrid architecture: cloud-native or self-hosted.',
 		url: 'https://genix.un.pe',
 		status: 'En desarrollo',
 		stack: ['Go', 'ScyllaDB', 'AI']
@@ -84,7 +87,7 @@ export const labProjects: LabProject[] = [
 	{
 		name: 'Colbin',
 		kind: 'Serialización|Serialization',
-		logo: '/svg/colbin_icon.svg',
+		logo: colbinIcon,
 		description:
 			'Serializador binario columnar optimizado para arrays de registros. Hecho en Go y AssemblyScript. Transpone los datos y los codifica por columna usando varint, delta encoding y 5-bit chars, reduciendo el ancho de banda frente a formatos como JSON, CBOR o Protobuf.|Columnar binary serializer optimized for arrays of records. Written in Go and AssemblyScript. It transposes the data and encodes it column by column using varint, delta encoding and 5-bit chars, cutting bandwidth compared with formats such as JSON, CBOR or Protobuf.',
 		url: 'https://colbin.un.pe',
@@ -94,9 +97,9 @@ export const labProjects: LabProject[] = [
 	{
 		name: 'Genix Search',
 		kind: 'Motor de búsqueda|Search engine',
-		logo: '/svg/genix_search.svg',
+		logo: genixSearch,
 		description:
-			'Backend de búsqueda compacto y rankeado, optimizado para textos cortos y multi-índice con bajo consumo de RAM. Usa bigramas computados en español, claves enteras directas y RocksDB como storage. Binario estático sin dependencias.|Compact ranked search backend, optimized for short texts and multiple indexes with low RAM usage. It uses bigrams computed for Spanish, direct integer keys and RocksDB as storage. A static binary with no dependencies.',
+			'Backend de búsqueda compacto y rankeado, optimizado para textos cortos y multi-índice con bajo consumo de RAM. Usa bigramas computados en español, hash-maps y RocksDB como storage. Binario estático sin dependencias.|Compact ranked search backend, optimized for short texts and multiple indexes with low RAM usage. It uses bigrams computed for Spanish, hash-maps and RocksDB as storage. A static binary with no dependencies.',
 		url: 'https://github.com/ivanjoz/genix-search',
 		status: 'Activo',
 		stack: ['Rust', 'RocksDB', 'TCP']
@@ -104,7 +107,7 @@ export const labProjects: LabProject[] = [
 	{
 		name: 'Genix Agentic UI',
 		kind: 'Componentes de IA|AI components',
-		logo: '/svg/genix_ui.svg',
+		logo: genixUi,
 		description:
 			'Componentes de interfaz agénticos: modelos pequeños y sin visión que acompañan al usuario a navegar el sistema y a ejecutar instrucciones, exprimiendo cada dólar de inferencia.|Agentic interface components: small, vision-free models that guide the user through the system and carry out instructions, squeezing every dollar of inference.',
 		url: 'https://github.com/ivanjoz/genix-ui',
@@ -114,7 +117,7 @@ export const labProjects: LabProject[] = [
 	{
 		name: 'Factura-Go',
 		kind: 'Facturación electrónica|Electronic invoicing',
-		logo: '/svg/factura_go.svg',
+		logo: facturaGo,
 		description:
 			'Librería en Go para la emisión de comprobantes electrónicos: construcción del documento, firma digital, envío y consulta del estado ante la SUNAT (Perú).|Go library for issuing electronic tax documents: building the document, signing it digitally, sending it and checking its status with SUNAT (Peru).',
 		url: 'https://facturago.un.pe',
@@ -124,7 +127,7 @@ export const labProjects: LabProject[] = [
 	{
 		name: 'Simple Vault',
 		kind: 'Seguridad|Security',
-		logo: '/svg/simple_vault_logo.png',
+		logo: simpleVaultLogo,
 		description:
 			'Gestor de contraseñas offline-first que cifra todo en el navegador con Argon2id y AES-256-GCM, y guarda la bóveda en el almacenamiento aislado de tu propio Google Drive. Sin servidor de aplicación.|Offline-first password manager that encrypts everything in the browser with Argon2id and AES-256-GCM, and keeps the vault in the isolated storage of your own Google Drive. No application server.',
 		url: 'https://github.com/ivanjoz/simple-vault',
@@ -134,7 +137,7 @@ export const labProjects: LabProject[] = [
 	{
 		name: 'Genix ORM',
 		kind: 'Bases de datos|Databases',
-		logo: '/svg/genix_orm.svg',
+		logo: genixOrm,
 		description:
 			'ORM con API de consultas verificada en tiempo de compilación para ScyllaDB / Cassandra y DynamoDB. Los patrones de acceso se declaran por adelantado y se sirven por partición, índice o vista.|ORM with a compile-time checked query API for ScyllaDB / Cassandra and DynamoDB. Access patterns are declared up front and served by partition, index or view.',
 		url: 'https://github.com/ivanjoz/genix-orm',
@@ -142,19 +145,19 @@ export const labProjects: LabProject[] = [
 		stack: ['Go', 'ScyllaDB', 'DynamoDB']
 	},
 	{
-		name: 'Auth-Limiter',
+		name: 'Fareward',
 		kind: 'Infraestructura|Infrastructure',
-		logo: '/svg/relimiter_logo.svg',
+		logo: relimiterLogo,
 		description:
 			'Servicio en memoria que valida accesos y descuenta créditos de uso en una sola llamada TCP, en base a quotas por minuto. Proceso en Rust con tramas HMAC, locks entre Lambdas concurrentes, request logs, reportería y puente SSE.|In-memory service that validates access and deducts usage credits in a single TCP call, based on per-minute quotas. A Rust process with HMAC frames, locks across concurrent Lambdas, request logs, reporting and an SSE bridge.',
-		url: 'https://github.com/ivanjoz/auth-limiter',
+		url: 'https://github.com/ivanjoz/fareward',
 		status: 'En desarrollo',
 		stack: ['Rust', 'TCP', 'SSE', 'ScyllaDB']
 	},
 	{
 		name: 'Genix Support AI',
 		kind: 'Agente autónomo|Autonomous agent',
-		logo: '/svg/genix_support_agent.svg',
+		logo: genixSupportAgent,
 		description:
 			'Automatización de soporte para proyectos de código abierto: indexa el código, lee los tickets, reproduce el problema como un usuario real con BrowserOS, abre el PR con la corrección, espera el despliegue y responde el ticket.|Support automation for open-source projects: it indexes the code, reads the tickets, reproduces the problem like a real user with BrowserOS, opens the PR with the fix, waits for the deployment and answers the ticket.',
 		status: 'En diseño',

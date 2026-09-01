@@ -2,7 +2,8 @@
 	import { page } from '$app/state';
 	import { base } from '$app/paths';
 	import T from '$lib/components/T.svelte';
-	import { lang, t, toggleLang } from '$lib/i18n.svelte';
+	import LangToggle from '$lib/components/LangToggle.svelte';
+	import { t } from '$lib/i18n.svelte';
 
 	const links = [
 		{ href: `${base}/`, label: 'Inicio|Home' },
@@ -51,17 +52,7 @@
 	</nav>
 
 	<div class="header-actions">
-		<!-- El idioma activo es el que queda resaltado; el otro es el destino del click. -->
-		<button
-			class="lang-toggle"
-			type="button"
-			aria-label={t('Cambiar a inglés|Switch to Spanish')}
-			onclick={toggleLang}
-		>
-			<span class:active={lang.value === 'es'}>ES</span>
-			<span class="lang-sep" aria-hidden="true"></span>
-			<span class:active={lang.value === 'en'}>EN</span>
-		</button>
+		<div class="header-lang"><LangToggle /></div>
 
 		<button
 			class="menu-toggle"
@@ -70,7 +61,13 @@
 			aria-expanded={menuOpen}
 			onclick={() => (menuOpen = !menuOpen)}
 		>
-			<span></span><span></span>
+			<!--
+				Los dos glifos comparten celda y se cruzan al abrir: así el botón no
+				cambia de tamaño ni la barra da un salto. Vienen de Iconify (Lucide),
+				que el plugin incrusta como máscara CSS, sin petición de red.
+			-->
+			<span class="icon-[lucide--menu] menu-icon" aria-hidden="true"></span>
+			<span class="icon-[lucide--x] menu-icon menu-icon-close" aria-hidden="true"></span>
 		</button>
 	</div>
 </header>
@@ -182,41 +179,6 @@
 		gap: 0.75rem;
 	}
 
-	/* Conmutador de idioma: las dos opciones siempre visibles, la activa resaltada. */
-	.lang-toggle {
-		display: flex;
-		align-items: center;
-		gap: 0.45rem;
-		padding: 0.34rem 0.7rem;
-		border: 1px solid rgba(255, 255, 255, 0.18);
-		border-radius: 999px;
-		background: rgba(255, 255, 255, 0.05);
-		color: rgba(255, 255, 255, 0.55);
-		font: inherit;
-		font-size: calc(0.66rem + var(--fs-bump));
-		font-weight: 700;
-		letter-spacing: 0.12em;
-		cursor: pointer;
-		transition:
-			border-color 180ms ease,
-			background 180ms ease;
-	}
-
-	.lang-toggle:hover {
-		border-color: rgba(61, 220, 201, 0.55);
-		background: rgba(255, 255, 255, 0.1);
-	}
-
-	.lang-toggle span.active {
-		color: var(--aqua);
-	}
-
-	.lang-sep {
-		width: 1px;
-		height: 0.75rem;
-		background: rgba(255, 255, 255, 0.24);
-	}
-
 	.menu-toggle {
 		display: none;
 		width: 2.75rem;
@@ -224,20 +186,62 @@
 		border: 1px solid rgba(255, 255, 255, 0.18);
 		border-radius: 999px;
 		background: transparent;
+		color: white;
+		place-items: center;
 	}
 
-	.menu-toggle span {
-		display: block;
-		width: 1.05rem;
-		height: 1px;
-		margin: 0.28rem auto;
-		background: white;
-		transition: transform 180ms ease;
+	.menu-icon {
+		/* Misma celda para los dos: se superponen en vez de apilarse. */
+		width: 1.5rem;
+		height: 1.5rem;
+		grid-area: 1 / 1;
+		transition:
+			opacity 160ms ease,
+			transform 220ms ease;
 	}
 
+	.menu-icon-close,
+	.menu-open .menu-icon {
+		opacity: 0;
+		transform: rotate(-90deg) scale(0.7);
+	}
+
+	.menu-open .menu-icon-close {
+		opacity: 1;
+		transform: none;
+	}
+
+	/*
+	 * En móvil no hay cabecera: la barra desaparece por completo y sólo queda la
+	 * pestaña del menú anclada en la esquina superior derecha. El <header>
+	 * sigue existiendo como ancla del desplegable, así que se vuelve invisible y
+	 * deja pasar los clicks (`pointer-events: none`) para no tapar el hero.
+	 */
 	@media (max-width: 720px) {
-		header {
-			padding-inline: 1rem;
+		header,
+		header.scrolled {
+			/* Sin el logo, `space-between` dejaría el botón pegado a la izquierda. */
+			height: auto;
+			justify-content: flex-end;
+			padding: 0;
+			border-bottom: none;
+			background: transparent;
+			backdrop-filter: none;
+			pointer-events: none;
+		}
+
+		.brand {
+			display: none;
+		}
+
+		/* En móvil el selector de idioma vive en la primera sección, no aquí. */
+		.header-lang {
+			display: none;
+		}
+
+		.header-actions {
+			gap: 0;
+			pointer-events: auto;
 		}
 
 		nav {
@@ -273,26 +277,29 @@
 			display: none;
 		}
 
+		/*
+		 * Pestaña, no botón: dos lados van a ras del borde de la pantalla y el
+		 * único vértice que queda dentro se redondea, así que el panel parece
+		 * salir de la esquina. Sin borde —a ras del canto no habría nada al otro
+		 * lado que separar— y con el sangrado sólo a la izquierda, que es por
+		 * donde el redondeo come sitio.
+		 */
 		.menu-toggle {
-			display: block;
-		}
-
-		.lang-toggle {
-			padding: 0.3rem 0.55rem;
-		}
-
-		.menu-open .menu-toggle span:first-child {
-			transform: translateY(0.19rem) rotate(45deg);
-		}
-
-		.menu-open .menu-toggle span:last-child {
-			transform: translateY(-0.19rem) rotate(-45deg);
+			display: grid;
+			width: 4rem;
+			height: 3rem;
+			padding: 0 0 0 8px;
+			border: none;
+			border-radius: 0 0 0 32px;
+			background: rgba(8, 9, 28, 0.72);
+			backdrop-filter: blur(14px);
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
 		header,
-		.brand img {
+		.brand img,
+		.menu-icon {
 			transition: none;
 		}
 	}

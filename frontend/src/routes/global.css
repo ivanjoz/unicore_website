@@ -1,7 +1,41 @@
+/*
+ * Tailwind v4, sobre todo por los iconos de Iconify: cualquier icono del set se
+ * escribe como clase, p. ej. `icon-[lucide--external-link]`, y el plugin lo
+ * incrusta como máscara CSS sin pedir red ni fuentes.
+ *
+ * Se importan las capas sueltas a propósito, sin `@import 'tailwindcss'`: eso
+ * arrastraría el preflight, que resetea márgenes y tipografía de los elementos
+ * en los que ya se apoya el CSS escrito a mano de este sitio.
+ */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@plugin '@iconify/tailwind4';
+/* El CSS vive en src/routes; sin esto no se escanearían los componentes. */
+@source '../';
+
 @font-face {
 	font-family: 'Rubik';
 	src: url('/fonts/rubik-v8-latin-regular.woff') format('woff');
 	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Inter';
+	src: url('/fonts/inter-latin-variable.woff2') format('woff2');
+	/*
+	 * Es la fuente variable: un solo archivo cubre de 400 a 700, así que en
+	 * móvil los pesos altos —eyebrows y botones piden 800— sí se dibujan
+	 * gruesos. Rubik y Raleway solo traen el regular y con `font-synthesis:
+	 * none` se quedan planos.
+	 */
+	font-weight: 400 700;
+	font-display: swap;
+	/* Corte latino: los caracteres fuera de este rango (las flechas ↗ ← →) los
+	   sigue poniendo la fuente del sistema, igual que hoy con Rubik. */
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+		U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+		U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -27,7 +61,7 @@
 	--brand-ramp: linear-gradient(96deg, #00d8b3 0%, #63aeff 52%, #a69aff 100%);
 
 	--ink: #131634;
-	--muted: #626688;
+	--muted: #525775;
 	/* Acento sobre fondo claro: enlaces, botones sólidos y filetes. */
 	--accent: #5b4fd6;
 	--accent-dark: #453ab2;
@@ -35,6 +69,12 @@
 	--accent-soft: #6f5fd8;
 	/* Acento brillante sobre fondo oscuro. */
 	--aqua: #3ddcc9;
+	/*
+	 * Tinta de los iconos de silueta (módulos de Genix, puntos de «labs»). Se
+	 * aplica como `background` bajo un `mask`, así que tiene que ser un degradado
+	 * y no un color: el mismo en todas las secciones para que no se desincronicen.
+	 */
+	--icon-ink: linear-gradient(21deg, #6242ad 0%, #2b77b5 100%);
 	--mist: #eef0fb;
 	--sand: #f4f2fd;
 	--line: #e2e3f3;
@@ -81,6 +121,28 @@ html {
 @media (max-width: 1400px) {
 	:root {
 		--page-pad: clamp(1.1rem, 4vw, 7rem);
+	}
+}
+
+/*
+ * En móvil la cabecera fija desaparece (sólo queda el botón flotante del menú),
+ * así que nada tiene que reservarle alto ni compensarla al saltar a un ancla.
+ */
+@media (max-width: 720px) {
+	:root {
+		--header-height: 0rem;
+		/*
+		 * En pantalla pequeña el texto corrido pasa a Inter, que a cuerpos
+		 * chicos aguanta mejor que Rubik. Los titulares no se tocan: siguen en
+		 * Raleway, que es lo que da el aire de la marca. Al declararse solo
+		 * aquí, el escritorio no llega a descargar el archivo: una fuente solo
+		 * se pide cuando alguna regla que casa la usa de verdad.
+		 */
+		--font-body: 'Inter', system-ui, sans-serif;
+	}
+
+	html {
+		scroll-padding-top: 1.25rem;
 	}
 }
 
