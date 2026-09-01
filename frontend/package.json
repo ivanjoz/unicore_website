@@ -10,7 +10,8 @@
 		"prepare": "svelte-kit sync",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"svg": "node scripts/svg-icons.ts",
-		"hero-images": "bash scripts/hero-images.sh"
+		"hero-images": "bash scripts/hero-images.sh",
+		"og-image": "bash scripts/og-image.sh"
 	},
 	"devDependencies": {
 		"@iconify-json/lucide": "^1.2.128",

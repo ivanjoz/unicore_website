@@ -2,8 +2,6 @@ import { browser } from '$app/environment';
 
 export type Lang = 'es' | 'en';
 
-const STORAGE_KEY = 'unicore:lang';
-
 /*
  * Los textos bilingües viajan dentro de un único string separado por "|":
  *
@@ -20,13 +18,9 @@ export const lang = {
 	},
 	set value(next: Lang) {
 		current = next;
-		if (!browser) return;
-		document.documentElement.lang = next;
-		try {
-			localStorage.setItem(STORAGE_KEY, next);
-		} catch {
-			// Navegación privada o almacenamiento bloqueado: el idioma dura la sesión.
-		}
+		// El atributo del documento lo pone el servidor al prerenderizar; aquí sólo
+		// hay que mantenerlo al día cuando se navega entre `/` y `/en/` sin recarga.
+		if (browser) document.documentElement.lang = next;
 	}
 };
 
@@ -36,34 +30,7 @@ export function t(text: string): string {
 	return (variants[current === 'es' ? 0 : 1] ?? variants[0]).trim();
 }
 
-export function toggleLang() {
-	lang.value = current === 'es' ? 'en' : 'es';
-}
-
 /** Etiqueta BCP-47 para `Intl` y para el atributo `lang` del documento. */
 export function localeTag(): string {
 	return current === 'es' ? 'es-PE' : 'en-US';
-}
-
-/**
- * La página se prerenderiza en español, así que la preferencia real solo puede
- * aplicarse en el cliente: primero lo elegido antes, y si no hay nada guardado,
- * el idioma del navegador.
- */
-export function restoreLang() {
-	if (!browser) return;
-
-	let stored: string | null = null;
-	try {
-		stored = localStorage.getItem(STORAGE_KEY);
-	} catch {
-		stored = null;
-	}
-
-	if (stored === 'es' || stored === 'en') {
-		lang.value = stored;
-		return;
-	}
-
-	lang.value = navigator.language?.toLowerCase().startsWith('es') ? 'es' : 'en';
 }

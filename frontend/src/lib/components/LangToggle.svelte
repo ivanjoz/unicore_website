@@ -1,22 +1,30 @@
 <script lang="ts">
-	import { lang, t, toggleLang } from '$lib/i18n.svelte';
+	import { lang, t } from '$lib/i18n.svelte';
+	import { langFromPath, pathFor } from '$lib/seo';
+	import { page } from '$app/state';
+
+	// Cada idioma tiene su propia URL, así que cambiar de idioma es navegar, no
+	// alternar un estado: siendo un <a> real el enlace es rastreable, se puede
+	// abrir en otra pestaña y la elección queda en la barra de direcciones.
+	const other = $derived(langFromPath(page.url.pathname) === 'es' ? 'en' : 'es');
 </script>
 
 <!-- El idioma activo es el que queda resaltado; el otro es el destino del click. -->
-<button
+<a
 	class="lang-toggle"
-	type="button"
+	href={pathFor(other)}
+	hreflang={other}
 	aria-label={t('Cambiar a inglés|Switch to Spanish')}
-	onclick={toggleLang}
 >
 	<span class:active={lang.value === 'es'}>ES</span>
 	<span class="lang-sep" aria-hidden="true"></span>
 	<span class:active={lang.value === 'en'}>EN</span>
-</button>
+</a>
 
 <style>
 	.lang-toggle {
 		display: flex;
+		text-decoration: none;
 		align-items: center;
 		gap: 0.45rem;
 		padding: 0.34rem 0.7rem;

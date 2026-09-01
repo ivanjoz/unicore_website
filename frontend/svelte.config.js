@@ -14,7 +14,17 @@ const config = {
 			strict: true
 		}),
 		paths: {
-			base
+			base,
+			/*
+			 * Por defecto SvelteKit resuelve `base` a una ruta relativa ('.', '..'),
+			 * lo que hace el sitio portable entre subdirectorios pero deja `base`
+			 * inservible para componer URL absolutas: la `og:image` salía como
+			 * `./images/...` —que ningún crawler resuelve— y el idioma deducido de
+			 * la ruta fallaba al recortar un prefijo de longitud equivocada.
+			 * El despliegue conoce su ruta (BASE_PATH), así que no necesita ser
+			 * portable.
+			 */
+			relative: false
 		}
 	}
 };

@@ -4,13 +4,17 @@
 	import T from '$lib/components/T.svelte';
 	import LangToggle from '$lib/components/LangToggle.svelte';
 	import { t } from '$lib/i18n.svelte';
+	import { langFromPath, pathFor } from '$lib/seo';
 
-	const links = [
-		{ href: `${base}/`, label: 'Inicio|Home' },
-		{ href: `${base}/#proyectos`, label: 'Proyectos|Projects' },
-		{ href: `${base}/#nosotros`, label: 'Nosotros|About us' },
-		{ href: `${base}/#contacto`, label: 'Contacto|Contact' }
-	];
+	// La navegación tiene que quedarse dentro del idioma actual: desde `/en/` un
+	// enlace a `${base}/` devolvería al visitante al español sin avisar.
+	let home = $derived(pathFor(langFromPath(page.url.pathname)));
+	let links = $derived([
+		{ href: home, label: 'Inicio|Home' },
+		{ href: `${home}#proyectos`, label: 'Proyectos|Projects' },
+		{ href: `${home}#nosotros`, label: 'Nosotros|About us' },
+		{ href: `${home}#contacto`, label: 'Contacto|Contact' }
+	]);
 
 	let menuOpen = $state(false);
 	let currentPath = $derived(page.url.pathname);
@@ -22,7 +26,7 @@
 
 	function isActive(href: string) {
 		if (href.includes('#')) return false;
-		return href === `${base}/` ? currentPath === `${base}/` : currentPath.startsWith(href);
+		return href === home ? currentPath === home : currentPath.startsWith(href);
 	}
 </script>
 
@@ -31,7 +35,7 @@
 <header class:menu-open={menuOpen} class:scrolled>
 	<a
 		class="brand"
-		href={`${base}/`}
+		href={home}
 		aria-label={t('Unicore, ir al inicio|Unicore, go to the home page')}
 		onclick={() => (menuOpen = false)}
 	>
