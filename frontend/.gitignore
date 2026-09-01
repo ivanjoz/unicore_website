@@ -4,3 +4,7 @@ node_modules
 .env
 .env.*
 !.env.example
+
+# El gestor del proyecto es bun: un package-lock.json en paralelo resuelve
+# distinto que bun.lock y deja el CI instalando otro árbol de dependencias.
+package-lock.json
