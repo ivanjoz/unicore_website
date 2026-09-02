@@ -33,7 +33,7 @@
 		background: rgba(255, 255, 255, 0.05);
 		color: rgba(255, 255, 255, 0.55);
 		font: inherit;
-		font-size: calc(0.66rem + var(--fs-bump));
+		font-size: var(--fs-2xs);
 		font-weight: 700;
 		letter-spacing: 0.12em;
 		cursor: pointer;
@@ -67,7 +67,7 @@
 		.lang-toggle {
 			gap: 0.55rem;
 			padding: 0.5rem 0.9rem;
-			font-size: calc(0.82rem + var(--fs-bump));
+			font-size: var(--fs-xs);
 		}
 
 		.lang-sep {

@@ -84,6 +84,53 @@
 	 * gana 1px. Solo aplica al texto corrido, los titulares mantienen su escala.
 	 */
 	--fs-bump: 0px;
+
+	/*
+	 * Escala tipográfica. Antes cada componente inventaba su propio cuerpo
+	 * (0.58, 0.6, 0.64, 0.65, 0.66, 0.68, 0.7, 0.72...), así que dos rótulos
+	 * equivalentes acababan con tamaños distintos sin motivo. Estos ocho
+	 * escalones son ahora la única fuente: si un bloque necesita otro cuerpo,
+	 * sube o baja de escalón, no escribe un rem suelto.
+	 *
+	 * El texto corrido no escala con el ancho a propósito: `clamp()` con `vw`
+	 * en el cuerpo hace que la medida cambie al redimensionar y no aporta
+	 * legibilidad. Lo que sí cambia es el escalón completo al pasar a móvil
+	 * (ver el bloque de 720px), donde toda la escala sube.
+	 */
+	--fs-3xs: calc(0.65rem + var(--fs-bump)); /* micro-rótulos en versal */
+	--fs-2xs: calc(0.72rem + var(--fs-bump)); /* rótulos, pastillas, botones */
+	--fs-xs: calc(0.8rem + var(--fs-bump)); /* rótulos grandes, eyebrows */
+	--fs-sm: calc(0.88rem + var(--fs-bump)); /* texto secundario, pies, notas */
+	--fs-base: calc(1rem + var(--fs-bump)); /* cuerpo por defecto */
+	--fs-md: calc(1.08rem + var(--fs-bump)); /* cuerpo destacado, entradillas */
+	--fs-lg: calc(1.18rem + var(--fs-bump)); /* entradilla de sección o hero */
+	--fs-xl: calc(1.35rem + var(--fs-bump)); /* cifras y destacados sueltos */
+
+	/*
+	 * Titulares: aquí el escalado fluido sí interesa, porque el titular ocupa
+	 * el ancho de la columna y tiene que encoger con ella. Cada escalón se usa
+	 * por jerarquía, no por etiqueta: --fs-h1 son los titulares a sangre y
+	 * --fs-h6 los rótulos de tarjeta.
+	 */
+	--fs-h1: clamp(2.25rem, 5vw, 5rem);
+	--fs-h2: clamp(2.2rem, 4.7vw, 4.3rem);
+	--fs-h3: clamp(1.9rem, 3.4vw, 3.2rem);
+	--fs-h4: clamp(1.7rem, 3vw, 2.6rem);
+	--fs-h5: clamp(1.35rem, 2vw, 1.75rem);
+	--fs-h6: clamp(1.1rem, 1.8vw, 1.25rem);
+
+	/*
+	 * Interlineados. Por encima de 1.65 el párrafo se deshilacha: las líneas
+	 * dejan de leerse como bloque y el ojo pierde el renglón siguiente, sobre
+	 * todo en móvil, donde la medida es corta. 1.65 es el techo del sitio.
+	 */
+	--lh-display: 1.04; /* titulares grandes */
+	--lh-tight: 1.1; /* titulares de tarjeta */
+	--lh-snug: 1.4; /* frases cortas a cuerpo grande */
+	--lh-normal: 1.5; /* texto corto, avisos */
+	--lh-body: 1.6; /* cuerpo en columna estrecha */
+	--lh-relaxed: 1.65; /* cuerpo en columna ancha */
+
 	--page-pad: clamp(1.25rem, 6vw, 7rem);
 	--radius-lg: clamp(1.25rem, 2.5vw, 2rem);
 	--curve-h: clamp(3rem, 7vw, 8rem);
@@ -139,6 +186,26 @@ html {
 		 * se pide cuando alguna regla que casa la usa de verdad.
 		 */
 		--font-body: 'Inter', system-ui, sans-serif;
+
+		/*
+		 * Toda la escala sube un escalón. En el móvil la medida es de 30-40
+		 * caracteres y se lee a un palmo de la cara: los mismos rem que en un
+		 * monitor a 60 cm se quedan cortos. La referencia es --fs-md, que es el
+		 * cuerpo de la entradilla de «¿Por qué código abierto?»; el resto del
+		 * sitio se acerca a ella en vez de quedarse dos escalones por debajo.
+		 *
+		 * Los escalones altos suben menos que los bajos: arriba el problema no
+		 * era el tamaño sino que la distancia entre escalones se comía el ancho
+		 * de pantalla, así que la escala se comprime.
+		 */
+		--fs-3xs: calc(0.69rem + var(--fs-bump));
+		--fs-2xs: calc(0.76rem + var(--fs-bump));
+		--fs-xs: calc(0.84rem + var(--fs-bump));
+		--fs-sm: calc(0.96rem + var(--fs-bump));
+		--fs-base: calc(1.02rem + var(--fs-bump));
+		--fs-md: calc(1.06rem + var(--fs-bump));
+		--fs-lg: calc(1.15rem + var(--fs-bump));
+		--fs-xl: calc(1.3rem + var(--fs-bump));
 	}
 
 	html {
@@ -149,7 +216,7 @@ html {
 body {
 	min-width: 320px;
 	margin: 0;
-	font-size: calc(1rem + var(--fs-bump));
+	font-size: var(--fs-base);
 	overflow-x: hidden;
 	background: #f7f7fd;
 }
@@ -173,7 +240,7 @@ img {
 .eyebrow {
 	margin: 0;
 	color: var(--accent-soft);
-	font-size: calc(0.82rem + var(--fs-bump));
+	font-size: var(--fs-xs);
 	font-weight: 800;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
@@ -187,9 +254,9 @@ img {
 	max-width: 18ch;
 	margin: 1rem 0 0;
 	font-family: var(--font-display);
-	font-size: clamp(2.25rem, 5vw, 5rem);
+	font-size: var(--fs-h1);
 	font-weight: 500;
-	line-height: 1;
+	line-height: var(--lh-display);
 	letter-spacing: -0.045em;
 }
 
@@ -203,7 +270,7 @@ img {
 	padding: 0.8rem 1.3rem;
 	border: 1px solid transparent;
 	border-radius: 999px;
-	font-size: calc(0.73rem + var(--fs-bump));
+	font-size: var(--fs-2xs);
 	font-weight: 800;
 	letter-spacing: 0.11em;
 	text-decoration: none;

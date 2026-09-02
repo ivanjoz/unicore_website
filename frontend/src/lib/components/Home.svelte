@@ -378,19 +378,11 @@
 							<h3>{project.name}</h3>
 							<p class="project-text"><T text={project.description} /></p>
 
-							<div class="project-foot">
-								<ul class="project-stack">
-									{#each project.stack as item}
-										<li><T text={item} /></li>
-									{/each}
-								</ul>
-
-								<!-- El enlace vive en el icono de la esquina; aquí sólo queda el aviso
-								     de los proyectos que todavía no tienen web. -->
-								{#if !project.url}
-									<span class="project-link muted"><T text="Próximamente|Coming soon" /></span>
-								{/if}
-							</div>
+							<ul class="project-stack">
+								{#each project.stack as item}
+									<li><T text={item} /></li>
+								{/each}
+							</ul>
 						</div>
 					</article>
 				</Reveal>
@@ -730,7 +722,7 @@
 		gap: 0.85rem;
 		margin: 0 0 1.6rem;
 		color: var(--aqua);
-		font-size: calc(0.68rem + var(--fs-bump));
+		font-size: var(--fs-2xs);
 		font-weight: 700;
 		letter-spacing: 0.32em;
 	}
@@ -741,6 +733,11 @@
 		background: linear-gradient(90deg, transparent, var(--aqua));
 	}
 
+	/*
+	 * Único titular fuera de --fs-h1..h6: su cuerpo no lo manda la jerarquía sino
+	 * el corte del texto, que tiene que caer en las líneas marcadas con <br>. Lo
+	 * mismo pasa con el override de móvil, más abajo.
+	 */
 	.hero h1 {
 		margin: 0;
 		font-family: var(--font-display);
@@ -768,8 +765,8 @@
 		max-width: 34rem;
 		margin: 1.8rem 0 0;
 		color: rgba(228, 230, 255, 0.72);
-		font-size: calc(clamp(1rem, 1.35vw, 1.15rem) + var(--fs-bump));
-		line-height: 1.75;
+		font-size: var(--fs-lg);
+		line-height: var(--lh-body);
 	}
 
 	.hero-actions {
@@ -863,7 +860,7 @@
 		gap: 1.1rem;
 		margin-top: clamp(2.5rem, 6vh, 4.5rem);
 		color: rgba(228, 230, 255, 0.45);
-		font-size: calc(0.6rem + var(--fs-bump));
+		font-size: var(--fs-3xs);
 		letter-spacing: 0.24em;
 	}
 
@@ -888,15 +885,15 @@
 	.intro-copy .section-heading {
 		max-width: none;
 		margin: 1rem 0 2rem;
-		font-size: clamp(1.9rem, 3.4vw, 3.2rem);
+		font-size: var(--fs-h3);
 	}
 
 	.intro-copy p:not(.eyebrow) {
 		max-width: 44rem;
 		margin: 0 0 1.2rem;
 		color: var(--muted);
-		font-size: calc(clamp(0.98rem, 1.3vw, 1.1rem) + var(--fs-bump));
-		line-height: 1.7;
+		font-size: var(--fs-md);
+		line-height: var(--lh-relaxed);
 	}
 
 	.intro-art {
@@ -927,8 +924,8 @@
 		flex: 1 1 20rem;
 		margin: 0;
 		color: var(--ink);
-		font-size: calc(clamp(0.95rem, 1.2vw, 1.05rem) + var(--fs-bump));
-		line-height: 1.5;
+		font-size: var(--fs-base);
+		line-height: var(--lh-normal);
 	}
 
 	.intro-cta a {
@@ -940,7 +937,7 @@
 		border-radius: 999px;
 		background: var(--accent);
 		color: white;
-		font-size: calc(0.75rem + var(--fs-bump));
+		font-size: var(--fs-2xs);
 		font-weight: 800;
 		letter-spacing: 0.1em;
 		text-decoration: none;
@@ -995,7 +992,7 @@
 		max-width: 38rem;
 		margin: 1.4rem 0 0;
 		color: var(--muted);
-		line-height: 1.7;
+		line-height: var(--lh-relaxed);
 	}
 
 	.project-grid {
@@ -1014,7 +1011,7 @@
 	.project-hint {
 		margin: 0.85rem 0 0;
 		color: var(--muted);
-		font-size: calc(0.92rem + var(--fs-bump));
+		font-size: var(--fs-sm);
 	}
 
 	/* El icono va dentro de la frase, así que se alinea con la línea base. */
@@ -1111,7 +1108,7 @@
 		padding-inline: 1rem;
 		color: #9a9cbe;
 		font-family: var(--font-display);
-		font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+		font-size: var(--fs-h6);
 		font-weight: 500;
 		letter-spacing: 0.02em;
 		text-align: center;
@@ -1122,8 +1119,8 @@
 		flex: 1;
 		flex-direction: column;
 		/* Arriba menos aire: el rótulo ya viene separado por el filete del logo. */
-		padding: clamp(0.8rem, 1.3vw, 1.05rem) clamp(1.3rem, 2.2vw, 1.75rem)
-			clamp(1.3rem, 2.2vw, 1.75rem);
+		padding: clamp(0.8rem, 1.3vw, 1.05rem) clamp(1rem, 2.2vw, 1.75rem)
+			clamp(1rem, 2.2vw, 1.75rem);
 	}
 
 	.project-meta {
@@ -1136,9 +1133,9 @@
 	.project-kind {
 		margin: 0;
 		color: var(--accent);
-		font-size: calc(0.6rem + var(--fs-bump));
-		font-weight: 800;
-		letter-spacing: 0.14em;
+		font-size: var(--fs-3xs);
+		font-weight: 600;
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
 	}
 
@@ -1152,10 +1149,11 @@
 		border-radius: 999px;
 		background: #fbfaff;
 		color: var(--muted);
-		font-size: calc(0.58rem + var(--fs-bump));
+		font-size: var(--fs-3xs);
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
+		margin-right: -4px;
 	}
 
 	.project-status::before {
@@ -1177,35 +1175,27 @@
 	.project-card h3 {
 		margin: 0.5rem 0 0.7rem;
 		font-family: var(--font-display);
-		font-size: clamp(1.35rem, 2vw, 1.75rem);
+		font-size: var(--fs-h5);
 		font-weight: 500;
-		line-height: 1.1;
+		line-height: var(--lh-tight);
 	}
 
 	.project-text {
 		margin: 0 0 0.85rem;
 		color: var(--muted);
-		font-size: calc(0.94rem + var(--fs-bump));
-		line-height: 1.6;
+		font-size: var(--fs-base);
+		line-height: var(--lh-body);
 	}
 
-	/* Los tags y el enlace comparten fila; `margin-top: auto` la fija al pie. */
-	.project-foot {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
-		margin-top: auto;
-		padding-top: 0.5rem;
-	}
-
+	/* `margin-top: auto` fija los tags al pie: así todas las tarjetas de una
+	   fila alinean su última línea aunque el texto sea de distinto largo. */
 	.project-stack {
 		display: flex;
 		min-width: 0;
 		flex-wrap: wrap;
 		gap: 0.4rem;
-		margin: 0;
-		padding: 0;
+		margin: auto 0 0;
+		padding: 0.5rem 0 0;
 		list-style: none;
 	}
 
@@ -1214,31 +1204,8 @@
 		border-radius: 0.45rem;
 		background: var(--mist);
 		color: var(--muted);
-		font-size: calc(0.65rem + var(--fs-bump));
+		font-size: var(--fs-3xs);
 		letter-spacing: 0.04em;
-	}
-
-	.project-link {
-		display: inline-flex;
-		align-items: center;
-		flex: none;
-		gap: 0.35rem;
-		color: var(--accent);
-		white-space: nowrap;
-		font-size: calc(0.7rem + var(--fs-bump));
-		font-weight: 800;
-		letter-spacing: 0.1em;
-		text-decoration: none;
-		text-transform: uppercase;
-		transition: gap 180ms ease;
-	}
-
-	.project-link:hover {
-		gap: 0.7rem;
-	}
-
-	.project-link.muted {
-		color: #9a9cbe;
 	}
 
 	/* --------------------------------------------------------- open source */
@@ -1268,9 +1235,9 @@
 		max-width: 26ch;
 		margin: 0.6rem auto 1.8rem;
 		font-family: var(--font-display);
-		font-size: clamp(2.2rem, 4.8vw, 4.4rem);
+		font-size: var(--fs-h2);
 		font-weight: 500;
-		line-height: 1.02;
+		line-height: var(--lh-display);
 		letter-spacing: -0.04em;
 	}
 
@@ -1278,8 +1245,8 @@
 		max-width: 46rem;
 		margin: 0 auto;
 		color: rgba(255, 255, 255, 0.6);
-		line-height: 1.65;
-		font-size: calc(1.05rem + var(--fs-bump));
+		line-height: var(--lh-relaxed);
+		font-size: var(--fs-md);
 	}
 
 	.os-head > p:last-child :global(strong) {
@@ -1323,7 +1290,7 @@
 
 	.doubt-num {
 		color: var(--aqua);
-		font-size: calc(0.65rem + var(--fs-bump));
+		font-size: var(--fs-3xs);
 		letter-spacing: 0.14em;
 	}
 
@@ -1353,8 +1320,8 @@
 		margin: auto 0 0;
 		color: rgba(255, 255, 255, 0.86);
 		font-family: var(--font-display);
-		font-size: calc(clamp(1rem, 1.5vw, 1.2rem) + var(--fs-bump));
-		line-height: 1.42;
+		font-size: var(--fs-lg);
+		line-height: var(--lh-snug);
 	}
 
 	.horizon {
@@ -1413,8 +1380,8 @@
 	.os-answer p {
 		margin: 0;
 		color: rgba(255, 255, 255, 0.66);
-		font-size: calc(clamp(1rem, 1.35vw, 1.15rem) + var(--fs-bump));
-		line-height: 1.7;
+		font-size: var(--fs-md);
+		line-height: var(--lh-relaxed);
 	}
 
 	.os-answer :global(strong) {
@@ -1490,8 +1457,8 @@
 	.labs-copy p {
 		margin: 0;
 		color: var(--muted);
-		font-size: calc(clamp(0.98rem, 1.3vw, 1.1rem) + var(--fs-bump));
-		line-height: 1.85;
+		font-size: var(--fs-md);
+		line-height: var(--lh-relaxed);
 	}
 
 	.labs-copy :global(strong) {
@@ -1533,15 +1500,15 @@
 
 	.legacy strong {
 		font-family: var(--font-display);
-		font-size: 1.35rem;
+		font-size: var(--fs-xl);
 		font-weight: 500;
 		letter-spacing: -0.01em;
 	}
 
 	.legacy span {
 		color: var(--muted);
-		font-size: calc(0.85rem + var(--fs-bump));
-		line-height: 1.6;
+		font-size: var(--fs-sm);
+		line-height: var(--lh-body);
 	}
 
 	/* ------------------------------------------------------------------ ai */
@@ -1591,7 +1558,7 @@
 		border-radius: 999px;
 		background: var(--mist);
 		color: var(--accent);
-		font-size: calc(0.72rem + var(--fs-bump));
+		font-size: var(--fs-2xs);
 		font-weight: 800;
 		letter-spacing: 0.1em;
 		text-decoration: none;
@@ -1624,8 +1591,8 @@
 		border-radius: 0.9rem;
 		background: #fff5ed;
 		color: #7a3d10;
-		font-size: calc(0.84rem + var(--fs-bump));
-		line-height: 1.65;
+		font-size: var(--fs-sm);
+		line-height: var(--lh-relaxed);
 	}
 
 	.genix-note-mark {
@@ -1669,9 +1636,9 @@
 		grid-column: 3;
 		margin: 0;
 		font-family: var(--font-display);
-		font-size: clamp(2.2rem, 4.6vw, 4.2rem);
+		font-size: var(--fs-h2);
 		font-weight: 500;
-		line-height: 1.02;
+		line-height: var(--lh-display);
 		letter-spacing: -0.04em;
 	}
 
@@ -1681,7 +1648,8 @@
 		max-width: 40rem;
 		margin: clamp(1.2rem, 2.5vw, 1.8rem) 0 0;
 		color: var(--muted);
-		line-height: 1.8;
+		font-size: var(--fs-md);
+		line-height: var(--lh-relaxed);
 	}
 
 	/*
@@ -1819,7 +1787,7 @@
 		border: 1px dashed rgba(61, 63, 102, 0.3);
 		border-radius: 0.7rem;
 		color: rgba(61, 63, 102, 0.5);
-		font-size: 0.58rem;
+		font-size: var(--fs-3xs);
 		letter-spacing: 0.08em;
 		place-content: center;
 		text-align: center;
@@ -1833,15 +1801,15 @@
 	.feature-grid h3 {
 		margin: 0 0 0.6rem;
 		font-family: var(--font-display);
-		font-size: 1.1rem;
+		font-size: var(--fs-h6);
 		font-weight: 500;
 	}
 
 	.feature-grid p {
 		margin: 0;
 		color: var(--muted);
-		font-size: calc(0.82rem + var(--fs-bump));
-		line-height: 1.6;
+		font-size: var(--fs-base);
+		line-height: var(--lh-body);
 	}
 
 	.ai {
@@ -1872,9 +1840,9 @@
 		max-width: 14ch;
 		margin: 1rem 0 1.6rem;
 		font-family: var(--font-display);
-		font-size: clamp(2.2rem, 4.6vw, 4.2rem);
+		font-size: var(--fs-h2);
 		font-weight: 500;
-		line-height: 1.02;
+		line-height: var(--lh-display);
 		letter-spacing: -0.04em;
 	}
 
@@ -1882,7 +1850,8 @@
 		max-width: 40rem;
 		margin: 0 0 1.2rem;
 		color: rgba(255, 255, 255, 0.6);
-		line-height: 1.8;
+		font-size: var(--fs-md);
+		line-height: var(--lh-relaxed);
 	}
 
 	/*
@@ -1914,11 +1883,11 @@
 
 	.genix-agent-copy h3 {
 		max-width: 22ch;
-		margin: 0 0 0.9rem;
+		margin: 1rem 0 1.4rem 0;
 		font-family: var(--font-display);
-		font-size: clamp(1.75rem, 3vw, 2.6rem);
+		font-size: var(--fs-h4);
 		font-weight: 500;
-		line-height: 1.08;
+		line-height: var(--lh-tight);
 		letter-spacing: -0.03em;
 	}
 
@@ -1926,8 +1895,8 @@
 		max-width: 46rem;
 		margin: 0;
 		color: var(--muted);
-		font-size: calc(0.98rem + var(--fs-bump));
-		line-height: 1.75;
+		font-size: var(--fs-md);
+		line-height: var(--lh-relaxed);
 	}
 
 	.genix-agent-skills {
@@ -1949,14 +1918,14 @@
 		display: block;
 		margin-bottom: 0.15rem;
 		color: var(--accent);
-		font-size: calc(0.95rem + var(--fs-bump));
+		font-size: var(--fs-base);
 		font-weight: 700;
 	}
 
 	.genix-agent-skills span {
 		color: var(--muted);
-		font-size: calc(0.88rem + var(--fs-bump));
-		line-height: 1.55;
+		font-size: var(--fs-sm);
+		line-height: var(--lh-body);
 	}
 
 	/* --------------------------------------------------------- responsive */
@@ -1978,7 +1947,7 @@
 	@media (max-width: 980px) {
 		.hero-kicker {
 			gap: 0.6rem;
-			font-size: 0.6rem;
+			font-size: var(--fs-3xs);
 			letter-spacing: 0.17em;
 		}
 
@@ -2046,7 +2015,7 @@
 
 		.genix-agent-art {
 			grid-row: auto;
-			width: min(15rem, 65%);
+			width: min(18rem, 72%);
 		}
 
 		.genix-agent-skills {
@@ -2469,9 +2438,6 @@
 		.feature-grid p {
 			grid-row: 2;
 			grid-column: 1;
-			/* A este ancho el cuerpo de 0.82rem se quedaba corto. */
-			font-size: calc(0.95rem + var(--fs-bump));
-			line-height: 1.45;
 		}
 
 		/* La sección ya aporta `--page-pad`: este sangrado extra sobraba. */
@@ -2556,7 +2522,6 @@
 		}
 
 		.hero-foot {
-			font-size: 0.55rem;
 			letter-spacing: 0.16em;
 		}
 

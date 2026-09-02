@@ -149,16 +149,17 @@
 	.contact-copy h2 {
 		margin: 0 0 1.5rem;
 		font-family: var(--font-display);
-		font-size: clamp(2.5rem, 5vw, 5rem);
+		font-size: var(--fs-h1);
 		font-weight: 500;
-		line-height: 0.98;
+		line-height: var(--lh-display);
 		letter-spacing: -0.04em;
 	}
 
 	.contact-copy > p:not(.eyebrow) {
 		max-width: 31rem;
 		color: rgba(255, 255, 255, 0.62);
-		line-height: 1.75;
+		font-size: var(--fs-md);
+		line-height: var(--lh-relaxed);
 	}
 
 	.contact-art {
@@ -188,7 +189,7 @@
 
 	label {
 		color: rgba(255, 255, 255, 0.62);
-		font-size: calc(0.7rem + var(--fs-bump));
+		font-size: var(--fs-2xs);
 		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
@@ -226,7 +227,7 @@
 		background: var(--accent);
 		color: white;
 		font: inherit;
-		font-size: calc(0.78rem + var(--fs-bump));
+		font-size: var(--fs-xs);
 		font-weight: 800;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
@@ -240,6 +241,7 @@
 		transform: translateY(-2px);
 	}
 
+	/* Es la flecha del botón, no texto: no entra en la escala. */
 	form button span {
 		font-size: 1.15rem;
 	}
@@ -253,8 +255,8 @@
 	.form-status {
 		margin: 1rem 0 0;
 		color: var(--aqua);
-		font-size: calc(0.78rem + var(--fs-bump));
-		line-height: 1.5;
+		font-size: var(--fs-xs);
+		line-height: var(--lh-normal);
 	}
 
 	.form-status.is-error {

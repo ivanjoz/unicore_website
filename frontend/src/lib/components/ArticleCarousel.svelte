@@ -88,7 +88,7 @@
 		right: 1.5rem;
 		bottom: 1.25rem;
 		color: white;
-		font-size: calc(0.72rem + var(--fs-bump));
+		font-size: var(--fs-2xs);
 		letter-spacing: 0.14em;
 	}
 
@@ -102,7 +102,7 @@
 	time {
 		margin: 1.4rem 0 0.75rem;
 		color: var(--muted);
-		font-size: calc(0.75rem + var(--fs-bump));
+		font-size: var(--fs-2xs);
 		text-transform: capitalize;
 	}
 
@@ -111,14 +111,15 @@
 		margin: 0;
 		color: var(--ink);
 		font-family: var(--font-display);
-		font-size: clamp(1.7rem, 3vw, 2.7rem);
-		line-height: 1.08;
+		font-size: var(--fs-h4);
+		line-height: var(--lh-tight);
 	}
 
 	.content > p:last-of-type {
 		margin: 1.25rem 0 0;
 		color: var(--muted);
-		line-height: 1.75;
+		font-size: var(--fs-md);
+		line-height: var(--lh-relaxed);
 	}
 
 	.controls {
@@ -137,6 +138,7 @@
 		border-radius: 999px;
 		background: white;
 		color: var(--ink);
+		/* Es el tamaño de la flecha, no texto: no entra en la escala. */
 		font-size: 1.1rem;
 		transition:
 			border-color 160ms ease,

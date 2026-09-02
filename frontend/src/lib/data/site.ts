@@ -129,7 +129,7 @@ export const labProjects: LabProject[] = [
 		kind: 'Seguridad|Security',
 		logo: simpleVaultLogo,
 		description:
-			'Gestor de contraseñas offline-first que cifra todo en el navegador con Argon2id y AES-256-GCM, y guarda la bóveda en el almacenamiento aislado de tu propio Google Drive. Sin servidor de aplicación.|Offline-first password manager that encrypts everything in the browser with Argon2id and AES-256-GCM, and keeps the vault in the isolated storage of your own Google Drive. No application server.',
+			'Gestor de contraseñas offline-first que cifra todo en el navegador con Argon2id y AES-256-GCM, y guarda la bóveda en el almacenamiento aislado de tu propio Google Drive sin necesidad de backend.|Offline-first password manager that encrypts everything in the browser with Argon2id and AES-256-GCM, and keeps the vault in the isolated storage of your own Google Drive. No application server.',
 		url: 'https://github.com/ivanjoz/simple-vault',
 		status: 'Activo',
 		stack: ['SvelteKit', 'PWA', 'Criptografía|Cryptography']
@@ -139,7 +139,7 @@ export const labProjects: LabProject[] = [
 		kind: 'Bases de datos|Databases',
 		logo: genixOrm,
 		description:
-			'ORM con API de consultas verificada en tiempo de compilación para ScyllaDB / Cassandra y DynamoDB. Los patrones de acceso se declaran por adelantado y se sirven por partición, índice o vista.|ORM with a compile-time checked query API for ScyllaDB / Cassandra and DynamoDB. Access patterns are declared up front and served by partition, index or view.',
+			'ORM en Go para ScyllaDB y DynamoDB. Las queries son type-safe, verificadas por el compilador. El ORM crea las columnas virtuales (hash, int-packing, vistas de rango) que el motor necesita para servir los patrones de acceso de forma eficiente.|Go ORM for ScyllaDB and DynamoDB. Queries are type-safe, checked by the compiler. The ORM creates the virtual columns (hashes, integer packing, range views) the engine needs to serve access patterns efficiently.',
 		url: 'https://github.com/ivanjoz/genix-orm',
 		status: 'Activo',
 		stack: ['Go', 'ScyllaDB', 'DynamoDB']

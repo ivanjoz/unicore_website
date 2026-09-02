@@ -145,7 +145,7 @@
 		position: relative;
 		padding: 0.65rem 0;
 		color: rgba(255, 255, 255, 0.72);
-		font-size: calc(0.72rem + var(--fs-bump));
+		font-size: var(--fs-2xs);
 		font-weight: 700;
 		letter-spacing: 0.16em;
 		text-decoration: none;

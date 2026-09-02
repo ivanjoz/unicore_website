@@ -32,7 +32,7 @@
 
 	<div class="legal">
 		<span>© {year} Unicore Labs</span>
-		<span><T text="Trujillo · La Libertad · Perú|Trujillo · La Libertad · Peru" /></span>
+		<span><T text="Lima · Perú|Lima · Peru" /></span>
 	</div>
 </footer>
 
@@ -67,8 +67,8 @@
 	.footer-brand span {
 		max-width: 34rem;
 		color: rgba(255, 255, 255, 0.58);
-		font-size: calc(0.84rem + var(--fs-bump));
-		line-height: 1.6;
+		font-size: var(--fs-sm);
+		line-height: var(--lh-body);
 	}
 
 	.footer-contact {
@@ -84,14 +84,14 @@
 
 	.footer-detail span {
 		color: var(--aqua);
-		font-size: calc(0.64rem + var(--fs-bump));
+		font-size: var(--fs-3xs);
 		font-weight: 700;
 		letter-spacing: 0.16em;
 	}
 
 	.footer-detail a {
 		color: white;
-		font-size: calc(0.94rem + var(--fs-bump));
+		font-size: var(--fs-base);
 		text-decoration: none;
 	}
 
@@ -106,7 +106,7 @@
 		padding-top: 1.5rem;
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
 		color: rgba(255, 255, 255, 0.42);
-		font-size: calc(0.74rem + var(--fs-bump));
+		font-size: var(--fs-2xs);
 	}
 
 	@media (max-width: 600px) {
