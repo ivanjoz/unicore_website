@@ -998,7 +998,8 @@
 	.project-grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1.1rem;
+		column-gap: 1.1rem;
+    row-gap: 2rem;
 	}
 
 	/* Reveal wraps each card, so stretch the wrapper to keep rows even. */
@@ -2071,6 +2072,7 @@
 			flex-direction: column;
 			align-items: stretch;
 			gap: 0;
+			padding-top: calc(var(--curve-h) + 4rem);
 		}
 
 		.ai-copy {
@@ -2121,6 +2123,7 @@
 		 */
 		.labs {
 			padding-top: calc(var(--curve-h) + 1.5rem);
+			padding-bottom: 6px;
 		}
 
 		/* La ilustración sube justo debajo del titular de la sección. */
@@ -2356,6 +2359,10 @@
 			grid-template-columns: 1fr;
 		}
 
+		.project-grid {
+			row-gap: 1.4rem;
+		}
+		
 		/*
 		 * En una columna la ficha ya no necesita despegarse de nada: el recuadro
 		 * gris solo roba ancho al texto. Se disuelve y su papel de cierre lo asume
