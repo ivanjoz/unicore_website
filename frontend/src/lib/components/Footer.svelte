@@ -31,8 +31,13 @@
 	</div>
 
 	<div class="legal">
-		<span>© {year} Unicore Labs</span>
-		<span><T text="Lima · Perú|Lima · Peru" /></span>
+		<div class="legal-place">
+			<span>© {year} Unicore Labs</span>
+			<span><T text="Lima · Perú|Lima · Peru" /></span>
+		</div>
+		<span class="weight"
+			><T text="Esta página pesa &lt; 0.6 MB gzip 🙌|This page weighs &lt; 0.6 MB gzipped 🙌" /></span
+		>
 	</div>
 </footer>
 
@@ -84,7 +89,7 @@
 
 	.footer-detail span {
 		color: var(--aqua);
-		font-size: var(--fs-3xs);
+		font-size: var(--fs-2xs);
 		font-weight: 700;
 		letter-spacing: 0.16em;
 	}
@@ -101,17 +106,53 @@
 
 	.legal {
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
 		gap: 1rem;
 		padding-top: 1.5rem;
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
-		color: rgba(255, 255, 255, 0.42);
-		font-size: var(--fs-2xs);
+		color: rgba(255, 255, 255, 0.62);
+		font-size: var(--fs-xs);
 	}
 
+	.legal-place {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+	}
+
+	/* Raja divisoria entre el copyright y la ciudad. */
+	.legal-place > span + span::before {
+		display: inline-block;
+		width: 1px;
+		height: 0.95em;
+		margin-right: 0.9rem;
+		background: rgba(255, 255, 255, 0.28);
+		content: '';
+		vertical-align: -0.15em;
+	}
+
+	.legal .weight {
+		color: rgba(255, 255, 255, 0.78);
+	}
+
+	/* Móvil: la ciudad se va al extremo derecho del copyright y el peso baja solo. */
 	@media (max-width: 600px) {
 		.legal {
-			flex-direction: column;
+			display: grid;
+			grid-template-columns: 1fr;
+			justify-content: stretch;
+			gap: 0.95rem;
+		}
+
+		.legal-place {
+			flex-wrap: wrap;
+			justify-content: space-between;
+			gap: 0.4rem 1rem;
+		}
+
+		.legal-place > span + span::before {
+			display: none;
 		}
 	}
 </style>
